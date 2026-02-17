@@ -1,0 +1,108 @@
+name: SAP Documentation Monitor
+
+on:
+  schedule:
+    # Run every 6 hours (adjust as needed)
+    # Cron format: minute hour day month day-of-week
+    - cron: '0 */6 * * *'  # Every 6 hours
+    # - cron: '0 9,18 * * *'  # Twice daily at 9 AM and 6 PM UTC
+    # - cron: '0 9 * * *'  # Once daily at 9 AM UTC
+    
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install Chrome dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          chromium-browser \
+          chromium-chromedriver \
+          xvfb
+        
+    - name: Install Python dependencies
+      run: |
+        cd sap-doc-monitor
+        pip install -r requirements.txt
+        
+    - name: Configure settings
+      env:
+        EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+        SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      run: |
+        cd sap-doc-monitor/config
+        python << 'EOF'
+        import os
+        
+        # Read the example settings
+        with open('settings.example.py', 'r') as f:
+            content = f.read()
+        
+        # Replace placeholders with environment variables
+        content = content.replace(
+            'EMAIL_SENDER = "yourgmail@gmail.com"',
+            f'EMAIL_SENDER = "{os.environ.get("EMAIL_SENDER", "")}"'
+        )
+        content = content.replace(
+            'EMAIL_PASSWORD = "your-app-password"',
+            f'EMAIL_PASSWORD = "{os.environ.get("EMAIL_PASSWORD", "")}"'
+        )
+        content = content.replace(
+            'EMAIL_RECEIVER = "recipient@email.com"',
+            f'EMAIL_RECEIVER = "{os.environ.get("EMAIL_RECEIVER", "")}"'
+        )
+        content = content.replace(
+            'SMTP_SERVER = "smtp.gmail.com"',
+            f'SMTP_SERVER = "{os.environ.get("SMTP_SERVER", "smtp.gmail.com")}"'
+        )
+        content = content.replace(
+            'SMTP_PORT = 587',
+            f'SMTP_PORT = {os.environ.get("SMTP_PORT", "587")}'
+        )
+        
+        # Write to settings.py
+        with open('settings.py', 'w') as f:
+            f.write(content)
+        
+        print("Settings configured successfully")
+        EOF
+        
+    - name: Run SAP Documentation Monitor
+      run: |
+        cd sap-doc-monitor
+        # Run in headless mode for GitHub Actions
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1920x1080x24 &
+        sleep 3
+        python main.py
+        
+    - name: Upload snapshots as artifact
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: snapshots
+        path: sap-doc-monitor/snapshots/
+        retention-days: 90
+        
+    - name: Commit updated snapshots
+      if: success()
+      run: |
+        cd sap-doc-monitor
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add snapshots/
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update snapshots - $(date +'%Y-%m-%d %H:%M:%S')" && git push)
