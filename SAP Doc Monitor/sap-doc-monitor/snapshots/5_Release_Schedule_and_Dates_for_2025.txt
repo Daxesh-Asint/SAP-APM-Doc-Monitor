@@ -1,0 +1,49 @@
+Release Schedule and Dates for 2025
+
+The table outlines the scheduled release dates for SAP Asset
+Performance Management in the upcoming months. Please note that
+these dates are tentative, and minor adjustments to the calendar may occur as the dates
+approach.
+
+
+Note: Disclaimer - These dates are provided for informational purposes only and are subject to
+change without prior notice. SAP MAKES NO WARRANTIES, EXPRESS OR IMPLIED, OR OF
+MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+
+We follow the Harmonized Release Calendar for SAP Cloud products, which you can find in SAP
+Note 2888562 .
+
+For information about planned downtimes, refer to Maintenance Windows and Major Upgrade Windows for SAP Cloud
+Services . Search for SAP Asset Performance
+Management within the table for specific information.
+
+To stay updated on the latest features and enhancements, you can access the What's
+New tab of SAP Asset Performance
+Management here: What's New in SAP Asset Performance Management .
+Additionally, you can refine your search by using the filter in the Category column.
+
+
+Release  Productive Upgrade
+-------  ---------------------------------------------------------------------------------------
+2501     January 20, 2025
+2502     February 16, 2025
+2503     March 17, 2025
+2504     April 21, 2025
+2505     May 18, 2025
+2506     June 23, 2025 Note Release postponed from June 23 to June
+30, 2025.
+2507     July 21, 2025
+2508     August 17, 2025
+2509     September 22, 2025
+2510     October 21, 2025 Note Release postponed by one day—from
+October 20 to October 21, 2025.
+2511     November 16, 2025
+2512     December 14, 2025
+
+
+Note: Release postponed from June 23 to June
+30, 2025.
+
+
+Note: Release postponed by one day—from
+October 20 to October 21, 2025.

@@ -1,0 +1,73 @@
+(Optional) - Consumption of APIs from IoT Platform
+
+You can build extension applications using the published (public) APIs from the
+third-party IoT platform provider. The procedure below guides you on consuming the APIs by
+creating a SAP Asset Performance Management service instance and service key.
+
+Prerequisites
+
+You need to create a new SAP Asset Performance Management service key. For more information,
+refer to Creating Service Instances and Service Key .
+
+
+Note: After creating the service key, you can view its parameters. It contains the UAA URL, the
+client ID, and the client secret (all contained in the UAA parameter section)
+needed to create a token for accessing the service APIs using OAuth
+authentication. The service keys also contain the URL used to call the APIs of
+the service (the first URL parameter above the UAA parameter).
+
+Procedure
+
+1. Create a JWT token using the credentials in the service key and a REST client of your choice. Follow the sub-steps below for more details: Create a JWT token via POST call to the UAA URL from your service key. Adapt the URL to match the following pattern: <URL_returned_from_service_key>oauth/token . Set the following properties in the POST call: Message Header: application/x-www-form-urlencoded Message Body: Key Value client_id <your client ID> client_secret <your client secret> grant_type client_credentials scope <application-identifier>.c8y-admin,<application-identifier>.c8y-tenant-manage,<application-identifier>.c8y-dm-cud,<application-identifier>.c8y-dtm-cud The bearer token for API access is included in the response body.
+
+Note: JWT tokens are valid for 24 hours.
+
+
+Note: Spaces are not allowed in the scope string.
+Ensure there are no spaces after commas. Initially, run the authentication request without the scope. Then, fetch the
+application identifier from the scope field of the
+response body.
+
+2. Construct API endpoint URL by following the sub-steps below: Fetch the production URL from third-party IoT platform provider. For example: https://<tenant-domain-name>/apps/cockpit/index.html#/ Another way to fetch the " tenantDomainName " is as follows: Go to the User Info menu and select the Platform Info section. Click on the Download platform details . In the downloaded JSON file, locate the tenantDomainName field (see sample below) and copy its value. Sample: { "time": "2025-08-12T09:24:34.505Z", "tenantId": "abcxyz", "tenantSelfLink": "https://abcxyz.dev.cy.iot.sap/currentTenant", "tenantDomainName": "abcxyz-0c82-4769-8160-509be328d748.us20.cy.iot.sap", "url": "https://abcxyz-0c82-4769-8160-509be328d748.us20.cy.iot.sap/apps/cockpit/index.html#/", "userId": "f359a2fe-41e0-495e-bba5-c0a45459a45d", .... } Use this value to replace the tenant domain name in the URL.
+
+Note: If the cockpit URL is https://abcxyz-0c82-4769-8160-509be328d748.us20.cy.iot.sap/apps/cockpit/index.html#/ ,
+then the tenant-domain-name is
+" abcxyz-0c82-4769-8160-509be328d748.us20.cy.iot.sap " Use this as the base URL to call the third-party endpoints using any HTTP client.
+
+3. Invoke the required third-party IoT platform provider APIs in the portal using the JWT token. For more information, refer to https://cumulocity.com/api/core/#section/Authentication/JWT-IAM .
+4. For API reference of third-party IoT platform provider, refer to https://cumulocity.com/api/ .
+
+Note: There are quota limitations imposed by the
+third-party IoT platform provider. For more information, refer to the quotas
+section here: https://cumulocity.com/docs/service-terms/quotas/ .
+
+
+Key            Value
+-------------  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+client_id      <your client ID>
+client_secret  <your client secret>
+grant_type     client_credentials
+scope          <application-identifier>.c8y-admin,<application-identifier>.c8y-tenant-manage,<application-identifier>.c8y-dm-cud,<application-identifier>.c8y-dtm-cud Note Spaces are not allowed in the scope string.
+Ensure there are no spaces after commas. Initially, run the authentication request without the scope. Then, fetch the
+application identifier from the scope field of the
+response body.
+
+```
+{
+
+"time": "2025-08-12T09:24:34.505Z",
+
+"tenantId": "abcxyz",
+
+"tenantSelfLink": "https://abcxyz.dev.cy.iot.sap/currentTenant",
+
+"tenantDomainName": "abcxyz-0c82-4769-8160-509be328d748.us20.cy.iot.sap",
+
+"url": "https://abcxyz-0c82-4769-8160-509be328d748.us20.cy.iot.sap/apps/cockpit/index.html#/",
+
+"userId": "f359a2fe-41e0-495e-bba5-c0a45459a45d",
+
+....
+
+}
+```

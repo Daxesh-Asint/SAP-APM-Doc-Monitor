@@ -1,0 +1,16 @@
+Creating a User in the Identity Authentication Service
+
+Context
+
+Use this procedure to create a user in Identity Authentication service, so that you can
+provide access to SAP for debugging your tenant.
+
+Procedure
+
+1. Login to the administration console for the Identity Authentication service as an administration tenant.
+2. Under Users and Authorizations , choose User Management.
+3. Choose Add User to create your user.
+4. Enter the User details in the required fields.
+5. Set the user status to New . After activating the account, the user status will automatically change to Active.
+6. If you want to create a user with an email on your company domain: Choose Set initial password as the Account Activation method. Establish a password for the user. The user can reset this password during the first authentication. Copy the user’s name, the initial password, and the logon URL and send to email APM_SUPPORT_USER@sap.com with subject “Login details - Company name - tenant details (production, test, dev etc.)”. Click Add.
+7. If you want to use APM_SUPPORT_USER@sap.com user from SAP, follow these steps: Set the user status to New . After activating the account, the user status will automatically change to Active. Choose Send activation e-mail as the Account Activation method. Click Add. The user will receive an e-mail with instructions on how to activate their account.

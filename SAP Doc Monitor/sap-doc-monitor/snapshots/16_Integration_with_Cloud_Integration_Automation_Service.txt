@@ -1,0 +1,10 @@
+Integration with Cloud Integration Automation Service
+
+Instead of manually setting up and onboarding SAP Asset Performance
+Management , you can subscribe to a free service Cloud
+Integration Automation Service in BTP, which helps to simplify the
+onboarding process through a guided approach.
+
+• Pre-Requisites
+• Subscription to Cloud Integration Automation Service Assigning Roles to the Users
+• Planning a CIAS Scenario Using CIAS Application

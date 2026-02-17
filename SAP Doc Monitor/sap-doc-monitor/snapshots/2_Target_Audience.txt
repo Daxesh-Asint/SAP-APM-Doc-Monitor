@@ -1,0 +1,16 @@
+Target Audience
+
+This product documentation is intended for the following audiences:
+
+• Reliability Engineer and Manager
+• Maintenance Planner and Scheduler
+• Inspection Engineers and Technicians
+• Maintenance Engineer and Technician
+• Operation Team Expert
+• Solution and Technology Consultants
+• Project Team Member (Implementation, Integration)
+• Application and System Administrators
+• Support Specialist (SAP, Local Support Team)
+
+Note: Target audience should have a previous understanding and/or experience of
+client/server technologies in order to take benefit of this document.

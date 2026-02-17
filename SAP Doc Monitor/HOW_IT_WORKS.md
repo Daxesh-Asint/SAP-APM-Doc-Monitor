@@ -1,4 +1,6 @@
-# SAP Documentation Monitor — Complete System Documentation
+# SAP APM Documentation Monitor — Complete System Documentation
+
+> **Note:** This document provides a comprehensive explanation of the system architecture, GCP services used, and the end-to-end automation flow. Replace placeholder values (e.g., `your-project-id`) with your actual GCP project details when deploying.
 
 ## Table of Contents
 
@@ -248,7 +250,7 @@ We use **7 Google Cloud Platform services**. Here's what each one does and why w
 
 **Why we need it:** Cloud Run needs to pull our Docker image from somewhere. Container Registry stores the image so Cloud Run can access it.
 
-**Our image:** `gcr.io/integral-iris-449816-g3/sap-doc-monitor`
+**Our image:** `gcr.io/<your-project-id>/sap-doc-monitor`
 
 ### 4.5 Cloud Storage (GCS) (File Storage)
 
@@ -259,9 +261,9 @@ We use **7 Google Cloud Platform services**. Here's what each one does and why w
 **How it works:**
 - Before monitoring: Download all 25 snapshot files from the bucket
 - After monitoring: Upload all 25 updated snapshot files back to the bucket
-- Files are stored as: `gs://integral-iris-449816-g3-sap-snapshots/snapshots/*.txt`
+- Files are stored as: `gs://<your-project-id>-sap-snapshots/snapshots/*.txt`
 
-**Our bucket:** `integral-iris-449816-g3-sap-snapshots`
+**Our bucket:** `<your-project-id>-sap-snapshots`
 
 ### 4.6 Cloud Logging (Automatic)
 
@@ -308,7 +310,7 @@ The resulting Docker image is ~1.5 GB (mostly Chrome browser) and contains every
 ### 5.2 How Cloud Run Serves Requests
 
 When deployed, Cloud Run creates a URL endpoint:  
-`https://sap-doc-monitor-1030431607563.us-central1.run.app`
+`https://<service-name>-<hash>.<region>.run.app`
 
 Inside the container, `cloud_run_app.py` runs a Flask web server on port 8080:
 
@@ -338,7 +340,7 @@ Instead of hardcoding secrets in code, Cloud Run injects them as environment var
 | `SMTP_SERVER` | Email server hostname | `smtp.office365.com` |
 | `SMTP_PORT` | Email server port | `587` |
 | `BASE_DOCUMENTATION_URL` | SAP docs base URL | `https://help.sap.com/docs/...` |
-| `GCS_BUCKET_NAME` | Cloud Storage bucket | `integral-iris-449816-g3-sap-snapshots` |
+| `GCS_BUCKET_NAME` | Cloud Storage bucket | `<your-project-id>-sap-snapshots` |
 | `SNAPSHOTS_DIR` | Local snapshot path | `/app/snapshots` |
 
 The `settings.cloud.py` file reads these using `os.getenv()`:
@@ -493,15 +495,15 @@ Here's exactly what happens when the automation runs on a typical morning:
 
 ```
 Cloud Scheduler checks: "Is it 9 AM on a weekday? → YES"
-Cloud Scheduler sends: HTTP POST to https://sap-doc-monitor-1030431607563.us-central1.run.app
-Authentication: Uses service account sap-monitor-scheduler@integral-iris-449816-g3.iam.gserviceaccount.com
+Cloud Scheduler sends: HTTP POST to https://<service-name>-<hash>.<region>.run.app
+Authentication: Uses service account sap-monitor-scheduler@<your-project-id>.iam.gserviceaccount.com
                 with OIDC token for authentication
 ```
 
 ### 9:00:02 AM — Cloud Run Starts Container
 
 ```
-Cloud Run pulls image: gcr.io/integral-iris-449816-g3/sap-doc-monitor
+Cloud Run pulls image: gcr.io/<your-project-id>/sap-doc-monitor
 Cloud Run starts container with environment variables injected
 Flask server starts on port 8080
 Flask receives the POST request → calls main()
@@ -511,7 +513,7 @@ Flask receives the POST request → calls main()
 
 ```
 main() checks: GCS_BUCKET_NAME is set → GCS is enabled
-Downloads 25 .txt files from gs://integral-iris-449816-g3-sap-snapshots/snapshots/
+Downloads 25 .txt files from gs://<your-project-id>-sap-snapshots/snapshots/
 Files like: 1_Overview_of_Getting_Started_Steps.txt, 2_Target_Audience.txt, etc.
 Saves them to /app/snapshots/ inside the container
 ```
@@ -569,7 +571,7 @@ Email sent to: learn.sapui5.frontend@gmail.com
 ### 9:02:18 AM — Upload Snapshots to Cloud Storage
 
 ```
-Uploads 25 .txt files back to gs://integral-iris-449816-g3-sap-snapshots/snapshots/
+Uploads 25 .txt files back to gs://<your-project-id>-sap-snapshots/snapshots/
 The "Release Schedule" snapshot now contains the updated content
 Next run will compare against this updated version
 ```
@@ -592,13 +594,13 @@ Container goes idle → eventually shuts down
 
 | Setting | Value |
 |---------|-------|
-| **GCP Project ID** | `integral-iris-449816-g3` |
+| **GCP Project ID** | `<your-project-id>` |
 | **Region** | `us-central1` |
 | **Service Name** | `sap-doc-monitor` |
-| **Service URL** | `https://sap-doc-monitor-1030431607563.us-central1.run.app` |
+| **Service URL** | `https://<service-name>-<hash>.<region>.run.app` |
 | **Schedule** | Weekdays at 9:00 AM IST |
-| **GCS Bucket** | `integral-iris-449816-g3-sap-snapshots` |
-| **Docker Image** | `gcr.io/integral-iris-449816-g3/sap-doc-monitor` |
+| **GCS Bucket** | `<your-project-id>-sap-snapshots` |
+| **Docker Image** | `gcr.io/<your-project-id>/sap-doc-monitor` |
 | **Email From** | `ais.support@asint.net` |
 | **Email To** | `learn.sapui5.frontend@gmail.com` |
 | **SMTP Server** | `smtp.office365.com:587` |
@@ -649,8 +651,8 @@ gcloud run services update sap-doc-monitor --region=us-central1 --update-env-var
 ### Rebuild and Redeploy After Code Changes
 ```powershell
 cd "SAP Doc Monitor"
-gcloud builds submit --tag gcr.io/integral-iris-449816-g3/sap-doc-monitor
-gcloud run deploy sap-doc-monitor --image gcr.io/integral-iris-449816-g3/sap-doc-monitor --region=us-central1
+gcloud builds submit --tag gcr.io/<your-project-id>/sap-doc-monitor
+gcloud run deploy sap-doc-monitor --image gcr.io/<your-project-id>/sap-doc-monitor --region=us-central1
 ```
 
 ### Check Service Status
@@ -661,7 +663,7 @@ gcloud scheduler jobs describe sap-doc-monitor-job --location=us-central1
 
 ### View Snapshots in Cloud Storage
 ```powershell
-gsutil ls gs://integral-iris-449816-g3-sap-snapshots/snapshots/
+gsutil ls gs://<your-project-id>-sap-snapshots/snapshots/
 ```
 
 ---

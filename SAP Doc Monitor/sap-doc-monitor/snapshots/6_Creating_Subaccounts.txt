@@ -1,0 +1,80 @@
+Creating Subaccounts
+
+Use this procedure to create subaccounts.
+
+Prerequisites
+
+• You have your global account on SAP BTP.
+• You’re the administrator for the global account.
+
+Note: For any new SAP Asset Performance Management subscription on SAP BTP, the default offering
+of IoT platform is "Embedded IoT" on azure landscapes (EU20,US20). If you
+need support for getting onboarded, you can reach out to SAP through the
+regular support channels. For more information on tenant and license of the
+new offering, refer to SAP Note 3523368 .
+
+Context
+
+You require a subaccount to structure the global account according to the requirements of an
+organization or project.
+
+Procedure
+
+1. Choose Account Explorer in SAP BTP cockpit, and then choose Create > Subaccount .
+2. Complete the following mandatory information in the Create Subaccount dialog: Field Name Description Display Name Enter a name for the subaccount. Description Enter a description for the subaccount. Region Select the appropriate region (SAP data center location with the provider info). Subdomain You can specify any string of characters for a subdomain. Enter a logical text. The subdomain can contain only lowercase letters and digits. It must be unique across all accounts in the same region of the Cloud Foundry environment for SAP BTP. The subdomain appears as a part of the SAP Fiori launchpad (FLP) URL. Once you enter the subdomain, it cannot be changed. Parent You can add your new subaccount directly to the root global account or to an existing directory by choosing the location under Parent. Advanced Used for Production - Select the checkbox only for production subaccount. Enable beta features - This optional field must not be selected.
+
+Note: We recommended you to create at least three subaccounts to set up a staged development
+environment, one subaccount each for development, testing, and
+production. You can prefix [Dev], [Test], and [Prod]
+respectively before each subaccount name.
+
+
+Note: For a test and demo license, you can create only one
+subaccount. The development, test, and production tenants are available on the live landscape.
+
+
+Note: This is a production account for <customer/project name> .
+
+
+Note: https://<subdomain>.iam.
+cfapps.eu10.hana.ondemand.com
+
+
+Note: In case of ä, ö, ü, use the following characters: ä = ae ö= oe ü=ue
+
+
+Note: Don't use SAP BTP beta features in subaccounts that belong to productive accounts. Any
+use of beta functionality is at the customer's own risk,
+and SAP shall not be liable for errors or damages caused
+by the use of beta features.
+
+3. Choose Create .
+4. Choose the subaccount tile to view details about the subaccount.
+
+Field Name    Description
+------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Display Name  Enter a name for the subaccount. Tip We recommended you to create at least three subaccounts to set up a staged development
+environment, one subaccount each for development, testing, and
+production. You can prefix [Dev], [Test], and [Prod]
+respectively before each subaccount name. Note For a test and demo license, you can create only one
+subaccount. The development, test, and production tenants are available on the live landscape.
+Description   Enter a description for the subaccount. Example This is a production account for <customer/project name> .
+Region        Select the appropriate region (SAP data center location with the provider info).
+Subdomain     You can specify any string of characters for a subdomain. Enter a logical text. The
+subdomain can contain only lowercase letters and digits. It must be
+unique across all accounts in the same region of the Cloud Foundry
+environment for SAP BTP. The subdomain appears as a part of the SAP
+Fiori launchpad (FLP) URL. Once you enter the subdomain, it cannot be
+changed. Example https://<subdomain>.iam.
+cfapps.eu10.hana.ondemand.com Note In case of ä, ö, ü, use the following characters: ä = ae ö= oe ü=ue
+Parent        You can add your new subaccount directly to the root global account
+or to an existing directory by choosing the location under
+Parent.
+Advanced      Used for Production - Select the checkbox only for production subaccount. Enable beta features - This optional field must not be selected. Caution Don't use SAP BTP beta features in subaccounts that belong to productive accounts. Any
+use of beta functionality is at the customer's own risk,
+and SAP shall not be liable for errors or damages caused
+by the use of beta features.
+
+Results
+
+You've created a subaccount.

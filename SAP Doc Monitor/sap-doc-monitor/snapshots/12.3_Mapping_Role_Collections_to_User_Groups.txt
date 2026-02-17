@@ -1,0 +1,62 @@
+Mapping Role Collections to User Groups
+
+Use this procedure to map role collections to user groups.
+
+Prerequisites
+
+• You've registered your subaccount from SAP BTP cockpit in Identity Authentication.
+• You're the security administrator for the subaccount.
+
+Procedure
+
+Steps in the SAP BTP cockpit:
+
+1. Navigate to your subaccount in SAP BTP cockpit.
+2. Choose Security > Trust Configuration in the side menu.
+3. Choose the name of the Identity Authentication identity provider from the list. The trust configurations details for the identity provider are displayed.
+4. Choose Role Collection Mappings in the side menu. The list with the role collection mappings is displayed.
+5. Choose New Role Collection Mapping .
+6. Fill in the following fields in the Create Role Collection Mapping dialog box: Role Collection Select the role collection that you want to map. You can choose from all role collections that you’ve created. Attribute Enter Groups . Value Enter a value for the role collection, for example, BusinessUsers . This value is relevant for the user group name in the next steps.
+7. Choose Save . The role collection mapping is created and added to the list.
+8. Repeat the steps 5 to 7 for all role collections that need to be mapped.
+
+Role Collection  Select the role collection that you want to map. You can choose from all role
+collections that you’ve created.
+Attribute        Enter Groups .
+Value            Enter a value for the role collection, for example, BusinessUsers . This value is relevant for the user group name in the
+next steps.
+
+Steps in the administration console for Identity
+Authentication:
+
+1. Open the administration console for Identity Authentication.
+2. Choose Users & Authorizations > User Groups in the side menu. The list with the user groups is displayed.
+3. Choose +Add at the bottom of the screen to add a new user group.
+4. Fill in the following fields in the user group details:
+5. : Name Enter a name for the user group. Display name Enter a display name for the user group. Description Enter a description for the user group.
+
+Note: Ensure that the name
+of the user group is identical to the value that you entered
+in the role collection mappings. The value ensures that the
+user groups recognize the role collection from the SAP BTP
+cockpit.
+
+6. Choose Save .
+7. Repeat the steps 11 to13 for all required user groups that need to be mapped. The role collections are mapped to the user groups.
+8. To assign the user group with the mapping to a user, choose Users & Authorizations > User Management in the side menu. The list with the users is displayed.
+9. Choose the user to which you want to assign a user group.
+10. Choose the User Groups tab.
+11. Choose Assign Groups at the bottom of the screen.
+12. Select the user group that should be assigned in the dialog box.
+
+Name          Enter a name for the user group. Note Ensure that the name
+of the user group is identical to the value that you entered
+in the role collection mappings. The value ensures that the
+user groups recognize the role collection from the SAP BTP
+cockpit.
+Display name  Enter a display name for the user group.
+Description   Enter a description for the user group.
+
+Results
+
+The role collections are mapped to the user groups.

@@ -1,0 +1,66 @@
+(Optional) Customer-Managed Keys
+
+SAP Asset Performance Management stores customer data in various persistent services
+like SAP S/4 HANA , SAP BTP Managed Object Store, and some native Hyperscaler storage
+services. Currently, SAP Asset Performance Management allows you to manage your own data
+that is stored in SAP S/4HANA Database integrated with SAP Data Custodian Service. This
+integration allows you to be in complete control of the encryption key used by SAP HANA
+database.
+
+Prerequisites
+
+You have purchased SAP Data Custodian KMS SKU. When your tenant is ready, you will
+receive the following from your SAP Data Custodian team:
+
+• SAP Data Custodian URL
+• Tenant Name
+• Username
+
+Context
+
+Customer-Managed keys provides support for encryption with customer-managed keys and allows
+the customer to be in complete control of their data stored in SAP S/4HANA database
+for their tenant.
+
+
+Note: SAP Asset Performance Management does not support changing the SAP Managed Keys
+for existing keys to Customer Managed keys.
+
+
+Note: While SAP Data Custodian allows you to revoke the key, we won't recommend to test
+it for production tenants. Once a key is revoked, no one including SAP can
+access your data until the key is enabled again. SAP Asset Performance
+Management is a continuously delivered application, so for the duration your
+database is down, application will not be able to make required changes. Usually
+applications are resilient, but you may end up losing some changes as
+application is not designed to update the schema for such database. This may
+sometimes lead to a situation where the tenant may become unusable and will have
+to unsubscribe and resubscribe.
+
+Procedure
+
+1. Go to your SAP Data Custodian tenant using the URL provided during onboarding. If this is your first time logging in to SAP Data Custodian, select Forgot Password? . You will receive an email with a link to set your password. For more information, refer to Log In to Your Data Custodian Tenant .
+2. Configure SAP Identity Authentication Services and login to your SAP Data Custodian tenant. SAP Data Custodian currently supports integration with SAP Identity Authentication Services (SAP IAS) using OpenID Connect for secure authentication and user management. For more information on configuration activities, refer to https://help.sap.com/docs/sap-data-custodian/help-guide/configure-sap-cloud-identity-services .
+3. Create Encryption Keys within your tenant in Data Custodian Key Management Service (DCKMS) and assign User Roles. Configure SAP Identity Authentication Services and login to your SAP Data Custodian tenant. SAP Asset Performance Management supports Customer Controlled Encryption Keys (CCEK) scenario in Data Custodian Key Management Service (DCKMS). For more information, refer to https://help.sap.com/docs/sap-data-custodian/help-guide/customer-controlled-encryption-key-scenarios . Configure SAP Identity Authentication Services and login to your SAP DataUser roles grant specific authorizations within your application to maintain tenant integrity and limit operations to authorized personnel within your team. For more information, refer to https://help.sap.com/docs/sap-data-custodian/help-guide/user-management-key-management-service . Create a Group and a Key for Customer-Controlled Encryption Key (CCEK).
+
+Note: You require the Key Administrator role to create
+a group and key. SAP Asset Performance Management stores
+customer's data in SAP HANA Cloud and SAP HANA
+Cloud only supports Asymmetric key with RSA
+algorithm. Hence, please create a key of type
+Asymmetric and algorithm RSA. If you need any further support with SAP Data
+Custodian Key Management Service, create support
+ticket on the SAP Support Portal in component
+GRC-DC.
+
+
+Note: By default, a group will be available, with your subaccount id as suffix, within the SAP
+Business Technology Platform section in the Data Custodian
+Dashboard Key Management Service. You can also create your own
+Group and Key. For more information, refer to https://help.sap.com/docs/sap-data-custodian/help-guide/customer-controlled-encryption-key-scenarios . Disabling a key is a reversible procedure that allows you to
+revoke key access temporarily. When a key is disabled, SAP Asset
+Performance Management cannot access your data and this can
+cause service disruptions. To understand more about the consequences of each key operation and the impact to your
+services, refer to Key Management Help Guide .
+
+4. Provide Encryption Key ID during SAP Asset Performance Management Subscription. When you subscribe to SAP Asset Performance Management, provide the encryption Key ID. A dedicated HANA cloud instance gets created with the encryption key. For more information, refer to step 12 in topic https://help.sap.com/docs/sap-apm/468c925d1276476680b47d94548174a1/387f67bc3f99417782a99e4206eaefa1.html .

@@ -59,9 +59,7 @@ gsutil iam ch serviceAccount:${PROJECT_ID}@appspot.gserviceaccount.com:objectAdm
 
 #### 3. Build and Push Docker Image
 
-```bash
-# Navigate to project directory
-cd "e:\2) Fair Work\3) SAP Doc Monitor Automation - Copy\SAP Doc Monitor"
+```bash\n# Navigate to project directory\ncd \"SAP Doc Monitor\"", "oldString": "```bash\n# Navigate to project directory\ncd \"e:\\2) Fair Work\\3) SAP Doc Monitor Automation - Copy\\SAP Doc Monitor\"
 
 # Build and push using Cloud Build
 gcloud builds submit --tag gcr.io/$PROJECT_ID/$SERVICE_NAME

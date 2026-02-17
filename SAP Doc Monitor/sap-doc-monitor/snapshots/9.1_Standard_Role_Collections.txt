@@ -1,0 +1,233 @@
+Standard Role Collections
+
+• Reliability Engineer
+• Administrator
+• Data Integration Engineer
+• Maintenance Planner
+
+Note: Maintenance Planner role for Implement Recommendations application is only compatible with SAP S/4HANA 2021 FPS01 or higher.
+
+The following sections provide you with an overview of the permissions the different users have with the role collections. It also provides an overview of the included roles and the relevant application identifiers.
+
+Permissions
+
+The majority of the roles that are included in this role collection give you the permission to view and access applications on the SAP Fiori launchpad. For example, you can view and access the Lookup application. For multiple of these applications, you can also view the included contents. For example, you can view and access the Equipment application and view all created equipment.
+
+Role Collection
+
+
+Role Name                                  Applications                                                                                                                                                            Application/Service               Application Identifier
+-----------------------------------------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------  --------------------------------  ----------------------
+AccessControlAttributeProvider             Attribute-based Access Control (a.k.a. Instance-based Authorization)                                                                                                    SAP Asset Performance Management  apm_live
+ALERT_ACCESS                               Monitor Alerts                                                                                                                                                          SAP Asset Performance Management  apm_live
+ALERT_CREATE_ACCESS                        Manage Alert Types                                                                                                                                                      SAP Asset Performance Management  apm_live
+ALERTTYPE_C                                Manage Alert Types                                                                                                                                                      SAP Asset Performance Management  apm_live
+ALERTTYPE_R                                Manage Alert Types                                                                                                                                                      SAP Asset Performance Management  apm_live
+AnalyticsDashboard_Create                  Manage Analytics Dashboards                                                                                                                                             SAP Asset Performance Management  apm_live
+AnalyticsDashboard_Delete                  Manage Analytics Dashboards                                                                                                                                             SAP Asset Performance Management  apm_live
+AnalyticsDashboard_Read                    Manage Analytics Dashboards                                                                                                                                             SAP Asset Performance Management  apm_live
+AnalyticsDashboard_Update                  Manage Analytics Dashboards                                                                                                                                             SAP Asset Performance Management  apm_live
+Anomaly_Create                             Configure AI Capabilities: Anomaly Detection                                                                                                                            SAP Asset Performance Management  apm_live
+Anomaly_Delete                             Configure AI Capabilities: Anomaly Detection                                                                                                                            SAP Asset Performance Management  apm_live
+Anomaly_Read                               Configure AI Capabilities: Anomaly Detection                                                                                                                            SAP Asset Performance Management  apm_live
+Anomaly_Update                             Configure AI Capabilities: Anomaly Detection                                                                                                                            SAP Asset Performance Management  apm_live
+Case_Complete                              Manage Reliability Cases                                                                                                                                                SAP Asset Performance Management  apm_live
+Case_Create                                Manage Reliability Cases                                                                                                                                                SAP Asset Performance Management  apm_live
+Case_Delete                                Manage Reliability Cases                                                                                                                                                SAP Asset Performance Management  apm_live
+Case_Read                                  Manage Reliability Cases                                                                                                                                                SAP Asset Performance Management  apm_live
+Case_Update                                Manage Reliability Cases                                                                                                                                                SAP Asset Performance Management  apm_live
+Classification_Read                        Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+FailureCurveAnalytics_Create               Configure Failure Curve Analytics                                                                                                                                       SAP Asset Performance Management  apm_live
+FailureCurveAnalytics_Delete               Configure Failure Curve Analytics                                                                                                                                       SAP Asset Performance Management  apm_live
+FailureCurveAnalytics_Read                 Configure Failure Curve Analytics                                                                                                                                       SAP Asset Performance Management  apm_live
+FailureCurveAnalytics_Update               Configure Failure Curve Analytics                                                                                                                                       SAP Asset Performance Management  apm_live
+FailureData_Read                           Manage Recommendations                                                                                                                                                  SAP Asset Performance Management  apm_live
+FailureData_Read                           Multiple Applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+FailureData_Read                           Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+FlexKeyUser                                Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+FlexPublicViewEditor                       Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+FMEAAssessments_ Delete                    Manage FMEA Assessments                                                                                                                                                 SAP Asset Performance Management  apm_live
+FMEAAssessments_ Read                      Manage FMEA Assessments                                                                                                                                                 SAP Asset Performance Management  apm_live
+FMEAAssessments_ Update                    Manage FMEA Assessments                                                                                                                                                 SAP Asset Performance Management  apm_live
+FMEAAssessments_Create                     Manage FMEA Assessments                                                                                                                                                 SAP Asset Performance Management  apm_live
+FMEAAssessments_Publish                    Manage FMEA Assessments                                                                                                                                                 SAP Asset Performance Management  apm_live
+FMEAAssessments_Upload                     Manage FMEA Assessments                                                                                                                                                 SAP Asset Performance Management  apm_live
+Function_Create                            Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+Function_Delete                            Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+Function_Update                            Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+FunctionalFailure_Create                   Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+FunctionalFailure_Delete                   Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+FunctionalFailure_Update                   Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+Groups_Create                              Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Groups_Delete                              Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Groups_Read                                Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Groups_Update                              Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Indicator_Create                           Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Indicator_Delete                           Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Indicator_Read                             Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Indicator_Update                           Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+IndicatorValues_Create                     Indicators (TechnicalObject)                                                                                                                                            SAP Asset Performance Management  apm_live
+IndustrialSystem_Create                    Manage Industrial Systems                                                                                                                                               SAP Asset Performance Management  apm_live
+IndustrialSystem_Delete                    Manage Industrial Systems                                                                                                                                               SAP Asset Performance Management  apm_live
+IndustrialSystem_Read                      Manage Industrial Systems                                                                                                                                               SAP Asset Performance Management  apm_live
+IndustrialSystem_Update                    Manage Industrial Systems                                                                                                                                               SAP Asset Performance Management  apm_live
+IndustrialSystemConfiguration_Read         Manage Industrial Systems                                                                                                                                               SAP Asset Performance Management  apm_live
+InspectionData_Read                        View Technical Objects (Inspections) Note Inspection management application works only if you are connected to SAP S/4 On premise system Release 2021 FPS01 Or Higher.  SAP Asset Performance Management  apm_live
+IoTDeviceMappingEditor                     Map Devices to Technical Objects                                                                                                                                        SAP Asset Performance Management  apm_live
+IoTStreamingRulesEditor                    Manage Streaming Rules                                                                                                                                                  SAP Asset Performance Management
+IoTSyncTechnicalObject_Read                Manage Technical Object Connectivity                                                                                                                                    SAP Asset Performance Management  apm_live
+Job_Create                                 Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Job_Read                                   Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Job_Update                                 Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+KeyUser                                    Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+MaintenanceNotification_Create             Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+MaintenanceNotification_Read               Manage Recommendations                                                                                                                                                  SAP Asset Performance Management  apm_live
+MaintenanceNotification_Read               Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+MaintenanceNotification_Read               Multiple applications                                                                                                                                                   SAP Asset Performance Management
+MaintenanceOrders_Read                     Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+MaintenancePlan_Create                     Implement Recommendations                                                                                                                                               SAP Asset Performance Management  apm_live
+MaintenancePlan_Read                       Implement Recommendations
+MaintenancePlan_Read                       Implement Recommendations                                                                                                                                               SAP Asset Performance Management  apm_live
+MeasurementDocument_Create                 Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+MeasurementDocument_Read                   Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+RCMAssessment_Create                       Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+RCMAssessments_CAP                         Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+RCMAssessments_Delete                      Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+RCMAssessments_Publish                     Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+RCMAssessments_Read                        Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+RCMAssessments_Update                      Manage RCM Assessments                                                                                                                                                  SAP Asset Performance Management  apm_live
+Recommendation_CAP                         Manage Recommendations Implement Recommendations                                                                                                                        SAP Asset Performance Management  apm_live
+Recommendation_Create                      Manage Recommendations                                                                                                                                                  SAP Asset Performance Management  apm_live
+Recommendation_Delete                      Manage Recommendations                                                                                                                                                  SAP Asset Performance Management  apm_live
+Recommendation_Read                        Manage Recommendations                                                                                                                                                  SAP Asset Performance Management  apm_live
+Recommendation_Status_Reset                Manage Recommendations                                                                                                                                                  SAP Asset Performance Management  apm_live
+Recommendation_Update                      Manage Recommendations                                                                                                                                                  SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Create           Manage Reference Designator Libraries                                                                                                                                   SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Delete           Manage Reference Designator Libraries                                                                                                                                   SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Read             Manage Reference Designator Libraries                                                                                                                                   SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Update           Manage Reference Designator Libraries                                                                                                                                   SAP Asset Performance Management  apm_live
+RiskCriticality_CAP                        Manage Templates for Risk & Criticality Assessments Manage Risk & Criticality Assessments                                                                               SAP Asset Performance Management  apm_live
+RiskCriticalityAssessment_Create           Manage Risk & Criticality Assessments                                                                                                                                   SAP Asset Performance Management  apm_live
+RiskCriticalityAssessment_Delete           Manage Risk & Criticality Assessments                                                                                                                                   SAP Asset Performance Management  apm_live
+RiskCriticalityAssessment_Publish          Manage Risk & Criticality Assessments                                                                                                                                   SAP Asset Performance Management  apm_live
+RiskCriticalityAssessment_Read             Manage Risk & Criticality Assessments                                                                                                                                   SAP Asset Performance Management  apm_live
+RiskCriticalityAssessment_Update           Manage Risk & Criticality Assessments                                                                                                                                   SAP Asset Performance Management  apm_live
+RiskCriticalityAssessmentTemplate_Create   Manage Templates for Risk & Criticality Assessments                                                                                                                     SAP Asset Performance Management  apm_live
+RiskCriticalityAssessmentTemplate_Delete   Manage Templates for Risk & Criticality Assessments                                                                                                                     SAP Asset Performance Management  apm_live
+RiskCriticalityAssessmentTemplate_Publish  Manage Templates for Risk & Criticality Assessments                                                                                                                     SAP Asset Performance Management  apm_live
+RiskCriticalityAssessmentTemplate_Read     Manage Templates for Risk & Criticality Assessments                                                                                                                     SAP Asset Performance Management  apm_live
+RiskCriticalityAssessmentTemplate_Update   Manage Templates for Risk & Criticality Assessments                                                                                                                     SAP Asset Performance Management  apm_live
+RuleRepositorySuperUser                    Manage Rules                                                                                                                                                            SAP Asset Performance Management  bpmrulebroker
+RuleRuntimeSuperUser                       Manage Rules                                                                                                                                                            SAP Asset Performance Management  bpmrulebroker
+Rules_Create                               Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+Rules_Delete                               Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+Rules_Read                                 Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+Rules_Update                               Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+StrategyAssessmentforClasses_CAP           Manage Strategy Assessments for Classes                                                                                                                                 SAP Asset Performance Management  apm_live
+StrategyAssessmentforClasses_Create        Manage Strategy Assessment for Classes                                                                                                                                  SAP Asset Performance Management  apm_live
+StrategyAssessmentforClasses_Delete        Manage Strategy Assessment for Classes                                                                                                                                  SAP Asset Performance Management  apm_live
+StrategyAssessmentforClasses_Publish       Manage Strategy Assessment for Classes                                                                                                                                  SAP Asset Performance Management  apm_live
+StrategyAssessmentforClasses_Read          Manage Strategy Assessment for Classes                                                                                                                                  SAP Asset Performance Management  apm_live
+StrategyAssessmentforClasses_Update        Manage Strategy Assessment for Classes                                                                                                                                  SAP Asset Performance Management  apm_live
+StrategyAssessmentforClassesTemplate_Edit  Manage Strategy Assessment for Classes                                                                                                                                  SAP Asset Performance Management  apm_live
+TaskList_Read                              Manage Rules                                                                                                                                                            SAP Asset Performance Management  apm_live
+TechnicalObject_Read                       Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+TemplateSystem_Edit                        Manage Industrial System Templates                                                                                                                                      SAP Asset Performance Management  apm_live
+TemplateSystem_Read                        Manage Industrial System Templates                                                                                                                                      SAP Asset Performance Management  apm_live
+User_Read                                  Multiple applications                                                                                                                                                   SAP Asset Performance Management  apm_live
+Visual_Inspection_Create                   Indicators (TechnicalObject)                                                                                                                                            SAP Asset Performance Management  apm_live
+Visual_Inspection_Read                     Indicators (TechnicalObject)                                                                                                                                            SAP Asset Performance Management  apm_live
+Visual_Inspection_Update                   Indicators (TechnicalObject)                                                                                                                                            SAP Asset Performance Management  apm_live
+
+
+Note: Inspection management application works only if you are connected to SAP S/4 On premise system Release 2021 FPS01 Or Higher.
+
+• Manage Recommendations
+• Implement Recommendations
+• Manage Templates for Risk & Criticality Assessments
+• Manage Risk & Criticality Assessments
+The majority of the roles that are included in this role collection give you the permission to view and access applications on the SAP Fiori launchpad, and in addition to view, create, update, or delete contents in the applications. For example, you can view and access the Equipment application and view, create, update, or delete equipment.
+
+
+Role Name                             Applications                           Application/Service               Application Identifier
+------------------------------------  -------------------------------------  --------------------------------  ----------------------
+IoTSyncTechnicalObject_Create         Manage Technical Object Connectivity   SAP Asset Performance Management  apm_live
+IoTSyncTechnicalObject_Read           Manage Technical Object Connectivity   SAP Asset Performance Management  apm_live
+Configuration_Read                    Configuration Manager                  Asset Performance Management      apm_live
+Configuration_Create                  Configuration Manager                  Asset Performance Management      apm_live
+Configuration_Update                  Configuration Manager                  SAP Asset Performance Management  apm_live
+Configuration_Delete                  Configuration Manager                  SAP Asset Performance Management  apm_live
+FailureData_Read                      Multiple applications                  SAP Asset Performance Management  apm_live
+Integration_Monitoring                Integration Monitor                    SAP Asset Performance Management  apm_live
+Integration_Execution                 Integration Monitor                    SAP Asset Performance Management  apm_live
+ErpConfiguration_Read                 Multiple applications                  SAP Asset Performance Management  apm_live
+AnalyticsDashboard_Admin              Manage Analytics Dashboards            SAP Asset Performance Management  apm_live
+AdminFlexKeyUser                      Multiple applications                  SAP Asset Performance Management  apm_live
+FlexPublicViewEditor                  Multiple applications                  SAP Asset Performance Management  apm_live
+Job_Read                              Multiple applications                  SAP Asset Performance Management  apm_live
+Job_Create                            Multiple applications                  SAP Asset Performance Management  apm_live
+Job_Update                            Multiple applications                  SAP Asset Performance Management  apm_live
+IndustrialSystemConfiguration_Create  Industrial Systems                     SAP Asset Performance Management  apm_live
+IndustrialSystemConfiguration_Read    Industrial Systems                     SAP Asset Performance Management  apm_live
+IndustrialSystemConfiguration_Update  Industrial Systems                     SAP Asset Performance Management  apm_live
+IndustrialSystemConfiguration_Delete  Industrial Systems                     SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Create      Manage Reference Designator Libraries  SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Read        Manage Reference Designator Libraries  SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Update      Manage Reference Designator Libraries  SAP Asset Performance Management  apm_live
+ReferenceDesignatorSchema_Delete      Manage Reference Designator Libraries  SAP Asset Performance Management  apm_live
+TransportManagement_Admin             Transport Management                   SAP Asset Performance Management  apm_live
+IoTAdministrator                      IoT Platform Administration            SAP Asset Performance Management  apm_live
+IoTStreamingRulesEditor               Manage Streaming Rules                 SAP Asset Performance Management  apm_live
+CustomQuestionnaire_Read              Configuration Manager                  SAP Asset Performance Management  apm_live
+CustomQuestionnaire_Create            Configuration Manager                  SAP Asset Performance Management  apm_live
+CustomQuestionnaire_Update            Configuration Manager                  SAP Asset Performance Management  apm_live
+CustomQuestionnaire_Delete            Configuration Manager                  SAP Asset Performance Management  apm_live
+
+The roles that are included in this role collection give you the permission to view and access applications on the SAP Fiori launchpad. For example, you can view and access the Manage Devices application.
+
+
+Role Name                Applications                                                                 Application/Service               Application Identifier
+-----------------------  ---------------------------------------------------------------------------  --------------------------------  ----------------------
+DataIntegrationEngineer  Manage Devices Map Devices to Technical Objects IoT Platform Administration  SAP Asset Performance Management  apm_live
+
+• Manage Devices
+• Map Devices to Technical Objects
+• IoT Platform Administration
+The majority of the roles that are included in this role collection give you the permission to view and access applications on the SAP Fiori launchpad. For example, you can view and access the Implement Recommendations application.
+
+
+Note: Implement Recommendations application is only compatible with SAP S/4HANA Cloud and SAP S/4HANA 2021 FPS01 or higher.
+
+
+Role Name                       Applications                                      Application/Service               Application Identifier
+------------------------------  ------------------------------------------------  --------------------------------  ----------------------
+Configuration_Read              Multiple applications                             SAP Asset Performance Management  apm_live
+ErpConfiguration_Read           Multiple applications                             SAP Asset Performance Management  apm_live
+FailureData_Read                Multiple applications                             SAP Asset Performance Management  apm_live
+Groups_Create                   Multiple applications                             SAP Asset Performance Management  apm_live
+Groups_Delete                   Multiple applications                             SAP Asset Performance Management  apm_live
+Groups_Read                     Multiple applications                             SAP Asset Performance Management  apm_live
+Groups_Update                   Multiple applications                             SAP Asset Performance Management  apm_live
+Implementation_Read             Implement Recommendations                         SAP Asset Performance Management  apm_live
+Implementation_Status_Reset     Implement Recommendations                         SAP Asset Performance Management  apm_live
+Implementation_Update           Implement Recommendations                         SAP Asset Performance Management  apm_live
+Indicator_Create                Multiple applications                             SAP Asset Performance Management  apm_live
+Indicator_Delete                Multiple applications                             SAP Asset Performance Management  apm_live
+Indicator_Read                  Multiple applications                             SAP Asset Performance Management  apm_live
+Indicator_Update                Multiple applications                             SAP Asset Performance Management  apm_live
+MaintenanceNotification_Create  Multiple applications                             SAP Asset Performance Management  apm_live
+MaintenanceNotification_Read    Multiple applications                             SAP Asset Performance Management  apm_live
+MaintenanceOrders_Read          Multiple applications                             SAP Asset Performance Management  apm_live
+MaintenancePlan_Create          Multiple applications                             SAP Asset Performance Management  apm_live
+MaintenancePlan_Read            Multiple applications                             SAP Asset Performance Management  apm_live
+Recommendation_CAP              Manage Recommendations Implement Recommendations  SAP Asset Performance Management  apm_live
+Rules_Create                    Multiple applications                             SAP Asset Performance Management  apm_live
+Rules_Delete                    Multiple applications                             SAP Asset Performance Management  apm_live
+Rules_Read                      Multiple applications                             SAP Asset Performance Management  apm_live
+Rules_Update                    Multiple applications                             SAP Asset Performance Management  apm_live
+TaskList_Create                 Multiple applications                             SAP Asset Performance Management  apm_live
+TaskList_Read                   Multiple applications                             SAP Asset Performance Management  apm_live
+TechnicalObject_Read            Multiple applications                             SAP Asset Performance Management  apm_live
+Visual_Inspection_Create        Indicators (TechnicalObject)                      SAP Asset Performance Management  apm_live
+Visual_Inspection_Read          Indicators (TechnicalObject)                      SAP Asset Performance Management  apm_live
+Visual_Inspection_Update        Indicators (TechnicalObject)                      SAP Asset Performance Management  apm_live

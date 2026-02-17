@@ -1,0 +1,38 @@
+Release Schedule and Dates for 2026
+
+The table outlines the scheduled release dates for SAP Asset
+Performance Management in the upcoming months. Please note that
+these dates are tentative, and minor adjustments to the calendar may occur as the dates
+approach.
+
+
+Note: Disclaimer - These dates are provided for informational purposes only and are subject
+to change without prior notice. SAP MAKES NO WARRANTIES, EXPRESS OR IMPLIED, OR OF
+MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+
+We follow the Harmonized Release Calendar for SAP Cloud products, which you can find in SAP
+Note 2888562 .
+
+For information about planned downtimes, refer to Maintenance Windows and Major Upgrade Windows for SAP Cloud
+Services . Search for SAP Asset Performance
+Management within the table for specific information.
+
+To stay updated on the latest features and enhancements, you can access the What's New tab of SAP Asset Performance
+Management here: What's New in SAP Asset Performance Management .
+Additionally, you can refine your search by using the filter in the Category column.
+
+
+Release  Productive Upgrade
+-------  ------------------
+2601     January 18, 2026
+2602     February 16, 2026
+2603     March 15, 2026
+2604     April 19, 2026
+2605     May 18, 2026
+2606     June 14, 2026
+2607     July 19, 2026
+2608     August 17, 2026
+2609     September 20, 2026
+2610     October 18, 2026
+2611     November 16, 2026
+2612     December 13, 2026

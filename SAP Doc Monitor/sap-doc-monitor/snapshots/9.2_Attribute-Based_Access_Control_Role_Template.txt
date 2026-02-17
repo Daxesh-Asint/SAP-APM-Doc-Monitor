@@ -1,0 +1,27 @@
+Attribute-Based Access Control Role Template
+
+The SAP Asset Performance Management provides predefined AccessControlAttributeProvider
+role template for technical objects.
+
+A role template is a description of one or more roles and any attributes that apply to those
+roles. The SAP Asset Performance Management provides the AccessControlAttributeProvider
+role template. This predefined template enables administrators to configure the mapping
+to attributes and restrict access of a user to specific technical objects.
+
+• Company Code
+• Maintenance Plant
+• Planning Plant
+• Authorization Group
+• Cost Center
+Providing a value for the above attribute restricts the user’s access to Technical
+Objects. And, when values are provided for multiple attributes, only the intersecting
+set of Technical Objects are accessible to the user.
+
+For example, a user is restricted to Company Code = 0076 (for 500 Technical Objects) and
+Plant = 1001 (for 90 Technical Objects), and plant 1001 is part of company code 0076 in
+the Org. Structure. In such a case, the user will be able to access only 90 Technical
+Objects Assigned to plant 1001.
+
+As an administrator, you can specify attributes in roles to refine the authorizations of the
+business users. Depending on these attributes, business users with this role have
+restricted access to data. To do this, refer to the topic Map Role Collections to User Attributes .

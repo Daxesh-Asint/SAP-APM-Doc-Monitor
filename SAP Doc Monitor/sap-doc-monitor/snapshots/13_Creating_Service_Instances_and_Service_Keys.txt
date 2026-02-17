@@ -1,0 +1,57 @@
+Creating Service Instances and Service Keys
+
+Use this procedure to create service instances and service keys to get the credentials
+for accessing the APIs and ingesting time series data.
+
+Prerequisites
+
+• You’ve purchased the license for the solution that you want to consume.
+• You've assigned the roles Org Manager and Space Manager and /or Space Developer to your user in Cloud Foundry.
+
+Context
+
+• SAP Asset Performance Management (standard plan)
+• You can view the deployment type of your tenant (either SAP Internet of Things or Embedded IoT) by choosing Version Information from the user profile menu on the SAP Asset Performance Management home screen.
+
+Procedure
+
+1. Navigate to your global account in the SAP BTP cockpit.
+2. Choose Entitlements > Entity Assignments in the side menu.
+3. Enter either the name of your subaccount or select your subaccount in the Select Entities field.
+4. Choose Configure Entitlements .
+5. Choose Add Service Plans to add a service.
+6. Select the service SAP Asset Performance Management in the entitlements dialog box, and then choose standard as the service plan for all the services.
+7. Choose Add Service Plans .
+8. Choose Save . The services are added to the list.
+9. Add quotas for the added services by using the plus and minus buttons in the Subaccount Assignment column in the table. For more information about managing entitlements and quotas, refer to Managing Entitlements and Quotas Using the Cockpit . Quotas can be adjusted only for one subaccount at a time in the Entity Assignment section.
+
+Note: If the limit of purchased quotas
+is distributed, you can’t increase it further. You can, however, move quotas
+between subaccounts within the same global account.
+
+10. Choose Save .
+11. Access the Cloud Foundry space using one of the following options: From the Cloud Foundry Environment section in the Overview page, use an existing space by selecting the desired space from the Spaces table. Create a space by clicking on the Cloud Foundry > Spaces option from the side menu: For more information about creating a space, refer to Create Spaces .
+
+Note: You need to have the Cloud Foundry Org Manager role assigned to your
+user in order to create a new space.
+
+12. Choose Services > Service Marketplace in the side menu. The added services are displayed as tiles.
+13. Choose SAP Asset Performance Management. Repeat the steps for choosing individual service.
+14. To create an instance of the service, choose Create . A new dialog box with New Instance as a first screen is displayed.
+15. In the dialog box, enter an instance name and choose Create . For more information about all fields when creating a space, refer to Creating Service Instances in Cloud Foundry . The service instance is created and added to the service instances list.
+
+Note: If new roles are added, then the SAP Asset
+Performance Management service instance must be updated in the BTP
+subaccount using the specified JSON parameter as shown here: {
+"xs-security": { "xsappname": "<<serviceInstanceId>>" }
+} . Obtain the serviceInstanceId from the existing service
+key and replace it in place of the service instance ID parameter
+completely within the quotes.
+
+16. To create the service key with the credentials, choose Actions > Create Service Key on the upper right corner. The New Service Key dialog box is displayed.
+17. In the dialog box, enter a name for the service key and choose Create . The service key is created and added to the list.
+18. To view the credentials of the service instance, select the service key from the list and choose Actions > View . A new dialog box with the credentials is displayed. The credentials include, for example, the following: Client ID Client secret Application URL endpoints
+
+Results
+
+You've created a service instance and credentials.

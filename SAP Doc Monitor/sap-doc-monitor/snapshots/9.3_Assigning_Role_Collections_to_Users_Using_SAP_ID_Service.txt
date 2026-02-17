@@ -1,0 +1,22 @@
+Assigning Role Collections to Users Using SAP ID Service
+
+Use this procedure to assign role collections to users using the default SAP ID service.
+
+Prerequisites
+
+• You've created the required role collections for the user.
+• You're the security administrator for the subaccount.
+
+Procedure
+
+1. Navigate to your subaccount in the SAP BTP cockpit.
+2. Choose Security Role Collections in the side menu.
+3. Choose the role collection that you want to assign from the list.
+4. Choose Edit .
+5. Add User ID to the ID field in the Users section.
+6. Choose Save .
+7. Repeat steps 3–6 to assign more users.
+
+Results
+
+You've assigned the role collections to the users.

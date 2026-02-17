@@ -1,0 +1,26 @@
+Subscribing to System Notifications
+
+Cloud System Subscriptions
+
+• Planned and unplanned downtime Planned downtime is the time for scheduled maintenance and upgrade during which a system cannot be used for normal productive operations. This time is used for a variety of purposes so that a system can function optimally and reliably, such as maintenance or upgrades to new releases of SAP application components, database or operating system. Unplanned downtime is the time during which a system cannot be used for normal productive operations due to unforeseen failure in hardware or software components, or operator mistakes.
+• System degradation
+• License Expiry
+• Create, change, or delete subscriptions for Cloud Availability Center notifications
+• Select the relevant notification types for each subscription: Customer Communication, Disruption/Degradation, or Maintenance.
+You can access Cloud System Notification Subscriptions via direct access or via the Cloud
+Availability Center .
+
+• How to create unplanned downtime notification subscriptions for administrators, refer to SAP Note 2900069 .
+• How to create unplanned downtime notification subscriptions for business users, refer to SAP Note 2896942 .
+
+What's New Announcements in Help Portal
+
+Stay up-to-date on day-one impact changes by receiving e-mail notifications of What's New
+Viewer content. This is the official channel through which you can obtain the latest
+information. Hence, it is important that you subscribe to the What's New viewer.
+Click on Subscribe in the What's New viewer , and select whether you want to
+receive notifications for all updates or according to the filters you have
+chosen..
+
+The e-mail notification includes a link, which will open the What's New Viewer with the new or
+changed items highlighted.

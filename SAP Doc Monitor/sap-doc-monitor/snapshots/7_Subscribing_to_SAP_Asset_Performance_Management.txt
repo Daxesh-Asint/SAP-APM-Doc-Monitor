@@ -1,0 +1,68 @@
+Subscribing to SAP Asset Performance Management
+
+Prerequisites
+
+• You’ve purchased the license for the solution that you want to consume.
+• You’ve created a subaccount in your global account.
+• You’re the administrator for the subaccount.
+• You've the default service plan of SAP Event Mesh entitlements in the same subaccount where SAP Asset Performance Management would be subscribed, to integrate with the SAP S/4 HANA systems. For more information, refer to Setting Up SAP Event Mesh in BTP Cockpit .
+
+Note: For any new subscription to SAP Asset Performance Management on SAP
+Business Technology Platform (BTP), you must associate the entitled
+IoT provider—as specified in your SAP Asset Performance Management
+license—with the BTP subaccount from which the subscription will be
+initiated. We strongly recommend completing this association proactively to
+ensure a smooth and successful onboarding experience, with the
+correct IoT provider linked from the start. This is a one-time setup, and the SAP Asset Performance Management
+Operations team will support you throughout the onboarding
+process. For assistance, please reach out through your standard SAP support
+channels. For more information regarding the tenant setup and licensing, refer
+to SAP Note: 3523368 . You may encounter an issue during subscription if the backend system
+does not have the correct association between your Tenant ID or
+Global Account ID and the IoT flavor license you selected. This
+indicates that the subscription is only partially completed. To resolve this, you must raise a support ticket with APM-OPS,
+providing the following details: Tenant ID IoT flavor Global Account ID Once the ticket is processed and the backend association is
+corrected, you should resubscribe to SAP Asset Performance
+Management to complete the subscription process.
+
+Procedure
+
+1. Navigate to your global account in the SAP BTP cockpit.
+2. Choose Entitlements > Entity Assignments in the side menu.
+3. Enter either the name of your subaccount or select your subaccount in the Select Entities field.
+4. Choose Configure Entitlements .
+5. Choose Add Service Plans to add a service.
+6. Select the service SAP Asset Performance Management in the entitlements dialog box, and then choose standard or prod as the service plan for all the services. If you've purchased a partner SKU, SAP Asset Performance Management T&D, then choose partner as the service plan for the services.
+
+Note: that the standard plan is intended for non-productive usage.
+
+7. Choose Add Service Plans .
+8. Choose Save . The services are added to the list.
+9. Navigate to Services > Service Marketplace in the side menu.
+10. Expand the All Types dropdown list and select Application on the service marketplace screen. If you assign a quota in the global account for this subaccount, you can view the bought solutions as tiles. The following table shows the bought solution for the live landscape: Solution Tile for the Live Material Number Tile for the Test & Demo Material Number SAP Asset Performance Management SAP Asset Performance Management SAP Asset Performance Management T&D
+11. Choose SAP Asset Performance Management tile for subscription. The overview and application plans of the solution are displayed.
+12. To subscribe to the solution , click on the tile and choose Create . Once you subscribe to the solution, subscribed application is displayed in the Subscriptions section.
+
+Note: To have control of your SAP Hana Cloud instance, you can use the Customer-Managed Keys
+feature. For more information, refer to Customer-Managed Keys . To do this, choose Next and provide the Key
+Id created and select Create .
+
+13. To access the subscribed application, select Go to Application option from the menu after the successful subscription.
+
+Note: To view the full application functions, you need to have the relevant role collections
+assigned to your user. For more information, refer to Creating and Assigning Role Collections .
+
+
+Solution                          Tile for the Live Material Number  Tile for the Test & Demo Material Number
+--------------------------------  ---------------------------------  ----------------------------------------
+SAP Asset Performance Management  SAP Asset Performance Management   SAP Asset Performance Management T&D
+
+Results
+
+The subaccount is subscribed to the solution or solutions.
+
+
+Note: To unsubscribe the relevant solution from your subaccount, follow the preceding steps: Caution If you unsubscribe the solution, all data related to the solution will be irrevocably deleted. Unsubscribing and re-subscribing SAP Asset Performance Management will create a new subscription. Choose Services > Instances and Subscriptions in the side menu. Go the relevant subscription. Choose Actions > Delete .
+
+
+Note: If you unsubscribe the solution, all data related to the solution will be irrevocably deleted. Unsubscribing and re-subscribing SAP Asset Performance Management will create a new subscription.

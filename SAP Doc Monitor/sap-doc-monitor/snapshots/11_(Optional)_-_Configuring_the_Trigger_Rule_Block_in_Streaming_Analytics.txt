@@ -1,0 +1,50 @@
+(Optional) - Configuring the Trigger Rule Block in Streaming Analytics
+
+You can configure the Trigger Rule Block in Streaming Analytics using details from
+the service key of the SAP Asset Performance Management service instance.
+
+This configuration is stored in the cep category of tenant
+options. This allows the block to access the encrypted values.
+
+
+Note: For more information, refer to this official documentation
+on Options from the Embedded IoT platform provider.
+
+Prerequisites
+
+
+Key                                          Value                                                          Example
+-------------------------------------------  -------------------------------------------------------------  -------------------------------------------------
+com.sap.apm.instance                         Hostname of the SAP Asset Performance Management API
+endpoint  api-apm.prod.apimanagement.eu20.hana.ondemand.com
+com.sap.apm.api-key                          API key for SAP Asset Performance Management                   test-api-key
+com.sap.apm.oauth-authentication-server      Hostname of the OAuth authentication server                    <subdomain>.authentication.eu20.hana.ondemand.com
+com.sap.apm.oauth-client-id                  Client ID for authentication                                   sb-xxxx|apm-live!xxxx
+credentials.com.sap.apm.oauth-client-secret  Client secret for authentication that is encrypted and
+stored  test-client-secret
+
+
+Note: Find the instance value by selecting the hostname of any URLs listed
+under endpoints. Locate the OAuth authentication server value in the service key under
+UAA, then URL. Access the client ID, OAuth client ID, and OAuth client secret under
+UAA, then clientid and clientsecret, respectively. For more details on how to request an API key, refer to (Optional) - Consumption of APIs Using Service Key .
+
+Procedure
+
+Set tenant options via Options API
+
+You can set each required tenant option using the following curl command:
+
+curl -X POST -H 'Content-Type: application/json' -H 'authorization: Bearer <token>'
+-d '{"category": "cep", "key": "<specify-key-here>", "value":
+"<specify-value-here>"}' -k https://hostname/tenant/options
+
+• token : Bearer token fetched using client credentials from the APM Service Key
+
+Note: For details on how to obtain JWT token,
+refer to (Optional) - Consumption of APIs from IoT Platform .
+
+• keyname : One of the required keys listed in the Prerequisites
+• value : Value to be set for the key
+• hostname : Hostname of your Embedded IoT Platform Provider tenant
+• category : Always cep

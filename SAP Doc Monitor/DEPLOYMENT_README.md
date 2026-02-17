@@ -1,8 +1,8 @@
 # 🚀 GCP Deployment Summary
 
-## What I've Created for You
+## Overview
 
-I've prepared your SAP Documentation Monitor for Google Cloud Platform deployment with the following files:
+This document summarizes all the deployment resources prepared for running the SAP APM Documentation Monitor on Google Cloud Platform. Use the guides below to deploy and manage the automation.
 
 ### 📄 New Files Created
 

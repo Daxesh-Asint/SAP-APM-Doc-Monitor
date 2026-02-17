@@ -1,0 +1,40 @@
+Creating a Trust Relationship
+
+Use this procedure to create a trust relationship between Identity Authentication and
+your subaccount in SAP BTP cockpit.
+
+Prerequisites
+
+• You've created the required role collections for the user.
+• You're the security administrator for the subaccount.
+
+Procedure
+
+Steps in the administration console for Identity
+Authentication:
+
+1. Open the administration console for Identity Authentication.
+2. Choose Applications & Resources > Tenant Settings in the side menu. You can view the Tenant Settings screen.
+3. Choose SAML 2.0 Configuration .
+4. Choose Download Metadata File at the bottom of the screen. The metadata file for the trust configuration is downloaded. The file contains all SAML configuration information of the identity provider.
+Steps in the SAP BTP cockpit:
+
+1. Open the SAP BTP cockpit and navigate to your subaccount.
+2. Choose Security > Trust Configuration in the side menu. You can view the list with the identity providers.
+3. Choose New Trust Configuration .
+4. Fill in the following fields in the New Trust Configuration dialog box. Metadata Upload the metadata file that you’ve downloaded from the identity provider. To upload the file, you can choose from the following options: Choose Upload and select the metadata file from the respective folder. Drag and drop the downloaded metadata file into the field from the download bar at the bottom of the screen or the respective folder in which the file is included. Name Enter a name for the trust configuration.
+5. Choose Parse to parse the entered data.
+6. Choose Save . You've added Identity Authentication to the custom identity provider list.
+
+Metadata  Upload the metadata file that you’ve downloaded from the identity provider. To
+upload the file, you can choose from the following options: Choose Upload and select the
+metadata file from the respective folder. Drag and drop the downloaded metadata file into the
+field from the download bar at the bottom of the screen
+or the respective folder in which the file is
+included.
+Name      Enter a name for the trust configuration.
+
+Results
+
+You've created the trust relationship between Identity
+Authentication and your subaccount in SAP BTP cockpit.

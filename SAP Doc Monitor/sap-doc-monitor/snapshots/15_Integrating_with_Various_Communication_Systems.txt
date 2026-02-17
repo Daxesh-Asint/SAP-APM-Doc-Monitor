@@ -1,0 +1,5 @@
+Integrating with Various Communication Systems
+
+Once you complete the getting started steps, you need to setup integration between SAP Asset
+Performance Management and various communication systems such as SAP S/4 HANA on-premise
+or SAP S/4 HANA cloud systems. For more detailed information, refer to the Integration Guide .

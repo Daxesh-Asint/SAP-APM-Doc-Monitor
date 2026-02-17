@@ -1,0 +1,54 @@
+(Optional) - Consumption of APIs Using Service Key
+
+You can build extension applications using the published (public) SAP Asset Performance
+Management APIs. The procedure below guides you on consuming the APIs by creating a SAP
+Asset Performance Management service instance, service key, and API Key.
+
+Prerequisites
+
+You have created a new SAP Asset Performance Management service key. For more information,
+refer to Creating Service Instances and Service Keys .
+
+
+Note: After you have created the service key, you can see the parameters of the key. It contains
+the UAA URL, the client ID, and the client secret (all contained in the UAA
+parameter section) that you need to create a token for accessing the service
+APIs using OAuth authentication. The service keys also contains the URL that you
+use to call the APIs of the service (the first URL parameter above the UAA
+parameter).
+
+Procedure
+
+1. Create a JWT token using the credentials in the service key and a REST client of your choice. Follow the sub-steps below for more details: Create a JWT token via POST call to the UAA URL from your service key. The URL has to be adapted to match the following pattern: <URL_returned_from_service_key>oauth/token . Set the following properties in the POST call: Message Header: Content-Type:application/x-www-form-urlencoded Message Body: Key Value client_id <your client ID> client_secret <your client secret> grant_type client_credentials The bearer token for API access is included in the response body.
+
+Note: The JWT tokens are valid for 24 hours.
+
+2. Step to request the API Key - Every API request must include 'X-API-Key' request header to ensure that the application can authenticate itself.
+
+Note: You can obtain the header value by creating a ticket
+in the component APM-OPS-SRV with priority as Medium. Provide the following
+details in the ticket: Sub-Domain Sub-Account ID Sub-Account API end point/APM FLP: To identify landscapes Email ID: to send API keys
+
+
+Note: Obtain a new service key to use the new API packages.
+
+3. Construct API endpoint URL by following the sub-steps below: Fetch the application endpoint from the Service Key that you obtained in the previous step. Fetch the production URL from SAP Business Accelerator Hub under the Configuration Details section. Replace the “host” part in the production URL with host sub-domain part provided in endpoint. Append API endpoint to the base URL.
+
+Note: The productive URL template could be:
+https://{host}.eu10.hana.ondemand.com/IndicatorService/v1. Enter the host value, and then append the operation, for
+example /Indicators, to get an usable URL: https://api-apm.prod.apimanagement.eu10.hana.ondemand.com/IndicatorService/v1/Indicators
+
+4. Invoke the required SAP Asset Performance Management APIs in the SAP Business Accelerator Hub using the JWT token and the API Key that you obtained in the previous steps. Authorization value should be ‘Bearer ‘ + <JWT Token> X-API-Key value should be API Key
+
+Note: When using a service key to access APIs, up to 500,000 requests per month per tenant is
+allowed without distinction of the service. Once the limit is
+reached, additional requests may be throttled or blocked until the
+quota resets at the start of the next calendar month. To avoid service disruption due to quota limits, follow the actions below: Monitor Usage Optimize API Calls Request Higher Quota (if applicable) Contact SAP support or your account manager if your application
+consistently requires more than 500,000 requests per month.
+
+
+Key            Value
+-------------  --------------------
+client_id      <your client ID>
+client_secret  <your client secret>
+grant_type     client_credentials

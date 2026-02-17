@@ -1,0 +1,79 @@
+General Information
+
+Introduction to SAP Asset Performance Management
+
+SAP Asset Performance Management is a cloud-based solution that enables plant managers and reliability engineers to measure and improve the performance of their assets. It helps in optimizing the maintenance strategies.
+
+It allows you to do risk assessments of assets. Based on the assessments, you can apply best practice methodologies such as reliability-centered maintenance (RCM) and failure mode and effects analysis (FMEA).
+
+You can use these methodologies to determine the best maintenance and service strategies for your operating context. SAP Asset Performance Management helps to minimize maintenance costs and to reduce or mitigate risks stemming from the failure of critical assets.
+
+SAP Asset Performance Management enables seamless integration fostering E2E processes, supporting industrial scale assets with an easy and flexible adoption by SAPs existing customer base.
+
+This guide provides administrators with an overview of how to get started with the product and helps to get onboarded.
+
+SAP Product Support
+
+In case you experience issues during the process of getting started, you can create incidents on different components. For more information, refer to Terminology .
+
+If you need to report issues in SAP Asset Performance Management, create a
+support case on the Support Portal. Depending on the issue, create the incident
+under the following component:
+
+
+Topic                                                      Component
+---------------------------------------------------------  ---------------
+Asset Health                                               APM-AH
+Asset Strategy                                             APM-AS
+Operation-related issue                                    APM-OPS
+General Application / Fiori Launchpad                      APM-APL
+Risk & Criticality Assessment Templates                    APM-AS-RCT
+Service Requests                                           APM-OPS-SRV
+RCM Assessments                                            APM-AS-RCM
+Strategy Assessment for Classes                            APM-AS-AC
+FMEA Assessments                                           APM-AS-FME
+Implement Recommendations                                  APM-AS-IMP
+Rules                                                      APM-AH-RLS
+Groups                                                     APM-AH-GRP
+Indicators and Indicator Monitoring                        APM-AH-IND
+Notification                                               APM-AH-NO
+Asset Insights Detection                                   APM-AI
+Anomaly Detection                                          APM-AI-AD
+Integration Monitor                                        APM-APL-IM
+Configuration Manager                                      APM-APL-CGM
+Explore Technical Objects                                  APM-APL-MD
+Alert Types                                                APM-AH-AT
+Failure Curve Analytics                                    APM-AH-FCA
+Alerts                                                     APM-AH-AL
+Analytics Dashboard, SAC, Analytics Cloud                  APM-AH-AD
+Job Manager                                                APM-APL-JM
+Manage Industrial Systems                                  APM-APL-SYS
+Manage Reference Designator Libraries                      APM-APL-RDS
+Industrial Systems configuration in Configuration Manager  APM-APL-CGM-SYS
+APM Embedded IoT                                           APM-EIOT
+APM Embedded IoT Alerts                                    APM-EIOT-ALERT
+APM Embedded IoT Dremio Library                            APM-EIOT-DML
+APM Embedded IoT Datasync-coordinator                      APM-EIOT-DSCO
+APM Embedded IoT Onboarding /Subscription Lifecycle-lib    APM-EIOT-ONB
+APM Embedded IoT Ops                                       APM-EIOT-OPS
+APM Embedded IoT Resource Manager                          APM-EIOT-RM
+APM Embedded IoT Time series Data Management               APM-EIOT-TS
+Visual Inspection                                          APM-VI
+Visual Inspection Reusable Service                         APM-VI-RUS
+General issues with Joule                                  CA-JOULE
+Joule for SAP Asset Performance Management                 APM-APL-JL
+
+Subscribe to Customer Notifications from SAP
+
+SAP Cloud customers can receive timely updates regarding their SAP Cloud Services, including – but not limited to – planned and unplanned downtime, and customer communication. For more information on subscribing to notifications, refer to SAP Support Portal .​
+
+Subscribe to What's New Announcements on SAP Help Portal
+
+1. Navigate to the SAP Asset Performance Management product page on the SAP Help Portal .
+2. Open What's New on SAP Asset Performance Management from the What's New tab.
+3. Click on the Subscribe button from the right corner of the page. You will receive e-mail notifications when SAP publishes a new version of the what's new page.
+
+Supported Browsers
+
+The browser support for the solution is aligned with the browsers supported by SAP BTP
+cockpit. For more information, refer to the Browser Support subsection in the topic Prerequisites and Restrictions for SAP BTP.

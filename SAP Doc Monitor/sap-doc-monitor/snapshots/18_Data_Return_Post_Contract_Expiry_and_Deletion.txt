@@ -1,0 +1,16 @@
+Data Return Post Contract Expiry and Deletion
+
+If you decide to end the contract with SAP Asset Performance Management, you can request
+the return of your data before it's deleted by SAP.
+
+The termination starts with a notification period: As a customer, you will receive a
+notification to inform you that your SAP Asset Performance Management contract is going
+to be terminated. At this point you can decide if you would like to request the data
+back. You can request the data return at any point in time until the termination
+date.
+
+1. Raise an incident in the component APM-OPS through the SAP Support Portal .
+2. Provide the following details in the incident: Tenant ID Termination Date Data Return Short Text: : SAP Asset Performance Management Data return request as part of the decommissioning request Priority: Medium You receive further information on how to recover your data from SAP Asset Performance Management team.
+
+Note: You must collect your data before the final termination date. SAP deletes all
+customer data at the end of the termination period.

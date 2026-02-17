@@ -1,0 +1,22 @@
+This topic provides you with an overview of all steps that you need to get started with
+the SAP Asset Performance Management. You need to perform majority of the steps in SAP BTP
+cockpit.
+
+Creating a Subaccount and Subscribing to Application
+
+First, you start with creating a subaccount on SAP Business Technology Platform (SAP
+BTP). You need a subaccount to structure the global account according to the
+requirements of an organization or project. SAP provisions the global account once
+you’ve purchased the solution that you require.
+
+Setting Permissions for the Application
+
+Once you’ve subscribed to SAP Asset Performance Management, it’s activated. You now need to
+define to which applications on the SAP Fiori launchpad you have access to. For
+this, you group roles in different role collections and then assign these role
+collections to the users. The roles are provided by the solution. Depending on the
+permissions, you can create different role collections. We also have a list of
+standard role collections that we recommend creating. For more information, refer to Standard Role Collections .
+
+• You can assign role collections using the SAP ID service. The SAP ID service is the default identity provider and comes automatically with creating the subaccount. If you use the SAP ID service, you assign role collections to individual users in the SAP BTP cockpit. To assign the role collections, you need to make sure that the user has an SAP user account and is added in the SAP ID service. For more information about the SAP ID service, refer to SAP ID Service .
+• You can assign role collections using the Identity Authentication service. The Identity Authentication service is a custom identity provider. If you use this identity provider, you map the role collections from the SAP BTP cockpit to user groups in the administration console for Identity Authentication. To map the role collections, you need to make sure that the custom identity provider and your subaccount in SAP BTP cockpit are connected. You do this by creating a SAML 2.0 trust relationship between Identity Authentication and your subaccount in SAP BTP cockpit, and by registering your subaccount from SAP BTP cockpit in Identity Authentication. For more information about the Identity Authentication service and the authorization and trust management in the Cloud Foundry environment, refer to SAP Cloud Identity Services - Identity Authentication and SAP Authorization and Trust Management Service in the Cloud Foundry Environment .

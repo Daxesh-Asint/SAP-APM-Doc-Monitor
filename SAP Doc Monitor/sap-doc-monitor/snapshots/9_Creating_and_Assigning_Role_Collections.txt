@@ -1,0 +1,51 @@
+Creating and Assigning Role Collections
+
+Use this procedure to create and assign role collections.
+
+Prerequisites
+
+• You've subscribed to the respective solution or solutions.
+• You're the security administrator for the subaccount.
+
+Context
+
+
+Note: SAP recommends adopting the OData-based applications built
+on the Cloud Application Programming (CAP) model, which support extensibility
+and will continue to receive upcoming features. As GraphQL-based applications
+are scheduled for deprecation next year, existing customers are advised to
+migrate to CAP applications to ensure continued support and take advantage of
+the latest innovations. Moving to these new applications provides a future-proof
+solution with access to the latest capabilities. For more information, refer to New CAP
+Applications .
+
+Procedure
+
+1. Navigate to your subaccount in the SAP BTP cockpit.
+2. Choose Security > Role Collections in the side menu. You can view the list with the role collections.
+3. Choose the  icon.
+4. Fill in the following fields in the Create Role Collection dialog box: Name Enter a name for the role collection, for example, Business User . Description Enter a logical description for the role collection, for example, the following description for the business user: This a role collection with all roles that are required for business users. You've created and added a new role collection to the list.
+
+Note: You can create role collections according to your requirement.
+
+5. Choose the role collection from the list. You can view the list with the roles that are included in the role collection.
+6. Choose Add Role to add a role to the role collection.
+7. Fill in the following details in the Add Role dialog box. Role Select the role that you want to add. Role Template Select the belonging role template. Application Identifier Select the application identifier. You can also select the application identifier first and then choose from the respective roles that are available in this identifier.
+8. Choose Add .
+9. Repeat the steps for all roles that you want to add to the role collection and all role collections that you want to create.
+
+Name         Enter a name for the role collection, for example, Business User .
+Description  Enter a logical description for the role collection, for
+example, the following description for the business user: This a role collection with all roles that are
+required for business users.
+
+
+Role                    Select the role that you want to add.
+Role Template           Select the belonging role template.
+Application Identifier  Select the application identifier. You can also select the
+application identifier first and then choose from the respective
+roles that are available in this identifier.
+
+Results
+
+You have created the role collections.

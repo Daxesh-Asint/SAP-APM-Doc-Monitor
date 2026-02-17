@@ -1,0 +1,30 @@
+(Optional) - Creating a RFC Destination to SAP Asset Performance Management
+Launchpad
+
+Context
+
+You can use this procedure to create an RFC destination in SAP S/4HANA. This enables
+navigation to recommendations in the SAP Asset Performance Management application.
+The steps vary based on your SAP S/4HANA release version. Follow the steps that
+apply to your system version.
+
+Procedure
+
+1. For SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 or Higher Open transaction SM59 to create an RFC destination to your SAP Asset Performance Management launchpad in SAP BTP. Choose the Connection Type G HTTP Connection to External Server . In the Target System Settings section, enter the Host and Path Prefix as needed. In the Logon and Security tab, set SSL Active. Open transaction SM30 and select /UI2/V_ALIASMAP to map the system alias EXT_APM to your RFC destination. Specify the following details: Client: Your system client Source System Alias: EXT_APM Target System Alias: Your RFC destination
+
+Note: Host is the URL of your SAP Asset Performance Management
+launchpad. Enter it without 'https://' and only up to
+'apm.cloud.sap'. For example, use '*****.apm.cloud.sap'
+
+2. For Releases Prior to SAP S/4HANA and SAP S/4HANA Cloud Private Edition 2025 Open transaction SM59 to create an RFC destination to your SAP Asset Performance Management launchpad in SAP BTP. Choose the Connection Type G HTTP Connection to External Server . In the Target System Settings section, enter the Host and Path Prefix as needed. In the Logon and Security tab, set SSL Active. Open transaction SM30 , select /UI2/V_SYSALIAS , and create a new system alias Z_EXT_APM . Map the System Alias to your RFC destination in /UI2/V_ALIASMAP and set your client in SM30 . Open transaction /n/UI2/FLPCM_CUST . Select the technical catalog where you want to add your object, for example, SAP_TC_EAM_COMMON, and choose Open in SAP Launchpad App Manager . Add a Launchpad App Descriptor Item (UIAD) of app type Remote Intent / URL App to your Technical Catalog by clicking Add App and selecting Remote Intent . Enter the required data in the Target Application Fields Tab. In the Semantic Object and Action fields, enter the values for which you will request navigation. Semantic Object - Implementation Action - display For the Target Semantic Object and Target Action fields, fill in the values of semantic object and action for your application in SAP Asset Performance Management launchpad in SAP BTP. Target Semantic Object - implementation Target Action - display Set the created System Alias for the System Alias field. System Alias - Z_EXT_APM Enter the transaction code or create a new one if required. The SAP Fiori ID is the same as the transaction code. Suppress Tile - Checked Additional Parameters - Allowed Save your entries. Add a reference of UIAD to your business catalog using /n/UI2/FLPCM_CONF . Add the business catalog to your role using PFCG.
+
+Note: Host is the URL of your SAP Asset Performance Management
+launchpad. Enter it without 'https://' and only up to
+'ondemand.com'. For example, use 'apm-*****.ondemand.com'
+
+
+Note: If you do not have the Remote Intent app
+type, check the configuration Maintain Allowed
+Application Types for the FLP App Manager and
+select the 'Template Based' app type in (view
+'SUI_TM_MM_AAT_V').

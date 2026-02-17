@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 # CONFIGURATION - UPDATE THESE VALUES
 # ============================================================================
 
-PROJECT_ID="integral-iris-449816-g3"
+PROJECT_ID="your-gcp-project-id"  # <-- Replace with your GCP Project ID
 REGION="us-central1"
 SERVICE_NAME="sap-doc-monitor"
 SCHEDULE="0 9 * * *"  # Daily at 9 AM (cron format)

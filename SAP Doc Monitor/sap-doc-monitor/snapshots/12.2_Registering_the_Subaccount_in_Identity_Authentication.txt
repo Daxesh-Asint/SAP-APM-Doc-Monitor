@@ -1,0 +1,40 @@
+Registering the Subaccount in Identity Authentication
+
+Use this procedure to register your subaccount from SAP BTP cockpit in Identity
+Authentication.
+
+Prerequisites
+
+• You’ve created a trust relationship between Identity Authentication and your subaccount in SAP BTP cockpit.
+• You’re the security administrator for the subaccount.
+
+Procedure
+
+Steps in the SAP BTP cockpit:
+
+1. Navigate to your subaccount in the SAP BTP cockpit.
+2. Choose Security > Trust Configuration in the side menu.
+3. Choose SAML Metadata . The file contains all SAML configuration information of the subaccount to download the metadata file of the subaccount.
+Steps in the administration console for Identity
+Authentication:
+
+1. Open the administration console for Identity Authentication.
+2. Choose Applications & Resources > Applications in the side menu.
+3. Choose +Add at the bottom of the screen to add your subaccount from the SAP BTP cockpit as an application in the Identity Authentication service.
+4. Enter a name for the application in the Add Application dialog box and choose Save . You've created and added a new application to the list.
+5. Choose the application from the list. The details of the application are displayed.
+6. Choose SAML 2.0 Configuration on the Trust tab. The 2.0 SAML configuration details for the application are displayed.
+7. Upload the metadata file that you’ve downloaded from the subaccount in the Metadata File field. Choose from the following options to upload the file: Choose Browse and select the metadata file from the respective folder. Drag and drop the downloaded metadata file into the field from the download bar at the bottom of the screen or the respective folder in which the file is included. The other required fields for the 2.0 SAML configuration details are automatically filled.
+8. Choose Save .
+9. Choose Subject Name Identifier on the Trust tab. The subject name identifier for the application is displayed.
+10. Select Basic Configuration .
+11. Select E-Mail in the Select a basic attribute field.
+13. Choose Assertion Attributes on the Trust tab. The SAML assertion attributes for the application are displayed.
+14. Choose +Add > E-Mail . The E-Mail field is added to the attributes.
+15. Add a small e in front of mail in the E-Mail field.
+16. Choose +Add > Groups . The Groups field is added to the attributes.
+17. Change groups to Groups with a capital G in the Groups field, .
+
+Results
+
+The subaccount is registered in Identity Authentication.
