@@ -80,13 +80,20 @@ gsutil mb -p {PROJECT_ID} -l us-central1 gs://{PROJECT_ID}-sap-snapshots
 - Cloud Run containers are **ephemeral** — all files inside them are destroyed when the container shuts down.
 - The app needs to compare **current** page content with **previous** snapshots to detect changes.
 - GCS provides **persistent storage** that survives across container restarts.
-- Before each run: snapshots are **downloaded** from GCS → into the container.
-- After each run: updated snapshots are **uploaded** back to GCS.
+- **Before each run:** All previous snapshot `.txt` files are **downloaded** from GCS into the container's local `snapshots/` directory. These downloaded snapshots represent the "last known state" of each SAP documentation page. The app then fetches the **live** content from SAP Help, extracts text, and compares it line-by-line against the downloaded snapshot for each page. If differences are found (additions, removals, or structural changes), those are flagged as changes.
+- **After each run:** The updated snapshots (with the latest content) are **uploaded** back to GCS, so the **next** scheduled run can download them and repeat the comparison cycle.
 
 Also grants the App Engine default service account `objectAdmin` permission on the bucket:
 ```bash
 gsutil iam ch serviceAccount:{PROJECT_ID}@appspot.gserviceaccount.com:objectAdmin gs://{BUCKET_NAME}
 ```
+
+**Why this permission is needed:**
+- Cloud Run runs your container under the **App Engine default service account** (`{PROJECT_ID}@appspot.gserviceaccount.com`).
+- The app code calls GCS APIs to download and upload snapshot files (`blob.download_to_filename()`, `blob.upload_from_filename()`, `blob.delete()`).
+- These API calls are authenticated as whatever service account Cloud Run is running under.
+- Without `objectAdmin` on the bucket, these calls would fail with **403 Permission Denied**.
+- `objectAdmin` grants full read/write/delete access to objects in the bucket — exactly what the app needs to download old snapshots, upload updated ones, and delete stale ones.
 
 ---
 
