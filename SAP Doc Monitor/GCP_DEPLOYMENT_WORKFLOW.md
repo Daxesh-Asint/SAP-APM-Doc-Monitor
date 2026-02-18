@@ -19,7 +19,7 @@
 | 4 | **Cloud Storage (GCS)** | Persistently stores document snapshots (`.txt` files) between runs — because Cloud Run containers are **ephemeral** (destroyed after each run) | Runtime only |
 | 5 | **Secret Manager** | Securely stores the email SMTP password (`email-password`). Cloud Run injects it as the `EMAIL_PASSWORD` environment variable at runtime | Runtime only |
 | 6 | **Service Account** (`sap-monitor-scheduler`) | An identity that gives Cloud Scheduler permission to invoke the **private** (unauthenticated access blocked) Cloud Run service using OIDC tokens | Runtime only |
-| 7 | **Cloud Scheduler** | The **trigger** — sends an HTTP POST request to Cloud Run on a cron schedule (daily at 9 AM) to start the monitoring job | Runtime only |
+| 7 | **Cloud Scheduler** | The **trigger** — sends an HTTP POST request to Cloud Run on a cron schedule (twice daily at 9 AM and 6 PM) to start the monitoring job | Runtime only |
 
 ### Key Clarification
 
@@ -207,7 +207,7 @@ gcloud run services add-iam-policy-binding sap-doc-monitor \
 ```bash
 gcloud scheduler jobs create http sap-doc-monitor-job \
     --location=us-central1 \
-    --schedule="0 9 * * *" \
+    --schedule="0 9,18 * * *" \
     --uri={CLOUD_RUN_SERVICE_URL} \
     --http-method=POST \
     --oidc-service-account-email=sap-monitor-scheduler@{PROJECT_ID}.iam.gserviceaccount.com \
@@ -216,7 +216,7 @@ gcloud scheduler jobs create http sap-doc-monitor-job \
 ```
 
 **What happens:** Creates a Cloud Scheduler job that:
-- Runs on a **cron schedule** (`0 9 * * *` = every day at 9:00 AM).
+- Runs on a **cron schedule** (`0 9,18 * * *` = every day at 9:00 AM and 6:00 PM).
 - Sends an **HTTP POST** to the Cloud Run service URL.
 - Authenticates using **OIDC token** signed as the `sap-monitor-scheduler` service account.
 
@@ -236,14 +236,14 @@ gcloud scheduler jobs run sap-doc-monitor-job --location=us-central1
 
 ## 3. Runtime Workflow (When Cloud Scheduler Fires)
 
-Every time Cloud Scheduler triggers (daily at 9 AM, or manually), here is the **exact sequence of events**:
+Every time Cloud Scheduler triggers (daily at 9 AM and 6 PM, or manually), here is the **exact sequence of events**:
 
 ---
 
 ### Stage 1: Cloud Scheduler → Cloud Run (THE TRIGGER)
 
 ```
-Cloud Scheduler fires at 9:00 AM
+Cloud Scheduler fires at 9:00 AM or 6:00 PM
     │
     ├── Generates an OIDC token (signed as sap-monitor-scheduler service account)
     ├── Sends HTTP POST to Cloud Run service URL
@@ -334,7 +334,7 @@ Cloud Run containers are ephemeral — every container starts fresh with no memo
 ```
 
 **Why this stage exists:**
-The updated snapshots must be persisted to GCS so the **next** run (tomorrow at 9 AM) can download them and compare again.
+The updated snapshots must be persisted to GCS so the **next** run (at 6 PM the same day, or 9 AM the next day) can download them and compare again.
 
 ---
 
@@ -410,7 +410,7 @@ Step 9: Test Run (manually trigger scheduler)
 
 ```
 ┌──────────────────┐
-│  CLOUD SCHEDULER │  ← Fires daily at 9 AM (cron: 0 9 * * *)
+│  CLOUD SCHEDULER │  ← Fires daily at 9 AM & 6 PM (cron: 0 9,18 * * *)
 │  (THE TRIGGER)   │
 └────────┬─────────┘
          │ HTTP POST + OIDC Token
@@ -475,6 +475,6 @@ Step 9: Test Run (manually trigger scheduler)
 | **GCS Bucket** | Persistent storage for snapshots — because Cloud Run containers are destroyed after each run and lose all local files |
 | **Secret Manager** | Securely stores the email password — injected into Cloud Run as an env var at runtime |
 | **Service Account** | Gives Cloud Scheduler an authenticated identity to call the private (no public access) Cloud Run endpoint |
-| **Cloud Scheduler** | The automated trigger — sends HTTP POST to Cloud Run on a cron schedule so the monitoring runs automatically every day |
+| **Cloud Scheduler** | The automated trigger — sends HTTP POST to Cloud Run on a cron schedule (9 AM & 6 PM daily) so the monitoring runs automatically twice a day |
 
 > **Bottom line:** Cloud Build + Artifact Registry + Cloud Run = **Deployment chain**. GCS + Secret Manager + Service Account + Cloud Scheduler = **Runtime infrastructure** that makes the app work automatically and securely every day.
