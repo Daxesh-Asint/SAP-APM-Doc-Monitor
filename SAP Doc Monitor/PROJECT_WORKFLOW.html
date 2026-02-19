@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SAP Doc Monitor — Project Workflow Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: #1e2330;
+    background: #ffffff;
+    padding: 0;
+    margin: 0;
+  }
+
+  .page-wrapper {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 48px 56px;
+  }
+
+  /* Header banner */
+  .doc-header {
+    background: linear-gradient(135deg, #0F172A 0%, #1e293b 100%);
+    color: white;
+    padding: 32px 40px;
+    border-radius: 10px;
+    margin-bottom: 36px;
+    box-shadow: 0 4px 20px rgba(15,23,42,0.3);
+  }
+  .doc-header h1 {
+    font-size: 20pt;
+    font-weight: 700;
+    color: white;
+    border: none;
+    padding: 0;
+    margin: 0 0 6px 0;
+    display: block;
+  }
+  .doc-header .subtitle {
+    font-size: 10pt;
+    opacity: 0.85;
+    font-weight: 400;
+  }
+
+  h2 {
+    font-size: 15pt;
+    font-weight: 700;
+    color: #0F172A;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    margin: 40px 0 16px 0;
+  }
+
+  h3 {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #1e2330;
+    margin: 28px 0 10px 0;
+    padding-left: 12px;
+    border-left: 3px solid #3b82f6;
+  }
+
+  h4 {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #3c4043;
+    margin: 16px 0 8px 0;
+  }
+
+  p {
+    margin: 8px 0 12px 0;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px 0;
+    font-size: 9.5pt;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  }
+
+  thead tr {
+    background: linear-gradient(135deg, #0F172A, #1e293b);
+    color: white;
+  }
+
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9pt;
+    letter-spacing: 0.02em;
+  }
+
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody tr:nth-child(odd) { background: #ffffff; }
+  tbody tr:hover { background: #e2e8f0; }
+
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+
+  /* Code blocks */
+  pre {
+    background: #0F172A;
+    color: #e2e8f0;
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 12px 0 16px 0;
+    font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 8.5pt;
+    line-height: 1.6;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  code {
+    font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 8.5pt;
+    background: #e2e8f0;
+    color: #0F172A;
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  pre code {
+    background: transparent;
+    color: #e2e8f0;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  /* Blockquotes */
+  blockquote {
+    border-left: 4px solid #3b82f6;
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 12px 16px;
+    margin: 12px 0 16px 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    font-size: 10pt;
+  }
+
+  blockquote p { margin: 0; }
+
+  /* Horizontal rules */
+  hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 28px 0;
+  }
+
+  /* Lists */
+  ul, ol {
+    margin: 8px 0 12px 0;
+    padding-left: 24px;
+  }
+
+  li { margin: 4px 0; }
+
+  /* Strong/bold */
+  strong { color: #1e2330; font-weight: 600; }
+
+  /* TOC */
+  .toc {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 9.5pt;
+  }
+
+  .toc a {
+    color: #3b82f6;
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    text-decoration: underline;
+  }
+
+  /* Feature badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .badge-high { background: #fecaca; color: #991b1b; }
+  .badge-medium { background: #fef3c7; color: #92400e; }
+  .badge-low { background: #f3f4f6; color: #6b7280; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+
+  /* Info callout boxes */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0 18px 0;
+    font-size: 9.5pt;
+  }
+  .callout-info {
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    color: #1e40af;
+  }
+  .callout-success {
+    background: #ecfdf5;
+    border-left: 4px solid #34d399;
+    color: #065f46;
+  }
+  .callout-warning {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    color: #92400e;
+  }
+
+  /* Print settings */
+  @media print {
+    body { font-size: 9.5pt; }
+    h2 { page-break-before: auto; }
+    pre { page-break-inside: avoid; font-size: 7.5pt; }
+    table { page-break-inside: avoid; font-size: 8.5pt; }
+    blockquote { page-break-inside: avoid; }
+    .doc-header { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <div class="doc-header">
+    <h1>SAP Doc Monitor</h1>
+    <div class="subtitle">Complete Project Workflow Guide &nbsp;·&nbsp; Generated February 19, 2026</div>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <strong>Table of Contents</strong>
+    <ol>
+      <li><a href="#s1">Project Overview</a></li>
+      <li><a href="#s2">Technology Stack</a></li>
+      <li><a href="#s3">Project Architecture &amp; Module Map</a></li>
+      <li><a href="#s4">How the Application Works (End-to-End)</a></li>
+      <li><a href="#s5">Module Deep Dives</a></li>
+      <li><a href="#s6">Data Flow Diagrams</a></li>
+      <li><a href="#s7">Execution Modes</a></li>
+      <li><a href="#s8">Email Notification System</a></li>
+      <li><a href="#s9">Safety &amp; Validation Mechanisms</a></li>
+      <li><a href="#s10">Configuration Reference</a></li>
+    </ol>
+  </div>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: PROJECT OVERVIEW -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s1">1. Project Overview</h2>
+
+  <h3>What This Project Does</h3>
+  <p><strong>SAP Doc Monitor</strong> is an automated Python application that monitors SAP Asset Performance Management (APM) Help Portal documentation pages for changes and sends professional email notifications when updates are detected.</p>
+
+  <h3>The Problem It Solves</h3>
+  <p>SAP documentation pages are updated without advance notice. Teams relying on these docs need to know about changes immediately — whether it's a new procedure step, a removed prerequisite, or an entirely new page. Manually checking 25+ documentation pages multiple times per day is impractical.</p>
+
+  <h3>How It Solves It</h3>
+  <p>The application automatically:</p>
+  <ol>
+    <li><strong>Discovers</strong> all documentation pages from a single base URL (auto-discovery from the Table of Contents)</li>
+    <li><strong>Fetches</strong> each page using headless Chrome (SAP Help Portal is JavaScript-rendered)</li>
+    <li><strong>Extracts</strong> clean text content from the HTML, stripping UI noise</li>
+    <li><strong>Compares</strong> the current content against previously saved snapshots</li>
+    <li><strong>Classifies</strong> every change by severity — HIGH, MEDIUM, or LOW</li>
+    <li><strong>Sends</strong> a professional HTML email report with a full breakdown of changes</li>
+    <li><strong>Persists</strong> updated snapshots for the next comparison cycle</li>
+  </ol>
+
+  <h3>Key Features</h3>
+  <table>
+    <thead>
+      <tr><th>Feature</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Auto-Discovery</strong></td><td>Provide one base URL → system discovers all pages from the SAP sidebar TOC</td></tr>
+      <tr><td><strong>Smart Comparison</strong></td><td>Normalizes formatting noise (bullets, arrows, whitespace) — only flags real content changes</td></tr>
+      <tr><td><strong>Severity Classification</strong></td><td>Instruction/prerequisite changes = <span class="badge badge-high">HIGH</span>, content changes = <span class="badge badge-medium">MEDIUM</span>, cosmetic = <span class="badge badge-low">LOW</span></td></tr>
+      <tr><td><strong>Structural Validation</strong></td><td>Detects numbering gaps, missing prerequisite sections, removed procedure steps</td></tr>
+      <tr><td><strong>Shrinkage Protection</strong></td><td>Blocks snapshot overwrites when >70% content shrinkage with zero additions (rendering failure)</td></tr>
+      <tr><td><strong>Content Validation</strong></td><td>Rejects pages with &lt;100 characters of extracted text (incomplete renders)</td></tr>
+      <tr><td><strong>New Page Detection</strong></td><td>Flags pages that appear in the TOC but have no previous snapshot</td></tr>
+      <tr><td><strong>Removed Page Detection</strong></td><td>Flags pages that had snapshots but are no longer in the TOC</td></tr>
+      <tr><td><strong>Dual-Mode Email</strong></td><td>Sends both plain text and premium HTML email (responsive design, works on mobile)</td></tr>
+      <tr><td><strong>Cloud-Ready</strong></td><td>Designed for GCP Cloud Run with GCS persistent storage and Secret Manager</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: TECHNOLOGY STACK -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s2">2. Technology Stack</h2>
+
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Language</strong></td><td>Python 3.11</td><td>Core application logic</td></tr>
+      <tr><td><strong>Browser Automation</strong></td><td>Selenium + headless Chrome</td><td>Fetches JavaScript-rendered SAP Help pages</td></tr>
+      <tr><td><strong>Driver Management</strong></td><td>webdriver-manager</td><td>Automatically downloads the correct ChromeDriver version</td></tr>
+      <tr><td><strong>HTML Parsing</strong></td><td>BeautifulSoup 4</td><td>Extracts and cleans text content from fetched HTML</td></tr>
+      <tr><td><strong>HTTP Client</strong></td><td>Requests</td><td>Simple HTTP fetches for non-JS pages</td></tr>
+      <tr><td><strong>Email</strong></td><td>smtplib (stdlib)</td><td>Sends email via SMTP (Office 365 / Gmail)</td></tr>
+      <tr><td><strong>Scheduling (local)</strong></td><td>APScheduler</td><td>Runs monitoring at configurable intervals locally</td></tr>
+      <tr><td><strong>Web Framework</strong></td><td>Flask</td><td>HTTP endpoint for Cloud Run triggers</td></tr>
+      <tr><td><strong>Cloud Storage</strong></td><td>google-cloud-storage</td><td>Persistent snapshot storage on GCS (Cloud Run mode)</td></tr>
+      <tr><td><strong>Containerization</strong></td><td>Docker</td><td>Packages app + Chrome into a deployable container</td></tr>
+      <tr><td><strong>CI/CD</strong></td><td>GitHub Actions</td><td>Alternative scheduling via GitHub's cron</td></tr>
+      <tr><td><strong>Cloud Platform</strong></td><td>GCP (Cloud Run, Cloud Scheduler, GCS, Secret Manager)</td><td>Production deployment</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Python Dependencies</h3>
+  <pre><code>selenium>=4.0.0           # Browser automation for JS-rendered pages
+beautifulsoup4>=4.9.0     # HTML parsing and content extraction
+requests>=2.25.0          # Simple HTTP requests
+webdriver-manager>=3.8.0  # Auto-downloads ChromeDriver
+APScheduler>=3.10.0       # Local cron-style scheduling
+Flask>=2.3.0              # HTTP endpoint for Cloud Run
+google-cloud-storage>=2.10.0  # GCS integration for persistent snapshots</code></pre>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: PROJECT ARCHITECTURE -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s3">3. Project Architecture &amp; Module Map</h2>
+
+  <h3>Directory Structure</h3>
+  <pre><code>SAP Doc Monitor/
+│
+├── Dockerfile                        # Container definition (Python + Chrome + app)
+├── deploy-to-cloud-run.ps1           # PowerShell deployment script for GCP
+├── deploy-to-cloud-run.sh            # Bash deployment script for GCP
+├── GCP_DEPLOYMENT_WORKFLOW.md        # GCP deployment documentation
+├── GCP_DEPLOYMENT_WORKFLOW.html      # Same, as styled HTML
+├── PROJECT_WORKFLOW.md               # This document (Markdown)
+├── PROJECT_WORKFLOW.html             # This document (HTML)
+│
+├── .github/workflows/
+│   └── monitor.yml                   # GitHub Actions workflow
+│
+└── sap-doc-monitor/                  # Application root
+    │
+    ├── main.py                       # ORCHESTRATOR — runs the full 5-phase pipeline
+    ├── cloud_run_app.py              # Flask HTTP wrapper for Cloud Run
+    ├── scheduler.py                  # Local APScheduler runner
+    │
+    ├── config/
+    │   ├── settings.py               # Active configuration (local dev)
+    │   ├── settings.cloud.py         # Cloud configuration (reads from env vars)
+    │   └── settings.example.py       # Template for new users
+    │
+    ├── fetcher/
+    │   ├── discover_urls.py          # Auto-discovers page URLs from SAP TOC sidebar
+    │   └── fetch_page.py             # Fetches HTML using Selenium or Requests
+    │
+    ├── parser/
+    │   └── parse_content.py          # Extracts clean text from raw HTML
+    │
+    ├── comparator/
+    │   └── compare_content.py        # Smart diff engine with severity classification
+    │
+    ├── notifier/
+    │   └── send_email.py             # Sends email via SMTP
+    │
+    ├── storage/
+    │   └── gcs_storage.py            # GCS integration (download/upload snapshots)
+    │
+    ├── snapshots/                    # Stored .txt snapshots (one per page)
+    │   ├── 1_Overview_of_Getting_Started_Steps.txt
+    │   ├── 2_Target_Audience.txt
+    │   └── ...
+    │
+    ├── test_discovery.py             # Test: verifies URL auto-discovery
+    ├── test_email.py                 # Test: verifies SMTP email sending
+    └── test_smtp.py                  # Test: low-level SMTP connection test</code></pre>
+
+  <h3>Module Responsibility Map</h3>
+  <table>
+    <thead>
+      <tr><th>Module</th><th>File</th><th>Single Responsibility</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Orchestrator</strong></td><td><code>main.py</code></td><td>Runs the 5-phase pipeline: download → discover+fetch → compare → save+upload → email</td></tr>
+      <tr><td><strong>Configuration</strong></td><td><code>config/settings.py</code></td><td>Stores all configurable values (URLs, email, paths)</td></tr>
+      <tr><td><strong>URL Discovery</strong></td><td><code>fetcher/discover_urls.py</code></td><td>Loads SAP TOC in headless Chrome, waits for sidebar to render, extracts all doc links with hierarchical numbering</td></tr>
+      <tr><td><strong>Page Fetcher</strong></td><td><code>fetcher/fetch_page.py</code></td><td>Fetches a single URL with Selenium (JS pages) or Requests (simple pages), validates rendered content, retries on failure</td></tr>
+      <tr><td><strong>Content Parser</strong></td><td><code>parser/parse_content.py</code></td><td>Strips SAP Help UI (nav, breadcrumbs, banners), extracts headings/paragraphs/lists/tables, deduplicates, handles DITA inline content</td></tr>
+      <tr><td><strong>Comparator</strong></td><td><code>comparator/compare_content.py</code></td><td>Normalizes text, performs count-aware diff, classifies changes by severity, validates document structure</td></tr>
+      <tr><td><strong>Email Notifier</strong></td><td><code>notifier/send_email.py</code></td><td>Sends multipart (plain text + HTML) email via SMTP to one or more recipients</td></tr>
+      <tr><td><strong>Cloud Storage</strong></td><td><code>storage/gcs_storage.py</code></td><td>Downloads/uploads snapshot files to/from GCS bucket; full sync with stale file cleanup</td></tr>
+      <tr><td><strong>Cloud Run App</strong></td><td><code>cloud_run_app.py</code></td><td>Flask server with <code>/</code> (trigger) and <code>/health</code> endpoints; calls <code>main.main()</code> on POST</td></tr>
+      <tr><td><strong>Local Scheduler</strong></td><td><code>scheduler.py</code></td><td>APScheduler-based local runner; runs <code>main.main()</code> on a configurable interval</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: HOW THE APP WORKS -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s4">4. How the Application Works (End-to-End)</h2>
+
+  <p>The application executes a <strong>5-phase pipeline</strong> every time it runs. Each phase must complete before the next starts.</p>
+
+  <hr>
+
+  <h3>Phase 1: Download Previous Snapshots</h3>
+  <pre><code>main.main() starts
+    │
+    ├── Is GCS enabled? (GCS_BUCKET_NAME env var set?)
+    │
+    ├── YES (Cloud Run mode):
+    │   ├── Wipe any local .txt files (Docker image may have stale ones)
+    │   ├── Download ALL .txt snapshots from GCS bucket
+    │   └── gs://{PROJECT_ID}-sap-snapshots/snapshots/*.txt → local snapshots/
+    │
+    └── NO (Local mode):
+        └── Use whatever .txt files are already in snapshots/
+    │
+    ├── Load ALL local .txt files into memory (dict: normalised_name → content)
+    │   e.g. "9.1_Standard_Role_Collections.txt" → key: "standard role collections"
+    │
+    ▼ previous_snapshots dict ready</code></pre>
+
+  <p><strong>Key function:</strong> <code>load_previous_snapshots()</code> — reads every <code>.txt</code> file in the snapshots directory, strips the page-number prefix and file extension, normalises the name to lowercase, and stores the full text content keyed by that normalised name.</p>
+
+  <hr>
+
+  <h3>Phase 2: Discover URLs &amp; Fetch All Current Content</h3>
+  <pre><code>    │
+    ├── Is DOCUMENT_URLS empty? (auto-discovery vs manual mode)
+    │
+    ├── YES (Auto-Discovery):
+    │   ├── Load BASE_DOCUMENTATION_URL in headless Chrome
+    │   ├── Wait for SAP sidebar TOC to fully render (≥10 links, stability check)
+    │   ├── Parse the sidebar DOM tree (nested &lt;ul&gt;/&lt;li&gt;)
+    │   ├── Extract hierarchical page numbers from nesting depth
+    │   │   e.g. 1, 2, 3, ..., 9, 9.1, 9.2, 9.3, ..., 12, 12.1, 12.2, ...
+    │   ├── Extract page titles from link text
+    │   ├── Build full URLs (relative → absolute)
+    │   ├── Deduplicate and skip the base URL itself
+    │   └── Returns: list of (number, name, url) tuples
+    │
+    └── NO (Manual mode):
+        └── Use URLs from settings.DOCUMENT_URLS dict
+    │
+    ├── For EACH discovered page:
+    │   ├── fetch_page(url) — Selenium with explicit waits
+    │   │   ├── Launch headless Chrome
+    │   │   ├── Navigate to URL
+    │   │   ├── Wait for SAP content selectors (div#page, [role="main"], article)
+    │   │   ├── Wait for &gt;100 chars of visible text in content element
+    │   │   ├── Stability check: wait until text length stops growing
+    │   │   └── Return page source HTML
+    │   │
+    │   ├── extract_text(html) — BeautifulSoup parsing
+    │   │   ├── Target main content area (div#page, [role="main"], etc.)
+    │   │   ├── Remove UI noise (nav, header, footer, breadcrumbs, buttons)
+    │   │   ├── Pre-process SAP menu cascades (span.menucascade → "A &gt; B &gt; C")
+    │   │   ├── Wrap bare inline content in &lt;section&gt; into &lt;p&gt; tags
+    │   │   ├── Extract text from h1-h6, p, ol, ul, aside, pre, table, dl
+    │   │   ├── Deduplicate headings and content lines
+    │   │   └── Return clean text string
+    │   │
+    │   └── Validate: reject if extracted text &lt; 100 chars
+    │
+    ▼ current_content dict ready (page_name → extracted text)</code></pre>
+
+  <div class="callout callout-info">
+    <strong>Key insight:</strong> All pages are fetched FIRST before any comparison happens. This ensures the comparison phase has a complete picture and can detect removed pages (present in snapshots but missing from current fetch).
+  </div>
+
+  <hr>
+
+  <h3>Phase 3: Compare Previous vs. Current Content</h3>
+  <pre><code>    │
+    ├── For EACH page in the current page list:
+    │   │
+    │   ├── Fetch failed? → skip (preserve previous snapshot)
+    │   │
+    │   ├── No previous snapshot? → mark as NEW PAGE
+    │   │   └── Capture first 15 lines as content preview
+    │   │
+    │   └── Previous snapshot exists? → run compare(old, new)
+    │       │
+    │       ├── NORMALIZATION (both old and new text):
+    │       │   ├── Strip bullet characters (•, ·, -, *, ▶, etc.)
+    │       │   ├── Strip leading step numbers ("3. Choose…" → "Choose…")
+    │       │   ├── Normalize arrows (→ ► ▶ ➜ ») → " &gt; "
+    │       │   ├── Collapse whitespace, lowercase
+    │       │   └── Filter out noise lines (separators, empty lines)
+    │       │
+    │       ├── COUNT-AWARE DIFF:
+    │       │   ├── Count occurrences of each normalised line in old and new
+    │       │   ├── If old has 3× "choose save" and new has 1× → 2 removals
+    │       │   └── Handles duplicate lines correctly (unlike simple set diff)
+    │       │
+    │       ├── SEMANTIC CLASSIFICATION:
+    │       │   ├── Each changed line is classified into a category:
+    │       │   │   ├── instruction (starts with action verb) → HIGH severity
+    │       │   │   ├── section_header (Prerequisites, Procedure, etc.) → HIGH
+    │       │   │   ├── prerequisite (you need, you must, etc.) → HIGH
+    │       │   │   ├── note (note:, note block) → MEDIUM
+    │       │   │   ├── content (general text) → MEDIUM
+    │       │   │   └── noise (separators, blank) → filtered out
+    │       │   └── Overall severity = highest severity across all changes
+    │       │
+    │       ├── STRUCTURAL VALIDATION:
+    │       │   ├── Numbering gaps (step 11 → 13 means step 12 missing)
+    │       │   ├── Missing sections (procedural docs without Prerequisites/Procedure)
+    │       │   ├── Removed prerequisites (prerequisite lines in old but not in new)
+    │       │   └── Only reports NEW issues (not pre-existing)
+    │       │
+    │       └── INTEGRITY CHECK:
+    │           ├── If content shrank &gt;70% with zero additions → rendering failure
+    │           └── Skip this page (do NOT overwrite snapshot with bad data)
+    │
+    ├── DETECT REMOVED PAGES:
+    │   ├── For each previous snapshot key NOT in the current page list
+    │   └── Mark as REMOVED PAGE (no longer in SAP TOC)
+    │
+    ▼ all_changes list ready</code></pre>
+
+  <hr>
+
+  <h3>Phase 4: Save Snapshots &amp; Upload to GCS</h3>
+  <pre><code>    │
+    ├── Clear ALL local .txt files (remove stale filenames)
+    │
+    ├── For EACH page in the current page list:
+    │   ├── If current content was fetched → save to snapshots/{number}_{title}.txt
+    │   ├── If fetch failed → fall back to previous snapshot content (preserve it)
+    │   └── Validate before saving: reject if &lt; 100 chars
+    │
+    ├── If GCS is enabled:
+    │   ├── Upload ALL local .txt files to gs://{bucket}/snapshots/
+    │   └── Delete stale GCS files that no longer exist locally (sync)
+    │
+    ▼ snapshots persisted</code></pre>
+
+  <hr>
+
+  <h3>Phase 5: Send Email Notification</h3>
+  <pre><code>    │
+    ├── build_notification() constructs:
+    │   ├── Subject line (changes summary or "No Changes Detected")
+    │   ├── Plain text body (structured report with tables)
+    │   └── HTML body (premium responsive email with):
+    │       ├── Dark header with title and timestamp
+    │       ├── Status banner (green = no changes, amber/red = changes)
+    │       ├── 4 metric cards (Pages Checked, New, Modified, Unchanged)
+    │       ├── Run detail tiles (Timestamp, Status, Next Run, Summary)
+    │       ├── New Pages section (blue cards with content preview)
+    │       ├── Modified Pages section (amber/red cards with diffs)
+    │       ├── Removed Pages section (red cards)
+    │       ├── Full pages-monitored table with status badges and links
+    │       └── Responsive design (660px, 480px, 375px breakpoints)
+    │
+    ├── send_email() delivers via SMTP:
+    │   ├── Constructs MIMEMultipart with plain + HTML parts
+    │   ├── Supports multiple comma/semicolon-separated recipients
+    │   ├── TLS encryption on port 587
+    │   └── Authenticates with sender credentials
+    │
+    ▼ DONE — email sent, snapshots persisted</code></pre>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: MODULE DEEP DIVES -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s5">5. Module Deep Dives</h2>
+
+  <h3>5.1 URL Auto-Discovery (<code>fetcher/discover_urls.py</code>)</h3>
+
+  <p><strong>Problem:</strong> SAP documentation has 25+ pages, and the exact URLs change. Manually maintaining a list is fragile.</p>
+  <p><strong>Solution:</strong> Load the base documentation page, wait for the JavaScript-rendered sidebar TOC, and scrape all links from it.</p>
+
+  <p><strong>How it works:</strong></p>
+  <ol>
+    <li><strong>Load page with sidebar wait</strong> — <code>_fetch_page_with_sidebar()</code>:
+      <ul>
+        <li>Creates headless Chrome instance</li>
+        <li>Navigates to the base URL</li>
+        <li>Waits for the sidebar container (<code>#d4h5-sidebar</code>, <code>aside</code>, <code>nav</code>, etc.)</li>
+        <li>Waits for ≥10 matching doc links to appear (configurable via <code>MIN_EXPECTED_TOC_LINKS</code>)</li>
+        <li>Stability check: polls every 1 second, waits until link count stops changing for 2 consecutive checks</li>
+        <li>Returns full page HTML</li>
+      </ul>
+    </li>
+    <li><strong>Extract hierarchical TOC</strong> — <code>_extract_toc_hierarchy()</code>:
+      <ul>
+        <li>Finds the TOC container in the sidebar</li>
+        <li>Walks the nested <code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code> DOM tree recursively</li>
+        <li>Assigns hierarchical page numbers based on DOM nesting depth (e.g., <code>1</code>, <code>9</code>, <code>9.1</code>, <code>9.2</code>, <code>12.1</code>)</li>
+        <li>Handles non-link group headers (collapsible sections with children but no page)</li>
+        <li>Validates URLs: must match the doc-prefix pattern and end in <code>.html</code></li>
+        <li>Deduplicates URLs</li>
+      </ul>
+    </li>
+    <li><strong>Returns</strong> a list of <code>(hierarchical_number, page_title, full_url)</code> tuples.</li>
+  </ol>
+
+  <hr>
+
+  <h3>5.2 Page Fetcher (<code>fetcher/fetch_page.py</code>)</h3>
+
+  <p><strong>Challenge:</strong> SAP Help Portal pages are entirely JavaScript-rendered — a simple HTTP GET returns an empty shell.</p>
+  <p><strong>Solution:</strong> Use Selenium with headless Chrome and explicit waits.</p>
+
+  <table>
+    <thead>
+      <tr><th>Step</th><th>Action</th><th>Detail</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Create Chrome driver</td><td>Headless, no-sandbox, 1920×1080 viewport</td></tr>
+      <tr><td>2</td><td>Navigate to URL</td><td><code>driver.get(url)</code></td></tr>
+      <tr><td>3</td><td>Wait for content</td><td>SAP pages: wait for <code>div#page</code>, <code>[role="main"]</code>, or <code>article</code> with &gt;100 chars of text</td></tr>
+      <tr><td>4</td><td>Content stabilisation</td><td>Poll every 0.5s until body text length stops growing (max 5s)</td></tr>
+      <tr><td>5</td><td>Return HTML</td><td><code>driver.page_source</code></td></tr>
+      <tr><td>6</td><td>Validate</td><td>Check for error markers ("page not found", "503", etc.) and minimum visible text length</td></tr>
+      <tr><td>7</td><td>Retry</td><td>If validation fails, retry up to 3 times with exponential backoff</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <strong>Note:</strong> Non-SAP pages are fetched via simple <code>requests.get()</code> as a fast path.
+  </div>
+
+  <hr>
+
+  <h3>5.3 Content Parser (<code>parser/parse_content.py</code>)</h3>
+
+  <p><strong>Challenge:</strong> Raw HTML from SAP Help contains navigation menus, breadcrumbs, cookie banners, feedback widgets, icon SVGs, and duplicated headings — none of which are actual documentation content.</p>
+
+  <table>
+    <thead>
+      <tr><th>Step</th><th>What It Does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Remove <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;svg&gt;</code>, <code>&lt;iframe&gt;</code>, <code>&lt;noscript&gt;</code></td></tr>
+      <tr><td>2</td><td>Find main content area: <code>div#page</code> → <code>[role="main"]</code> → <code>&lt;main&gt;</code> → <code>&lt;article&gt;</code> → <code>&lt;body&gt;</code></td></tr>
+      <tr><td>3</td><td>Pre-process SAP menu cascades: <code>&lt;span class="menucascade"&gt;</code> → "Menu &gt; Submenu &gt; Item"</td></tr>
+      <tr><td>4</td><td>Remove UI elements: <code>&lt;nav&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>, breadcrumbs, search, cookie banners, buttons</td></tr>
+      <tr><td>5</td><td>Wrap bare inline text in <code>&lt;section&gt;</code> elements into <code>&lt;p&gt;</code> tags (SAP DITA rendering quirk)</td></tr>
+      <tr><td>6</td><td>Extract text from block elements in order: <code>h1-h6</code>, <code>p</code>, <code>ol</code>, <code>ul</code>, <code>aside</code>, <code>pre</code>, <code>table</code>, <code>dl</code></td></tr>
+      <tr><td>7</td><td>Deduplicate headings and content lines</td></tr>
+      <tr><td>8</td><td>Return clean, structured text</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h3>5.4 Smart Comparator (<code>comparator/compare_content.py</code>)</h3>
+
+  <p><strong>Challenge:</strong> SAP pages have cosmetic differences between fetches (whitespace changes, bullet character variations, arrow symbol variants). A naive diff would produce false positives on every run.</p>
+
+  <pre><code>Old Text                          New Text
+    │                                 │
+    ▼                                 ▼
+Normalize each line:              Normalize each line:
+  • Strip bullets (•·-*)            • Strip bullets
+  • Strip step numbers (3.)         • Strip step numbers
+  • Normalize arrows (→►▶) → >     • Normalize arrows
+  • Collapse whitespace             • Collapse whitespace
+  • Lowercase                       • Lowercase
+  • Filter noise lines              • Filter noise lines
+    │                                 │
+    ▼                                 ▼
+Count occurrences                 Count occurrences
+(Counter dict)                    (Counter dict)
+    │                                 │
+    └────────────┬────────────────────┘
+                 │
+                 ▼
+        Count-aware diff:
+        For each unique normalised line:
+          old_count vs new_count
+          Δ &gt; 0 → additions
+          Δ &lt; 0 → removals
+                 │
+                 ▼
+        Classify each change:
+          instruction → HIGH
+          prerequisite → HIGH
+          section_header → HIGH
+          note → MEDIUM
+          content → MEDIUM
+                 │
+                 ▼
+        Structural validation:
+          numbering gaps
+          missing sections
+          removed prerequisites
+                 │
+                 ▼
+        Return: {has_changes, added[], removed[],
+                 structural_warnings[], max_severity}</code></pre>
+
+  <h4>Severity Classification Rules</h4>
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Detection Rule</th><th>Severity</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>instruction</code></td><td>First word is an action verb (choose, select, click, navigate, etc.)</td><td><span class="badge badge-high">HIGH</span></td></tr>
+      <tr><td><code>section_header</code></td><td>Line text matches Prerequisites, Procedure, Results, etc.</td><td><span class="badge badge-high">HIGH</span></td></tr>
+      <tr><td><code>prerequisite</code></td><td>Starts with "you've", "you need", "you must", etc.</td><td><span class="badge badge-high">HIGH</span></td></tr>
+      <tr><td><code>note</code></td><td>Starts with "note:"</td><td><span class="badge badge-medium">MEDIUM</span></td></tr>
+      <tr><td><code>content</code></td><td>General text content</td><td><span class="badge badge-medium">MEDIUM</span></td></tr>
+      <tr><td><code>noise</code></td><td>Separators, empty lines, table borders</td><td>Filtered out</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h3>5.5 Email Notifier (<code>notifier/send_email.py</code>)</h3>
+
+  <p>Sends a multipart email with both plain text and HTML versions:</p>
+  <ul>
+    <li><strong>Plain text:</strong> Structured report with ASCII tables</li>
+    <li><strong>HTML:</strong> Premium responsive email with status banners, metric cards, change detail cards with severity badges, and a full monitoring table with links</li>
+  </ul>
+
+  <p><strong>Supports:</strong></p>
+  <ul>
+    <li>Multiple recipients (comma or semicolon separated)</li>
+    <li>Office 365 SMTP (<code>smtp.office365.com:587</code>)</li>
+    <li>Gmail SMTP (<code>smtp.gmail.com:587</code>)</li>
+    <li>TLS encryption</li>
+  </ul>
+
+  <hr>
+
+  <h3>5.6 Cloud Storage (<code>storage/gcs_storage.py</code>)</h3>
+
+  <p>Handles persistent storage for Cloud Run (where containers are ephemeral):</p>
+  <table>
+    <thead>
+      <tr><th>Function</th><th>What It Does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>is_gcs_enabled()</code></td><td>Checks if <code>GCS_BUCKET_NAME</code> env var is set and <code>google-cloud-storage</code> is installed</td></tr>
+      <tr><td><code>download_all_snapshots()</code></td><td>Downloads all <code>snapshots/*.txt</code> from GCS to local directory</td></tr>
+      <tr><td><code>upload_all_snapshots()</code></td><td>Uploads all local <code>.txt</code> files to GCS; deletes stale GCS files not present locally</td></tr>
+      <tr><td><code>download_snapshot()</code></td><td>Downloads a single snapshot file</td></tr>
+      <tr><td><code>upload_snapshot()</code></td><td>Uploads a single snapshot file</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6: DATA FLOW DIAGRAMS -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s6">6. Data Flow Diagrams</h2>
+
+  <h3>Complete Application Data Flow</h3>
+  <pre><code>┌──────────────────────────────────────────────────────────────────────────────┐
+│                                  TRIGGER                                     │
+│  Cloud Scheduler HTTP POST  /  Local scheduler.py  /  Manual python main.py │
+└────────────────────────────────────┬─────────────────────────────────────────┘
+                                     │
+                                     ▼
+                           ┌─────────────────┐
+                           │    main.main()   │
+                           │   ORCHESTRATOR   │
+                           └────────┬────────┘
+                                    │
+              ┌─────────────────────┼──────────────────────┐
+              ▼                     ▼                      ▼
+     ┌────────────────┐   ┌─────────────────┐   ┌──────────────────┐
+     │  PHASE 1       │   │  PHASE 2        │   │  config/         │
+     │  GCS Download  │   │  Discover +     │   │  settings.py     │
+     │  (Cloud mode)  │   │  Fetch Pages    │   │  (all settings)  │
+     │                │   │                 │   └──────────────────┘
+     │  gcs_storage.py│   │  discover_urls  │
+     │  ───────────── │   │  fetch_page     │
+     │  GCS Bucket    │   │  parse_content  │
+     │  ↓ download    │   │  ───────────── │
+     │  snapshots/    │   │  Selenium/Chrome│
+     └────────┬───────┘   │  SAP Help Portal│
+              │           └────────┬────────┘
+              │                    │
+              ▼                    ▼
+     ┌─────────────────────────────────────┐
+     │            PHASE 3                   │
+     │     Compare old vs. new content     │
+     │                                      │
+     │     comparator/compare_content.py   │
+     │     ─────────────────────────────── │
+     │     Normalize → Diff → Classify →   │
+     │     Structural validation           │
+     └──────────────────┬──────────────────┘
+                        │
+              ┌─────────┼─────────┐
+              ▼                   ▼
+     ┌──────────────────┐  ┌──────────────────┐
+     │    PHASE 4       │  │    PHASE 5       │
+     │  Save Snapshots  │  │  Send Email      │
+     │  + GCS Upload    │  │  Notification    │
+     │                  │  │                  │
+     │  save_snapshot() │  │  build_notif()   │
+     │  gcs_storage.py  │  │  send_email()    │
+     │  ──────────────  │  │  ──────────────  │
+     │  Local files  →  │  │  SMTP Server     │
+     │  GCS bucket      │  │  (Office 365)    │
+     └──────────────────┘  └──────────────────┘</code></pre>
+
+  <h3>Snapshot Lifecycle</h3>
+  <pre><code>FIRST RUN (no previous snapshots):
+
+  SAP Help ──► Fetch HTML ──► Extract Text ──► Save as .txt
+                                                │
+                                                ▼
+                                        snapshots/1_Overview.txt
+                                        snapshots/2_Target.txt
+                                        snapshots/...
+                                                │
+                                         Upload to GCS
+
+
+SUBSEQUENT RUNS:
+
+  GCS ──► Download .txt ──► previous_snapshots (in memory)
+                                    │
+  SAP Help ──► Fetch ──► Extract ──► Compare ──► Changes?
+                                    │              │
+                                    │         Yes: Email report
+                                    │              │
+                                    ▼              ▼
+                            Save updated .txt   Upload to GCS</code></pre>
+
+  <h3>Module Interaction Map</h3>
+  <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                      main.py (orchestrator)                     │
+│                                                                 │
+│  Imports and calls ALL other modules in sequence:               │
+│                                                                 │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌───────────────┐  │
+│  │ config/  │  │ fetcher/ │  │ parser/  │  │  comparator/  │  │
+│  │settings  │  │discover  │  │parse     │  │  compare      │  │
+│  │          │  │fetch     │  │content   │  │  content      │  │
+│  └──────────┘  └──────────┘  └──────────┘  └───────────────┘  │
+│                                                                 │
+│  ┌──────────┐  ┌──────────┐                                    │
+│  │notifier/ │  │ storage/ │                                    │
+│  │send_email│  │gcs_store │                                    │
+│  └──────────┘  └──────────┘                                    │
+└─────────────────────────────────────────────────────────────────┘
+         ▲                ▲
+         │                │
+┌────────────────┐  ┌──────────────┐
+│cloud_run_app.py│  │ scheduler.py │
+│  Flask wrapper │  │  APScheduler │
+│  (Cloud Run)   │  │  (local dev) │
+└────────────────┘  └──────────────┘</code></pre>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 7: EXECUTION MODES -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s7">7. Execution Modes</h2>
+
+  <p>The application supports four ways to run:</p>
+
+  <h3>Mode 1: Direct Execution (Development)</h3>
+  <pre><code>cd sap-doc-monitor
+python main.py</code></pre>
+  <ul>
+    <li>Runs once and exits</li>
+    <li>Uses <code>config/settings.py</code> for configuration (hardcoded values)</li>
+    <li>Stores snapshots in local <code>snapshots/</code> directory</li>
+    <li>No GCS integration (<code>GCS_BUCKET_NAME</code> not set)</li>
+  </ul>
+
+  <h3>Mode 2: Local Scheduler</h3>
+  <pre><code>cd sap-doc-monitor
+python scheduler.py</code></pre>
+  <ul>
+    <li>Runs <code>main.main()</code> immediately, then repeats on a schedule (default: every 1 hour)</li>
+    <li>Uses APScheduler with configurable cron expressions</li>
+    <li>Logs to <code>scheduler.log</code> and console</li>
+    <li>Runs indefinitely until Ctrl+C</li>
+  </ul>
+
+  <h3>Mode 3: GCP Cloud Run (Production)</h3>
+  <pre><code>Cloud Scheduler → HTTP POST → Cloud Run → Flask → main.main()</code></pre>
+  <ul>
+    <li>Container starts on-demand when triggered</li>
+    <li>Uses <code>config/settings.cloud.py</code> (reads all settings from environment variables)</li>
+    <li>Snapshots persisted to GCS bucket between runs</li>
+    <li>Email password from Secret Manager</li>
+    <li>Container destroyed after each run (ephemeral)</li>
+  </ul>
+
+  <h3>Mode 4: GitHub Actions (Alternative CI/CD)</h3>
+  <pre><code># .github/workflows/monitor.yml
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:        # Manual trigger from GitHub UI</code></pre>
+  <ul>
+    <li>Runs on GitHub's infrastructure (ubuntu-latest)</li>
+    <li>Installs Chrome + dependencies each run</li>
+    <li>Reads secrets from GitHub repository secrets</li>
+    <li>Snapshots committed back to repo (requires additional setup)</li>
+  </ul>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 8: EMAIL NOTIFICATION SYSTEM -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s8">8. Email Notification System</h2>
+
+  <h3>Email Subject Lines</h3>
+  <table>
+    <thead>
+      <tr><th>Scenario</th><th>Subject</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Changes detected (HIGH)</td><td><code>SAP APM Doc Monitor — Changes Detected [HIGH]: 2 Modified</code></td></tr>
+      <tr><td>Changes detected (MEDIUM)</td><td><code>SAP APM Doc Monitor — Changes Detected [MEDIUM]: 1 New, 1 Modified</code></td></tr>
+      <tr><td>New + modified + removed</td><td><code>SAP APM Doc Monitor — Changes Detected: 1 New, 2 Modified, 1 Removed</code></td></tr>
+      <tr><td>No changes</td><td><code>SAP APM Doc Monitor — No Changes Detected</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Email Body Structure (HTML)</h3>
+  <pre><code>┌─────────────────────────────────────────────────┐
+│  SAP APM Documentation Monitor  │  Timestamp    │  ← Dark header
+├─────────────────────────────────────────────────┤
+│  ✓ No Changes Detected (or ⚠ Changes Detected) │  ← Status banner
+├─────────────────────────────────────────────────┤
+│  [25]        [0]         [0]        [25]        │  ← Metric cards
+│  Pages    New Pages   Modified   Unchanged      │
+│  Checked    Added      Pages      Pages         │
+├─────────────────────────────────────────────────┤
+│  Timestamp    │  Run Status                      │  ← Detail tiles
+│  Next Run     │  Changes Summary                 │
+├─────────────────────────────────────────────────┤
+│  New Pages Added: 1                              │  ← Change sections
+│  ┌── Page Name ──── Click to view ───┐           │     (if any)
+│  │   15 lines of content discovered  │           │
+│  │   Preview: 1. First line...       │           │
+│  └───────────────────────────────────┘           │
+├─────────────────────────────────────────────────┤
+│  Modified Pages: 1                               │
+│  ┌── Page Name ───────── [HIGH] ──────┐          │
+│  │   +3 additions · -1 removals       │          │
+│  │   + [HIGH] New instruction text    │          │
+│  │   - [HIGH] Removed step text       │          │
+│  └────────────────────────────────────┘          │
+├─────────────────────────────────────────────────┤
+│  Pages Monitored: 25                             │  ← Full table
+│  S.No. │ Page No. │ Status │ Page Name │ Link   │
+│    1   │    1     │  ● OK  │ Overview  │ Open   │
+│    2   │    2     │  ● OK  │ Target... │ Open   │
+│   ...  │   ...   │  ...   │    ...    │  ...   │
+├─────────────────────────────────────────────────┤
+│  Automated Notification          │  Timestamp    │  ← Footer
+└─────────────────────────────────────────────────┘</code></pre>
+
+  <h3>Next Run Scheduling Logic</h3>
+  <pre><code>current_hour = run_timestamp.hour
+if current_hour &lt; 10:
+    next_run = today at 10:00 AM
+elif current_hour &lt; 18:
+    next_run = today at 6:00 PM
+else:
+    next_run = tomorrow at 10:00 AM</code></pre>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 9: SAFETY & VALIDATION -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s9">9. Safety &amp; Validation Mechanisms</h2>
+
+  <p>The application has multiple safety layers to prevent false alerts and data corruption:</p>
+
+  <h3>Layer 1: Fetch Validation</h3>
+  <table>
+    <thead>
+      <tr><th>Check</th><th>Threshold</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>HTML is None or empty</td><td>Any</td><td>Skip page, log warning</td></tr>
+      <tr><td>Error markers in HTML</td><td>"page not found", "503", "access denied", etc.</td><td>Retry (up to 3 times)</td></tr>
+      <tr><td>Visible text too short</td><td>&lt; 100 characters</td><td>Retry, then skip</td></tr>
+      <tr><td>Content element not found</td><td>SAP selectors timeout</td><td>Retry, then skip</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Layer 2: Content Validation</h3>
+  <table>
+    <thead>
+      <tr><th>Check</th><th>Threshold</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Extracted text too short</td><td>&lt; 100 characters (<code>MIN_SNAPSHOT_LENGTH</code>)</td><td>Do NOT save snapshot, do NOT report as change</td></tr>
+      <tr><td>Content is None</td><td>Any</td><td>Skip page entirely</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Layer 3: Snapshot Integrity</h3>
+  <table>
+    <thead>
+      <tr><th>Check</th><th>Condition</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Suspicious shrinkage</td><td>Content shrank &gt;70% AND zero additions</td><td>Block snapshot overwrite — likely rendering failure</td></tr>
+      <tr><td>Fetch failure</td><td><code>fetch_page()</code> raised RuntimeError</td><td>Preserve previous snapshot, skip comparison</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Layer 4: Comparison Normalization</h3>
+  <table>
+    <thead>
+      <tr><th>Normalization</th><th>What It Strips</th><th>Why</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Bullet removal</td><td><code>•</code>, <code>·</code>, <code>-</code>, <code>*</code>, <code>▶</code>, etc.</td><td>SAP inconsistently uses different bullet chars</td></tr>
+      <tr><td>Step number removal</td><td><code>3.</code>, <code>1)</code>, etc.</td><td>Step renumbering is not a content change</td></tr>
+      <tr><td>Arrow normalization</td><td><code>→</code>, <code>►</code>, <code>▶</code>, <code>➜</code>, <code>»</code> → <code>&gt;</code></td><td>SAP uses different arrow symbols interchangeably</td></tr>
+      <tr><td>Whitespace collapse</td><td>Multiple spaces/tabs → single space</td><td>Formatting differences are not content changes</td></tr>
+      <tr><td>Case normalization</td><td>Lowercase everything</td><td>"Choose SAVE" vs "Choose Save" is the same instruction</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Layer 5: Structural Validation (New Issues Only)</h3>
+  <div class="callout callout-warning">
+    <strong>Important:</strong> The comparator only reports structural warnings that are <strong>new</strong> — if a numbering gap already existed in the previous snapshot, it won't be re-reported every run.
+  </div>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 10: CONFIGURATION REFERENCE -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2 id="s10">10. Configuration Reference</h2>
+
+  <h3><code>config/settings.py</code> (Local Development)</h3>
+  <pre><code># Auto-discovery: provide one base URL
+BASE_DOCUMENTATION_URL = "https://help.sap.com/docs/SAP_APM/..."
+
+# Manual mode: list specific URLs (leave empty for auto-discovery)
+DOCUMENT_URLS = {}
+
+# Local snapshot storage
+SNAPSHOTS_DIR = "snapshots"
+
+# Email configuration
+EMAIL_SENDER = "sender@example.com"
+EMAIL_PASSWORD = "app-password"
+EMAIL_RECEIVER = "recipient1@example.com, recipient2@example.com"
+SMTP_SERVER = "smtp.office365.com"
+SMTP_PORT = 587</code></pre>
+
+  <h3><code>config/settings.cloud.py</code> (Cloud Run — reads from env vars)</h3>
+  <pre><code>BASE_DOCUMENTATION_URL = os.getenv('BASE_DOCUMENTATION_URL', "...")
+DOCUMENT_URLS = {}
+SNAPSHOTS_DIR = os.getenv('SNAPSHOTS_DIR', "snapshots")
+EMAIL_SENDER = os.getenv('EMAIL_SENDER', "...")
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', "...")  # From Secret Manager
+EMAIL_RECEIVER = os.getenv('EMAIL_RECEIVER', "...")
+SMTP_SERVER = os.getenv('SMTP_SERVER', "smtp.office365.com")
+SMTP_PORT = int(os.getenv('SMTP_PORT', "587"))</code></pre>
+
+  <h3>Environment Variables (Cloud Run)</h3>
+  <table>
+    <thead>
+      <tr><th>Variable</th><th>Source</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>BASE_DOCUMENTATION_URL</code></td><td><code>--set-env-vars</code></td><td>SAP documentation base URL</td></tr>
+      <tr><td><code>SNAPSHOTS_DIR</code></td><td><code>--set-env-vars</code></td><td>Local path for snapshots (usually <code>/app/snapshots</code>)</td></tr>
+      <tr><td><code>EMAIL_SENDER</code></td><td><code>--set-env-vars</code></td><td>SMTP sender email address</td></tr>
+      <tr><td><code>EMAIL_PASSWORD</code></td><td>Secret Manager (<code>--update-secrets</code>)</td><td>SMTP password (securely stored)</td></tr>
+      <tr><td><code>EMAIL_RECEIVER</code></td><td><code>--set-env-vars</code></td><td>Comma-separated recipient list</td></tr>
+      <tr><td><code>SMTP_SERVER</code></td><td><code>--set-env-vars</code></td><td>SMTP server hostname</td></tr>
+      <tr><td><code>SMTP_PORT</code></td><td><code>--set-env-vars</code></td><td>SMTP port (usually 587)</td></tr>
+      <tr><td><code>GCS_BUCKET_NAME</code></td><td><code>--set-env-vars</code></td><td>GCS bucket for persistent snapshots</td></tr>
+      <tr><td><code>PORT</code></td><td>Cloud Run (auto)</td><td>HTTP port for Flask (default 8080)</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SUMMARY -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <h2>Summary: How the Entire System Fits Together</h2>
+
+  <pre><code>┌─── DEVELOPMENT ────────────────────────────────────────────────────┐
+│                                                                     │
+│   python main.py  →  Discover pages  →  Fetch  →  Compare         │
+│                      →  Save snapshots locally  →  Send email      │
+│                                                                     │
+│   python scheduler.py  →  Same thing, every N hours                │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─── PRODUCTION (GCP Cloud Run) ─────────────────────────────────────┐
+│                                                                     │
+│   Cloud Scheduler ──(HTTP POST)──► Cloud Run container:            │
+│     │                                                               │
+│     ├── Flask receives request                                     │
+│     ├── Phase 1: Download snapshots from GCS                       │
+│     ├── Phase 2: Discover + fetch all SAP doc pages                │
+│     ├── Phase 3: Compare old vs new (smart diff + severity)        │
+│     ├── Phase 4: Save snapshots + upload to GCS                    │
+│     ├── Phase 5: Send HTML email report                            │
+│     └── Return HTTP 200/500                                        │
+│                                                                     │
+│   Supporting services:                                              │
+│     GCS Bucket ────── persistent snapshot storage                  │
+│     Secret Manager ── email password                               │
+│     Service Account ─ OIDC authentication for scheduler            │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘</code></pre>
+
+  <blockquote>
+    <p><strong>The core logic is identical regardless of execution mode.</strong> The only differences are: how the app is triggered (manual / scheduler / HTTP), where settings come from (file / env vars), and where snapshots are stored (local filesystem / GCS).</p>
+  </blockquote>
+
+</div>
+</body>
+</html>

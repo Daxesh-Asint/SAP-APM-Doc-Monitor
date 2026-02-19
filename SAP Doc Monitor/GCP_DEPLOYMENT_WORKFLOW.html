@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SAP Doc Monitor — GCP Deployment Workflow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: #1e2330;
+    background: #ffffff;
+    padding: 0;
+    margin: 0;
+  }
+
+  .page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 56px;
+  }
+
+  /* Header banner */
+  .doc-header {
+    background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+    color: white;
+    padding: 32px 40px;
+    border-radius: 10px;
+    margin-bottom: 36px;
+    box-shadow: 0 4px 20px rgba(26,115,232,0.3);
+  }
+  .doc-header h1 {
+    font-size: 20pt;
+    font-weight: 700;
+    color: white;
+    border: none;
+    padding: 0;
+    margin: 0 0 6px 0;
+  }
+  .doc-header .subtitle {
+    font-size: 10pt;
+    opacity: 0.85;
+    font-weight: 400;
+  }
+
+  h1 { display: none; } /* Hide the first H1 since we have the banner */
+
+  h2 {
+    font-size: 15pt;
+    font-weight: 700;
+    color: #1a73e8;
+    border-bottom: 2px solid #e8f0fe;
+    padding-bottom: 8px;
+    margin: 36px 0 16px 0;
+  }
+
+  h3 {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #1e2330;
+    margin: 24px 0 10px 0;
+    padding-left: 12px;
+    border-left: 3px solid #1a73e8;
+  }
+
+  h4 {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #3c4043;
+    margin: 16px 0 8px 0;
+  }
+
+  p {
+    margin: 8px 0 12px 0;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px 0;
+    font-size: 9.5pt;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  }
+
+  thead tr {
+    background: linear-gradient(135deg, #1a73e8, #1557b0);
+    color: white;
+  }
+
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9pt;
+    letter-spacing: 0.02em;
+  }
+
+  tbody tr:nth-child(even) { background: #f8f9ff; }
+  tbody tr:nth-child(odd) { background: #ffffff; }
+  tbody tr:hover { background: #e8f0fe; }
+
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e8eaf6;
+    vertical-align: top;
+  }
+
+  /* Code blocks */
+  pre {
+    background: #1e2330;
+    color: #e8eaf6;
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 12px 0 16px 0;
+    font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 8.5pt;
+    line-height: 1.6;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  code {
+    font-family: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 8.5pt;
+    background: #e8f0fe;
+    color: #1a73e8;
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  pre code {
+    background: transparent;
+    color: #e8eaf6;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  /* Blockquotes */
+  blockquote {
+    border-left: 4px solid #1a73e8;
+    background: #e8f0fe;
+    color: #1557b0;
+    padding: 12px 16px;
+    margin: 12px 0 16px 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    font-size: 10pt;
+  }
+
+  blockquote p { margin: 0; }
+
+  /* Horizontal rules */
+  hr {
+    border: none;
+    border-top: 1px solid #e8eaf6;
+    margin: 28px 0;
+  }
+
+  /* Lists */
+  ul, ol {
+    margin: 8px 0 12px 0;
+    padding-left: 24px;
+  }
+
+  li { margin: 4px 0; }
+
+  /* Strong/bold */
+  strong { color: #1e2330; font-weight: 600; }
+
+  /* TOC */
+  .toc {
+    background: #f8f9ff;
+    border: 1px solid #e8eaf6;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 9.5pt;
+  }
+
+  /* Print settings */
+  @media print {
+    body { font-size: 9.5pt; }
+    h2 { page-break-before: auto; }
+    pre { page-break-inside: avoid; font-size: 7.5pt; }
+    table { page-break-inside: avoid; font-size: 8.5pt; }
+    blockquote { page-break-inside: avoid; }
+    .doc-header { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="doc-header">
+    <h1>SAP Doc Monitor</h1>
+    <div class="subtitle">Complete GCP Deployment Workflow Guide &nbsp;·&nbsp; Generated February 19, 2026</div>
+  </div>
+  <h1 id="sap-doc-monitor-complete-gcp-workflow-guide">SAP Doc Monitor — Complete GCP Workflow Guide</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-gcp-services-used--their-purpose">GCP Services Used &amp; Their Purpose</a></li>
+<li><a href="#2-one-time-deployment-workflow-step-by-step">One-Time Deployment Workflow (Step-by-Step)</a></li>
+<li><a href="#3-runtime-workflow-when-cloud-scheduler-fires">Runtime Workflow (When Cloud Scheduler Fires)</a></li>
+<li><a href="#4-visual-diagrams">Visual Diagrams</a></li>
+</ol>
+<hr />
+<h2 id="1-gcp-services-used-their-purpose">1. GCP Services Used &amp; Their Purpose</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>GCP Service</th>
+<th>Purpose in This Project</th>
+<th>Used During</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Cloud Build</strong></td>
+<td>Builds the Docker image from the Dockerfile on Google's servers</td>
+<td>Deployment only</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Artifact Registry / Container Registry</strong></td>
+<td>Stores the built Docker image (<code>gcr.io/{PROJECT_ID}/sap-doc-monitor</code>)</td>
+<td>Deployment (image storage for Cloud Run)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Cloud Run</strong></td>
+<td>Runs the containerized Python app (Flask HTTP server) that performs the actual monitoring</td>
+<td>Deployment + Runtime</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Cloud Storage (GCS)</strong></td>
+<td>Persistently stores document snapshots (<code>.txt</code> files) between runs — because Cloud Run containers are <strong>ephemeral</strong> (destroyed after each run)</td>
+<td>Runtime only</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Secret Manager</strong></td>
+<td>Securely stores the email SMTP password (<code>email-password</code>). Cloud Run injects it as the <code>EMAIL_PASSWORD</code> environment variable at runtime</td>
+<td>Runtime only</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Service Account</strong> (<code>sap-monitor-scheduler</code>)</td>
+<td>An identity that gives Cloud Scheduler permission to invoke the <strong>private</strong> (unauthenticated access blocked) Cloud Run service using OIDC tokens</td>
+<td>Runtime only</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Cloud Scheduler</strong></td>
+<td>The <strong>trigger</strong> — sends an HTTP POST request to Cloud Run on a cron schedule (twice daily at 9 AM and 6 PM) to start the monitoring job</td>
+<td>Runtime only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-clarification">Key Clarification</h3>
+<blockquote>
+<p><strong>GCS, Secret Manager, Service Account, and Cloud Scheduler are NOT part of the Docker build/push/deploy process.</strong>
+They are <strong>runtime infrastructure</strong> — they exist so the app can function correctly every time Cloud Run executes it.</p>
+</blockquote>
+<hr />
+<h2 id="2-one-time-deployment-workflow-step-by-step">2. One-Time Deployment Workflow (Step-by-Step)</h2>
+<p>Below is the <strong>exact sequence</strong> from the deployment script. Each step must complete before the next one starts.</p>
+<hr />
+<h3 id="step-1-configure-gcloud-cli">Step 1: Configure gcloud CLI</h3>
+<pre class="codehilite"><code class="language-bash">gcloud config set project {PROJECT_ID}
+gcloud config set run/region us-central1
+</code></pre>
+
+<p><strong>What happens:</strong> Sets your GCP project and region so all subsequent commands target the correct project.</p>
+<hr />
+<h3 id="step-2-enable-required-gcp-apis">Step 2: Enable Required GCP APIs</h3>
+<pre class="codehilite"><code class="language-bash">gcloud services enable \
+    run.googleapis.com \
+    cloudscheduler.googleapis.com \
+    cloudbuild.googleapis.com \
+    storage.googleapis.com \
+    secretmanager.googleapis.com
+</code></pre>
+
+<p><strong>What happens:</strong> Activates 5 GCP APIs. Without this, none of the services can be used.</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Enables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run.googleapis.com</code></td>
+<td>Cloud Run</td>
+</tr>
+<tr>
+<td><code>cloudscheduler.googleapis.com</code></td>
+<td>Cloud Scheduler</td>
+</tr>
+<tr>
+<td><code>cloudbuild.googleapis.com</code></td>
+<td>Cloud Build</td>
+</tr>
+<tr>
+<td><code>storage.googleapis.com</code></td>
+<td>Cloud Storage (GCS)</td>
+</tr>
+<tr>
+<td><code>secretmanager.googleapis.com</code></td>
+<td>Secret Manager</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="step-3-create-cloud-storage-gcs-bucket">Step 3: Create Cloud Storage (GCS) Bucket</h3>
+<pre class="codehilite"><code class="language-bash">gsutil mb -p {PROJECT_ID} -l us-central1 gs://{PROJECT_ID}-sap-snapshots
+</code></pre>
+
+<p><strong>What happens:</strong> Creates a GCS bucket named <code>{PROJECT_ID}-sap-snapshots</code>.</p>
+<p><strong>Why this is needed:</strong>
+- Cloud Run containers are <strong>ephemeral</strong> — all files inside them are destroyed when the container shuts down.
+- The app needs to compare <strong>current</strong> page content with <strong>previous</strong> snapshots to detect changes.
+- GCS provides <strong>persistent storage</strong> that survives across container restarts.
+- <strong>Before each run:</strong> All previous snapshot <code>.txt</code> files are <strong>downloaded</strong> from GCS into the container's local <code>snapshots/</code> directory. These downloaded snapshots represent the "last known state" of each SAP documentation page. The app then fetches the <strong>live</strong> content from SAP Help, extracts text, and compares it line-by-line against the downloaded snapshot for each page. If differences are found (additions, removals, or structural changes), those are flagged as changes.
+- <strong>After each run:</strong> The updated snapshots (with the latest content) are <strong>uploaded</strong> back to GCS, so the <strong>next</strong> scheduled run can download them and repeat the comparison cycle.</p>
+<p>Also grants the App Engine default service account <code>objectAdmin</code> permission on the bucket:</p>
+<pre class="codehilite"><code class="language-bash">gsutil iam ch serviceAccount:{PROJECT_ID}@appspot.gserviceaccount.com:objectAdmin gs://{BUCKET_NAME}
+</code></pre>
+
+<p><strong>Why this permission is needed:</strong>
+- Cloud Run runs your container under the <strong>App Engine default service account</strong> (<code>{PROJECT_ID}@appspot.gserviceaccount.com</code>).
+- The app code calls GCS APIs to download and upload snapshot files (<code>blob.download_to_filename()</code>, <code>blob.upload_from_filename()</code>, <code>blob.delete()</code>).
+- These API calls are authenticated as whatever service account Cloud Run is running under.
+- Without <code>objectAdmin</code> on the bucket, these calls would fail with <strong>403 Permission Denied</strong>.
+- <code>objectAdmin</code> grants full read/write/delete access to objects in the bucket — exactly what the app needs to download old snapshots, upload updated ones, and delete stale ones.</p>
+<hr />
+<h3 id="step-4-create-secret-in-secret-manager">Step 4: Create Secret in Secret Manager</h3>
+<pre class="codehilite"><code class="language-bash">echo -n &quot;{EMAIL_PASSWORD}&quot; | gcloud secrets create email-password \
+    --data-file=- --replication-policy=&quot;automatic&quot;
+</code></pre>
+
+<p><strong>What happens:</strong> Stores the email SMTP password as a secret named <code>email-password</code> in Secret Manager.</p>
+<p><strong>Why this is needed:</strong>
+- The app sends email notifications via SMTP (Office 365).
+- Hardcoding passwords in code or environment variables is insecure.
+- Secret Manager encrypts and securely stores the password.
+- Cloud Run mounts it at runtime as the <code>EMAIL_PASSWORD</code> environment variable (via <code>--update-secrets</code> flag during deploy).</p>
+<p>Also grants the service account permission to access the secret:</p>
+<pre class="codehilite"><code class="language-bash">gcloud secrets add-iam-policy-binding email-password \
+    --member=&quot;serviceAccount:{PROJECT_ID}@appspot.gserviceaccount.com&quot; \
+    --role=&quot;roles/secretmanager.secretAccessor&quot;
+</code></pre>
+
+<hr />
+<h3 id="step-5-build-docker-image-cloud-build">Step 5: Build Docker Image (Cloud Build)</h3>
+<pre class="codehilite"><code class="language-bash">gcloud builds submit --tag gcr.io/{PROJECT_ID}/sap-doc-monitor
+</code></pre>
+
+<p><strong>What happens (inside Google Cloud):</strong>
+1. Your local source code (Dockerfile + <code>sap-doc-monitor/</code> folder) is uploaded to Cloud Build.
+2. Cloud Build reads the <code>Dockerfile</code> and builds the image:
+   - Starts from <code>python:3.11-slim</code>
+   - Installs Chrome browser + Selenium dependencies
+   - Installs Python packages from <code>requirements.txt</code>
+   - Copies application code
+   - Replaces <code>settings.py</code> with <code>settings.cloud.py</code> (reads from env vars instead of hardcoded values)
+   - Sets the entrypoint to <code>python cloud_run_app.py</code> (Flask HTTP server)
+3. The built image is automatically <strong>pushed</strong> to <strong>Container Registry</strong> at <code>gcr.io/{PROJECT_ID}/sap-doc-monitor</code>.</p>
+<blockquote>
+<p><strong>This is the "build &amp; push" step you already know.</strong> Cloud Build does both in a single command — you don't need to run <code>docker build</code> and <code>docker push</code> separately.</p>
+</blockquote>
+<hr />
+<h3 id="step-6-deploy-to-cloud-run">Step 6: Deploy to Cloud Run</h3>
+<pre class="codehilite"><code class="language-bash">gcloud run deploy sap-doc-monitor \
+    --image gcr.io/{PROJECT_ID}/sap-doc-monitor \
+    --platform managed \
+    --region us-central1 \
+    --no-allow-unauthenticated \
+    --memory 2Gi \
+    --cpu 2 \
+    --timeout 900 \
+    --max-instances 1 \
+    --set-env-vars EMAIL_SENDER=&quot;...&quot; \
+    --set-env-vars EMAIL_RECEIVER=&quot;...&quot; \
+    --set-env-vars SMTP_SERVER=&quot;...&quot; \
+    --set-env-vars SMTP_PORT=&quot;587&quot; \
+    --set-env-vars BASE_DOCUMENTATION_URL=&quot;...&quot; \
+    --set-env-vars SNAPSHOTS_DIR=&quot;/app/snapshots&quot; \
+    --update-secrets EMAIL_PASSWORD=email-password:latest
+</code></pre>
+
+<p><strong>What happens:</strong>
+1. Cloud Run pulls the Docker image from Container Registry.
+2. Creates a managed Cloud Run <strong>service</strong> named <code>sap-doc-monitor</code>.
+3. Configures it with:
+   - <strong><code>--no-allow-unauthenticated</code></strong> — Only authenticated requests (with valid OIDC tokens) can invoke the service. Public access is blocked.
+   - <strong><code>--memory 2Gi --cpu 2</code></strong> — Sufficient resources for running headless Chrome.
+   - <strong><code>--timeout 900</code></strong> — 15-minute max execution time (scraping all pages takes time).
+   - <strong><code>--max-instances 1</code></strong> — Only one container runs at a time (prevents duplicate runs).
+   - <strong><code>--set-env-vars</code></strong> — Injects email config and doc URL as environment variables.
+   - <strong><code>--update-secrets EMAIL_PASSWORD=email-password:latest</code></strong> — Mounts the Secret Manager secret as the <code>EMAIL_PASSWORD</code> env var.
+4. Returns a <strong>Service URL</strong> (e.g., <code>https://sap-doc-monitor-xxxxx-uc.a.run.app</code>).</p>
+<blockquote>
+<p>The Flask app (<code>cloud_run_app.py</code>) listens on port 8080. When it receives a POST request at <code>/</code>, it calls <code>main.main()</code> which runs the full monitoring workflow.</p>
+</blockquote>
+<hr />
+<h3 id="step-7-create-service-account-for-cloud-scheduler">Step 7: Create Service Account for Cloud Scheduler</h3>
+<pre class="codehilite"><code class="language-bash">gcloud iam service-accounts create sap-monitor-scheduler \
+    --display-name &quot;SAP Monitor Scheduler&quot;
+</code></pre>
+
+<p>Then grant it permission to invoke the Cloud Run service:</p>
+<pre class="codehilite"><code class="language-bash">gcloud run services add-iam-policy-binding sap-doc-monitor \
+    --member=&quot;serviceAccount:sap-monitor-scheduler@{PROJECT_ID}.iam.gserviceaccount.com&quot; \
+    --role=&quot;roles/run.invoker&quot; \
+    --region=us-central1
+</code></pre>
+
+<p><strong>Why this is needed:</strong>
+- In Step 6, the Cloud Run service was deployed with <code>--no-allow-unauthenticated</code> (private).
+- Cloud Scheduler needs an <strong>identity</strong> to authenticate its requests to Cloud Run.
+- This service account has the <code>roles/run.invoker</code> role, which allows it to call the Cloud Run service.
+- Cloud Scheduler uses this service account to generate <strong>OIDC tokens</strong> attached to each HTTP request.</p>
+<hr />
+<h3 id="step-8-create-cloud-scheduler-job">Step 8: Create Cloud Scheduler Job</h3>
+<pre class="codehilite"><code class="language-bash">gcloud scheduler jobs create http sap-doc-monitor-job \
+    --location=us-central1 \
+    --schedule=&quot;0 9,18 * * *&quot; \
+    --uri={CLOUD_RUN_SERVICE_URL} \
+    --http-method=POST \
+    --oidc-service-account-email=sap-monitor-scheduler@{PROJECT_ID}.iam.gserviceaccount.com \
+    --oidc-token-audience={CLOUD_RUN_SERVICE_URL} \
+    --time-zone=&quot;America/New_York&quot;
+</code></pre>
+
+<p><strong>What happens:</strong> Creates a Cloud Scheduler job that:
+- Runs on a <strong>cron schedule</strong> (<code>0 9,18 * * *</code> = every day at 9:00 AM and 6:00 PM).
+- Sends an <strong>HTTP POST</strong> to the Cloud Run service URL.
+- Authenticates using <strong>OIDC token</strong> signed as the <code>sap-monitor-scheduler</code> service account.</p>
+<blockquote>
+<p><strong>This is the trigger that makes the entire system automated.</strong> Without Cloud Scheduler, you would have to manually call the Cloud Run URL every time.</p>
+</blockquote>
+<hr />
+<h3 id="step-9-test-the-deployment">Step 9: Test the Deployment</h3>
+<pre class="codehilite"><code class="language-bash">gcloud scheduler jobs run sap-doc-monitor-job --location=us-central1
+</code></pre>
+
+<p><strong>What happens:</strong> Manually triggers the scheduler job to verify the full pipeline works end-to-end.</p>
+<hr />
+<h2 id="3-runtime-workflow-when-cloud-scheduler-fires">3. Runtime Workflow (When Cloud Scheduler Fires)</h2>
+<p>Every time Cloud Scheduler triggers (daily at 9 AM and 6 PM, or manually), here is the <strong>exact sequence of events</strong>:</p>
+<hr />
+<h3 id="stage-1-cloud-scheduler-cloud-run-the-trigger">Stage 1: Cloud Scheduler → Cloud Run (THE TRIGGER)</h3>
+<pre class="codehilite"><code>Cloud Scheduler fires at 9:00 AM or 6:00 PM
+    │
+    ├── Generates an OIDC token (signed as sap-monitor-scheduler service account)
+    ├── Sends HTTP POST to Cloud Run service URL
+    │
+    ▼
+Cloud Run receives the authenticated HTTP POST request
+    │
+    ├── Verifies OIDC token → authenticated ✓
+    ├── Spins up a fresh container (cold start if no warm instance)
+    ├── Flask app (cloud_run_app.py) handles request at route '/'
+    ├── Calls main.main() — starts the monitoring logic
+    │
+    ▼
+</code></pre>
+
+<hr />
+<h3 id="stage-2-download-previous-snapshots-from-gcs">Stage 2: Download Previous Snapshots from GCS</h3>
+<pre class="codehilite"><code>main.main() starts
+    │
+    ├── Checks: is GCS_BUCKET_NAME env var set? (is_gcs_enabled())
+    │
+    ├── YES → GCS Mode (Cloud Run):
+    │   ├── Wipes any local .txt snapshots baked into the Docker image
+    │   ├── Downloads ALL previous .txt snapshot files from GCS bucket
+    │   │   (gs://{PROJECT_ID}-sap-snapshots/snapshots/*.txt)
+    │   └── These represent the &quot;last known state&quot; of each SAP doc page
+    │
+    ├── NO → Local Mode (development):
+    │   └── Uses snapshots already in the local snapshots/ directory
+    │
+    ▼
+</code></pre>
+
+<p><strong>Why this stage exists:</strong>
+Cloud Run containers are ephemeral — every container starts fresh with no memory of previous runs. GCS acts as the "persistent memory" between runs.</p>
+<hr />
+<h3 id="stage-3-discover-fetch-sap-documentation-pages">Stage 3: Discover &amp; Fetch SAP Documentation Pages</h3>
+<pre class="codehilite"><code>    │
+    ├── Auto-discovers all documentation page URLs from SAP Help TOC
+    │   (Uses Selenium + headless Chrome to load the TOC page)
+    │
+    ├── For each discovered page:
+    │   ├── Fetches the full HTML content (headless Chrome)
+    │   ├── Extracts text content from HTML (parser/parse_content.py)
+    │   └── Validates content (rejects pages with &lt; 100 chars — likely rendering failures)
+    │
+    ▼
+</code></pre>
+
+<hr />
+<h3 id="stage-4-compare-current-vs-previous-content">Stage 4: Compare Current vs. Previous Content</h3>
+<pre class="codehilite"><code>    │
+    ├── For each page:
+    │   ├── If NO previous snapshot exists → marks as NEW PAGE
+    │   ├── If previous snapshot exists → compares old text vs. new text
+    │   │   ├── Detects additions (new lines)
+    │   │   ├── Detects removals (deleted lines)
+    │   │   ├── Detects structural warnings
+    │   │   └── Validates: blocks suspicious changes (&gt;70% shrinkage = rendering failure)
+    │   └── Collects all changes into a report
+    │
+    ▼
+</code></pre>
+
+<hr />
+<h3 id="stage-5-save-updated-snapshots-upload-to-gcs">Stage 5: Save Updated Snapshots &amp; Upload to GCS</h3>
+<pre class="codehilite"><code>    │
+    ├── Saves updated/new snapshots to local filesystem inside container
+    │
+    ├── If GCS is enabled:
+    │   ├── Uploads ALL local snapshots to GCS bucket
+    │   └── Deletes stale GCS files that no longer exist locally (sync)
+    │
+    ▼
+</code></pre>
+
+<p><strong>Why this stage exists:</strong>
+The updated snapshots must be persisted to GCS so the <strong>next</strong> run (at 6 PM the same day, or 9 AM the next day) can download them and compare again.</p>
+<hr />
+<h3 id="stage-6-send-email-notification-secret-manager-provides-password">Stage 6: Send Email Notification (Secret Manager provides password)</h3>
+<pre class="codehilite"><code>    │
+    ├── Builds email notification (HTML + plain text) with:
+    │   ├── Summary of changes detected (or &quot;no changes&quot;)
+    │   ├── Details of additions/removals per page
+    │   └── Links to changed pages
+    │
+    ├── Reads EMAIL_PASSWORD from environment variable
+    │   (injected by Secret Manager via Cloud Run's --update-secrets)
+    │
+    ├── Connects to SMTP server (smtp.office365.com:587)
+    ├── Sends email to configured recipients
+    │
+    ▼
+</code></pre>
+
+<hr />
+<h3 id="stage-7-cloud-run-returns-response">Stage 7: Cloud Run Returns Response</h3>
+<pre class="codehilite"><code>    │
+    ├── Returns HTTP 200 (success) or HTTP 500 (error) to Cloud Scheduler
+    ├── Container may be kept warm briefly or shut down
+    │
+    ▼ DONE
+</code></pre>
+
+<hr />
+<h2 id="4-visual-diagrams">4. Visual Diagrams</h2>
+<h3 id="deployment-flow-one-time-setup">Deployment Flow (One-Time Setup)</h3>
+<pre class="codehilite"><code>Step 1-2: Configure gcloud + Enable APIs
+    │
+    ▼
+Step 3: Create GCS Bucket ─────────────────────────────────────┐
+    │                                                           │
+    ▼                                                           │
+Step 4: Create Secret (email-password) ──────────────────────┐ │
+    │                                                         │ │
+    ▼                                                         │ │
+Step 5: Cloud Build ──► Builds Docker Image                   │ │
+    │                                                         │ │
+    ▼                                                         │ │
+    Artifact Registry / Container Registry (stores image)     │ │
+    │                                                         │ │
+    ▼                                                         │ │
+Step 6: Cloud Run ◄── pulls image from registry               │ │
+    │                  ◄── mounts secret as env var ───────────┘ │
+    │                  ◄── uses GCS bucket for snapshots ────────┘
+    │
+    ▼
+Step 7: Create Service Account (sap-monitor-scheduler)
+    │    Grant roles/run.invoker on Cloud Run service
+    │
+    ▼
+Step 8: Cloud Scheduler ──► points to Cloud Run URL
+    │                        uses Service Account for OIDC auth
+    │
+    ▼
+Step 9: Test Run (manually trigger scheduler)
+</code></pre>
+
+<h3 id="runtime-flow-every-scheduled-run">Runtime Flow (Every Scheduled Run)</h3>
+<pre class="codehilite"><code>┌──────────────────┐
+│  CLOUD SCHEDULER │  ← Fires daily at 9 AM &amp; 6 PM (cron: 0 9,18 * * *)
+│  (THE TRIGGER)   │
+└────────┬─────────┘
+         │ HTTP POST + OIDC Token
+         ▼
+┌──────────────────┐     ┌──────────────────┐
+│    CLOUD RUN     │────►│  SECRET MANAGER  │
+│  (THE COMPUTE)   │     │  (EMAIL_PASSWORD)│
+│                  │     └──────────────────┘
+│  Flask App       │
+│  cloud_run_app.py│     ┌──────────────────┐
+│       │          │◄───►│   GCS BUCKET     │
+│       ▼          │     │  (SNAPSHOTS)     │
+│  main.main()     │     │                  │
+│    │             │     │ Download before  │
+│    ├─ Download   │────►│ Upload after     │
+│    ├─ Fetch SAP  │     └──────────────────┘
+│    ├─ Compare    │
+│    ├─ Upload     │     ┌──────────────────┐
+│    └─ Send Email │────►│   SMTP SERVER    │
+│                  │     │ (Office 365)     │
+└──────────────────┘     └──────────────────┘
+
+         │
+         ▼
+┌──────────────────┐
+│  SERVICE ACCOUNT │
+│ sap-monitor-     │  ← Provides OIDC identity for
+│ scheduler        │     Cloud Scheduler to authenticate
+└──────────────────┘     with private Cloud Run service
+</code></pre>
+
+<h3 id="complete-gcp-services-interaction-map">Complete GCP Services Interaction Map</h3>
+<pre class="codehilite"><code>┌─── DEPLOYMENT TIME ────────────────────────────────────────────────┐
+│                                                                     │
+│   Source Code ──► Cloud Build ──► Artifact Registry ──► Cloud Run  │
+│   (Dockerfile)    (builds)        (stores image)       (deploys)   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─── RUNTIME (Every 24 hours) ───────────────────────────────────────┐
+│                                                                     │
+│   Cloud Scheduler ──► Cloud Run ──► GCS (read/write snapshots)    │
+│   (trigger)    │      (execute)  └──► SMTP (send email)           │
+│                │                  └──► Secret Manager (get pwd)    │
+│                │                                                    │
+│                └── Service Account (authenticate the trigger)      │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+</code></pre>
+
+<hr />
+<h2 id="summary-why-each-service-exists">Summary: Why Each Service Exists</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>One-Line Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cloud Build</strong></td>
+<td>Builds the Docker image from source code on Google's servers (replaces local <code>docker build</code> + <code>docker push</code>)</td>
+</tr>
+<tr>
+<td><strong>Artifact Registry</strong></td>
+<td>Stores the built Docker image so Cloud Run can pull it</td>
+</tr>
+<tr>
+<td><strong>Cloud Run</strong></td>
+<td>Runs the containerized Flask app that performs the monitoring logic</td>
+</tr>
+<tr>
+<td><strong>GCS Bucket</strong></td>
+<td>Persistent storage for snapshots — because Cloud Run containers are destroyed after each run and lose all local files</td>
+</tr>
+<tr>
+<td><strong>Secret Manager</strong></td>
+<td>Securely stores the email password — injected into Cloud Run as an env var at runtime</td>
+</tr>
+<tr>
+<td><strong>Service Account</strong></td>
+<td>Gives Cloud Scheduler an authenticated identity to call the private (no public access) Cloud Run endpoint</td>
+</tr>
+<tr>
+<td><strong>Cloud Scheduler</strong></td>
+<td>The automated trigger — sends HTTP POST to Cloud Run on a cron schedule (9 AM &amp; 6 PM daily) so the monitoring runs automatically twice a day</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Bottom line:</strong> Cloud Build + Artifact Registry + Cloud Run = <strong>Deployment chain</strong>. GCS + Secret Manager + Service Account + Cloud Scheduler = <strong>Runtime infrastructure</strong> that makes the app work automatically and securely every day.</p>
+</blockquote>
+</div>
+</body>
+</html>
