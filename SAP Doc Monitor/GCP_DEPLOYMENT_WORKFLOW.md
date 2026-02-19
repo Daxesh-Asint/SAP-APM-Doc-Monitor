@@ -374,93 +374,140 @@ The updated snapshots must be persisted to GCS so the **next** run (at 6 PM the 
 
 ### Deployment Flow (One-Time Setup)
 
-```
-Step 1-2: Configure gcloud + Enable APIs
-    │
-    ▼
-Step 3: Create GCS Bucket ─────────────────────────────────────┐
-    │                                                           │
-    ▼                                                           │
-Step 4: Create Secret (email-password) ──────────────────────┐ │
-    │                                                         │ │
-    ▼                                                         │ │
-Step 5: Cloud Build ──► Builds Docker Image                   │ │
-    │                                                         │ │
-    ▼                                                         │ │
-    Artifact Registry / Container Registry (stores image)     │ │
-    │                                                         │ │
-    ▼                                                         │ │
-Step 6: Cloud Run ◄── pulls image from registry               │ │
-    │                  ◄── mounts secret as env var ───────────┘ │
-    │                  ◄── uses GCS bucket for snapshots ────────┘
-    │
-    ▼
-Step 7: Create Service Account (sap-monitor-scheduler)
-    │    Grant roles/run.invoker on Cloud Run service
-    │
-    ▼
-Step 8: Cloud Scheduler ──► points to Cloud Run URL
-    │                        uses Service Account for OIDC auth
-    │
-    ▼
-Step 9: Test Run (manually trigger scheduler)
+```mermaid
+flowchart TD
+    Start(["🚀 Start Deployment"])
+    Start --> S1
+
+    S1["Step 1 — Configure gcloud CLI\nSet project & region"]
+    S1 --> S2
+
+    S2["Step 2 — Enable GCP APIs\nCloud Run, Cloud Build, GCS,\nSecret Manager, Cloud Scheduler"]
+    S2 --> S3
+
+    S3["Step 3 — Create GCS Bucket\nPersistent snapshot storage"]
+    S3 --> S4
+
+    S4["Step 4 — Create Secret\nStore email password\nin Secret Manager"]
+    S4 --> S5
+
+    S5["Step 5 — Cloud Build\nBuild Docker image\nfrom source code"]
+    S5 --> S5a
+
+    S5a["Artifact Registry\nStores built Docker image"]
+    S5a --> S6
+
+    S6["Step 6 — Deploy to Cloud Run\nPulls image from registry\nMounts secret as env var\nConnects to GCS bucket"]
+    S6 --> S7
+
+    S7["Step 7 — Create Service Account\nsap-monitor-scheduler\nGrant Cloud Run invoker role"]
+    S7 --> S8
+
+    S8["Step 8 — Create Cloud Scheduler\nCron: 9 AM & 6 PM daily\nPoints to Cloud Run URL\nUses Service Account for auth"]
+    S8 --> S9
+
+    S9["Step 9 — Test Run\nManually trigger scheduler"]
+    S9 --> Done(["✅ Deployment Complete"])
+
+    style Start fill:#059669,color:#fff,stroke:none
+    style Done fill:#059669,color:#fff,stroke:none
+    style S1 fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
+    style S2 fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
+    style S3 fill:#FFF7ED,stroke:#F97316,color:#1E293B
+    style S4 fill:#F0FDF4,stroke:#22C55E,color:#1E293B
+    style S5 fill:#EDE9FE,stroke:#7C3AED,color:#1E293B
+    style S5a fill:#EDE9FE,stroke:#7C3AED,color:#1E293B
+    style S6 fill:#DBEAFE,stroke:#2563EB,color:#1E293B
+    style S7 fill:#FEF3C7,stroke:#F59E0B,color:#1E293B
+    style S8 fill:#FEF3C7,stroke:#F59E0B,color:#1E293B
+    style S9 fill:#FCE7F3,stroke:#EC4899,color:#1E293B
 ```
 
 ### Runtime Flow (Every Scheduled Run)
 
-```
-┌──────────────────┐
-│  CLOUD SCHEDULER │  ← Fires daily at 9 AM & 6 PM (cron: 0 9,18 * * *)
-│  (THE TRIGGER)   │
-└────────┬─────────┘
-         │ HTTP POST + OIDC Token
-         ▼
-┌──────────────────┐     ┌──────────────────┐
-│    CLOUD RUN     │────►│  SECRET MANAGER  │
-│  (THE COMPUTE)   │     │  (EMAIL_PASSWORD)│
-│                  │     └──────────────────┘
-│  Flask App       │
-│  cloud_run_app.py│     ┌──────────────────┐
-│       │          │◄───►│   GCS BUCKET     │
-│       ▼          │     │  (SNAPSHOTS)     │
-│  main.main()     │     │                  │
-│    │             │     │ Download before  │
-│    ├─ Download   │────►│ Upload after     │
-│    ├─ Fetch SAP  │     └──────────────────┘
-│    ├─ Compare    │
-│    ├─ Upload     │     ┌──────────────────┐
-│    └─ Send Email │────►│   SMTP SERVER    │
-│                  │     │ (Office 365)     │
-└──────────────────┘     └──────────────────┘
+```mermaid
+flowchart TD
+    Scheduler(["☁️ Cloud Scheduler\nTriggers twice daily"])
+    Scheduler --> CloudRun
 
-         │
-         ▼
-┌──────────────────┐
-│  SERVICE ACCOUNT │
-│ sap-monitor-     │  ← Provides OIDC identity for
-│ scheduler        │     Cloud Scheduler to authenticate
-└──────────────────┘     with private Cloud Run service
+    CloudRun["☁️ Cloud Run\nStarts the application"]
+    CloudRun --> Download
+
+    Download["☁️ Cloud Storage — GCS\nDownload previous snapshots"]
+    Download --> Discover
+
+    Discover["Discover SAP documentation pages\nvia Selenium — Web Automation"]
+    Discover --> Fetch
+
+    Fetch["Fetch all pages from SAP Help Portal\nvia Chrome Browser — Headless"]
+    Fetch --> Compare
+
+    Compare["Compare current content\nwith previous snapshots\nvia Comparator Engine"]
+    Compare --> Changed
+
+    Changed{"Any changes\ndetected?"}
+    Changed -->|No| DoneIdle(["✅ Done — No Changes"])
+    Changed -->|Yes| Save
+
+    Save["Save updated snapshots"]
+    Save --> Upload
+
+    Upload["☁️ Cloud Storage — GCS\nUpload new snapshots"]
+    Upload --> Secret
+
+    Secret["☁️ Secret Manager\nRetrieve email credentials"]
+    Secret --> Email
+
+    Email["Send email notification\nwith change report"]
+    Email --> DoneChanges(["✅ Done — Report Sent"])
+
+    style Scheduler fill:#4285F4,color:#fff,stroke:none
+    style CloudRun fill:#4285F4,color:#fff,stroke:none
+    style Download fill:#F4B400,color:#1E293B,stroke:none
+    style Discover fill:#E8F0FE,stroke:#4285F4,color:#1E293B
+    style Fetch fill:#E8F0FE,stroke:#4285F4,color:#1E293B
+    style Compare fill:#E8F0FE,stroke:#4285F4,color:#1E293B
+    style Changed fill:#FEF3C7,stroke:#F59E0B,color:#1E293B
+    style Save fill:#E8F0FE,stroke:#4285F4,color:#1E293B
+    style Upload fill:#F4B400,color:#1E293B,stroke:none
+    style Secret fill:#34A853,color:#fff,stroke:none
+    style Email fill:#EA4335,color:#fff,stroke:none
+    style DoneIdle fill:#059669,color:#fff,stroke:none
+    style DoneChanges fill:#059669,color:#fff,stroke:none
 ```
 
 ### Complete GCP Services Interaction Map
 
-```
-┌─── DEPLOYMENT TIME ────────────────────────────────────────────────┐
-│                                                                     │
-│   Source Code ──► Cloud Build ──► Artifact Registry ──► Cloud Run  │
-│   (Dockerfile)    (builds)        (stores image)       (deploys)   │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph DEPLOYMENT["🔧 DEPLOYMENT TIME — One-Time Setup"]
+        direction LR
+        Src["Source Code\n+ Dockerfile"] --> CB["☁️ Cloud Build\nBuilds image"]
+        CB --> AR["☁️ Artifact Registry\nStores image"]
+        AR --> CR1["☁️ Cloud Run\nDeploys service"]
+    end
 
-┌─── RUNTIME (Every 24 hours) ───────────────────────────────────────┐
-│                                                                     │
-│   Cloud Scheduler ──► Cloud Run ──► GCS (read/write snapshots)    │
-│   (trigger)    │      (execute)  └──► SMTP (send email)           │
-│                │                  └──► Secret Manager (get pwd)    │
-│                │                                                    │
-│                └── Service Account (authenticate the trigger)      │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+    subgraph RUNTIME["⚡ RUNTIME — Every Scheduled Run"]
+        direction LR
+        CS["☁️ Cloud Scheduler\nTrigger"] --> CR2["☁️ Cloud Run\nExecute"]
+        SA["☁️ Service Account\nAuthenticate"] -.->|OIDC Token| CS
+        CR2 --> GCS["☁️ Cloud Storage\nSnapshots"]
+        CR2 --> SM["☁️ Secret Manager\nEmail Password"]
+        CR2 --> SMTP["Email Server\nOffice 365"]
+    end
+
+    style DEPLOYMENT fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
+    style RUNTIME fill:#F0FDF4,stroke:#22C55E,color:#1E293B
+    style Src fill:#F1F5F9,stroke:#64748B,color:#1E293B
+    style CB fill:#4285F4,color:#fff,stroke:none
+    style AR fill:#4285F4,color:#fff,stroke:none
+    style CR1 fill:#4285F4,color:#fff,stroke:none
+    style CS fill:#F4B400,color:#1E293B,stroke:none
+    style CR2 fill:#4285F4,color:#fff,stroke:none
+    style SA fill:#7C3AED,color:#fff,stroke:none
+    style GCS fill:#F4B400,color:#1E293B,stroke:none
+    style SM fill:#34A853,color:#fff,stroke:none
+    style SMTP fill:#EA4335,color:#fff,stroke:none
 ```
 
 ---
