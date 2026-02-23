@@ -9,6 +9,7 @@ DIAGRAMS = {
     "architecture": "docs/mermaid/architecture.mmd",
     "snapshot_lifecycle": "docs/mermaid/snapshot_lifecycle.mmd",
     "comparison_engine": "docs/mermaid/comparison_engine.mmd",
+    "project_flowchart": "docs/mermaid/project_flowchart.mmd",
 }
 
 OUTPUT_DIR = "docs/images"
