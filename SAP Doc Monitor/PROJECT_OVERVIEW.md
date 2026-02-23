@@ -54,6 +54,25 @@ SAP updates its documentation pages without any prior announcement. Manually che
 | **Google Cloud Storage** | Stores page snapshots between runs |
 | **Email (SMTP)** | Sends notification emails via Office 365 or Gmail |
 
+### How Cloud Scheduler Triggers the App
+
+The app exposes an HTTP endpoint using **Flask** (a lightweight Python web framework). Google Cloud Scheduler sends an HTTP request to this endpoint at the configured schedule (e.g., 10 AM & 6 PM IST). When Cloud Run receives the request, the Flask app invokes the full monitoring pipeline — fetch, compare, and notify. The app is containerized using **Docker** with **Python 3.11** and runs only when triggered, so there is no idle cost.
+
+---
+
+## Technologies Used
+
+| Technology | Role |
+|------------|------|
+| **Python 3.11** | Core programming language |
+| **Flask** | Lightweight web framework — exposes the HTTP endpoint that Cloud Scheduler triggers |
+| **Selenium + Google Chrome** | Headless browser to render JavaScript-heavy SAP documentation pages |
+| **BeautifulSoup4** | HTML parsing and text extraction |
+| **Google Cloud Storage SDK** | Read/write page snapshots to Cloud Storage |
+| **Docker** | Containerization for consistent deployment to Cloud Run |
+| **Google Cloud Scheduler** | Cron-based HTTP trigger to start each monitoring run |
+| **Google Cloud Run** | Serverless container execution (scales to zero when idle) |
+
 ---
 
 ## Project Structure (Simplified)
