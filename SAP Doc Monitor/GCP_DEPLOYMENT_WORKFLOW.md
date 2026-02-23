@@ -361,42 +361,6 @@ flowchart TD
     style DoneChanges fill:#059669,color:#fff,stroke:none
 ```
 
-### Complete GCP Services Interaction Map
-
-```mermaid
-flowchart LR
-    subgraph DEPLOYMENT["🔧 DEPLOYMENT TIME — One-Time Setup"]
-        direction LR
-        Src["Source Code<br/>+ Dockerfile"] --> CB["☁️ Cloud Build<br/>Builds image"]
-        CB --> AR["☁️ Artifact Registry<br/>Stores image"]
-        AR --> CR1["☁️ Cloud Run<br/>Deploys service"]
-    end
-
-    subgraph RUNTIME["⚡ RUNTIME — Every Scheduled Run"]
-        direction LR
-        CS["☁️ Cloud Scheduler<br/>Trigger"] --> CR2["☁️ Cloud Run<br/>Execute"]
-        SA["☁️ Service Account<br/>Authenticate"] -.->|OIDC Token| CS
-        CR2 --> GCS["☁️ Cloud Storage<br/>Snapshots"]
-        CR2 --> SM["☁️ Secret Manager<br/>Email Password"]
-        CR2 --> SMTP["Email Server<br/>Office 365"]
-    end
-
-    style DEPLOYMENT fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
-    style RUNTIME fill:#F0FDF4,stroke:#22C55E,color:#1E293B
-    style Src fill:#F1F5F9,stroke:#64748B,color:#1E293B
-    style CB fill:#4285F4,color:#fff,stroke:none
-    style AR fill:#4285F4,color:#fff,stroke:none
-    style CR1 fill:#4285F4,color:#fff,stroke:none
-    style CS fill:#F4B400,color:#1E293B,stroke:none
-    style CR2 fill:#4285F4,color:#fff,stroke:none
-    style SA fill:#7C3AED,color:#fff,stroke:none
-    style GCS fill:#F4B400,color:#1E293B,stroke:none
-    style SM fill:#34A853,color:#fff,stroke:none
-    style SMTP fill:#EA4335,color:#fff,stroke:none
-```
-
----
-
 ## Summary: Why Each Service Exists
 
 | Service | One-Line Purpose |
