@@ -8,10 +8,11 @@
 4. [How the Application Works (End-to-End)](#4-how-the-application-works-end-to-end)
 5. [Module Deep Dives](#5-module-deep-dives)
 6. [Data Flow Diagrams](#6-data-flow-diagrams)
-7. [Execution Modes](#7-execution-modes)
-8. [Email Notification System](#8-email-notification-system)
-9. [Safety & Validation Mechanisms](#9-safety--validation-mechanisms)
-10. [Configuration Reference](#10-configuration-reference)
+7. [Visual Flowcharts](#7-visual-flowcharts)
+8. [Execution Modes](#8-execution-modes)
+9. [Email Notification System](#9-email-notification-system)
+10. [Safety & Validation Mechanisms](#10-safety--validation-mechanisms)
+11. [Configuration Reference](#11-configuration-reference)
 
 ---
 
@@ -620,7 +621,258 @@ SUBSEQUENT RUNS:
 
 ---
 
-## 7. Execution Modes
+## 7. Visual Flowcharts
+
+The following diagrams provide a visual overview of the application's architecture, execution pipeline, comparison engine, and snapshot lifecycle. Click any image to view it at full size.
+
+---
+
+### 7.1 End-to-End Pipeline
+
+This flowchart shows the complete 5-phase pipeline that runs every time the application is triggered — from downloading previous snapshots to sending the final email notification.
+
+![End-to-End Pipeline Flowchart](docs/images/pipeline.png)
+
+<details>
+<summary>View Mermaid source</summary>
+
+```mermaid
+flowchart TD
+    Trigger(["🔔 Trigger\nCloud Scheduler / Local Scheduler / Manual"])
+    Trigger --> Entry
+
+    Entry["cloud_run_app.py — Flask\nor main.py — Direct"]
+    Entry --> P1
+
+    subgraph Phase1["Phase 1 — Download Previous Snapshots"]
+        P1{"GCS Enabled?"}
+        P1 -->|Yes| P1a["Wipe stale local snapshots"]
+        P1a --> P1b["Download all .txt files\nfrom Cloud Storage bucket"]
+        P1 -->|No| P1c["Use local snapshots/ directory"]
+        P1b --> P1d["Load all snapshots into memory\n(normalised name → content)"]
+        P1c --> P1d
+    end
+
+    P1d --> P2
+
+    subgraph Phase2["Phase 2 — Discover & Fetch Pages"]
+        P2{"Auto-Discovery\nor Manual URLs?"}
+        P2 -->|Auto| P2a["Load SAP Help base URL\nin headless Chrome"]
+        P2a --> P2b["Wait for sidebar TOC to render\n(≥10 links, stability check)"]
+        P2b --> P2c["Extract all page URLs\nwith hierarchical numbering"]
+        P2 -->|Manual| P2d["Use configured URL list\nfrom settings"]
+        P2c --> P2e
+        P2d --> P2e
+        P2e["For each page:\nFetch HTML → Extract text → Validate"]
+    end
+
+    P2e --> P3
+
+    subgraph Phase3["Phase 3 — Compare Content"]
+        P3["For each fetched page"]
+        P3 --> P3a{"Previous\nsnapshot exists?"}
+        P3a -->|No| P3b["Mark as NEW PAGE\nCapture content preview"]
+        P3a -->|Yes| P3c["Normalize both texts\n(strip bullets, arrows, numbers)"]
+        P3c --> P3d["Count-aware diff\n(handles duplicate lines)"]
+        P3d --> P3e["Classify changes by severity\nHIGH / MEDIUM / LOW"]
+        P3e --> P3f["Structural validation\n(numbering gaps, missing sections)"]
+        P3f --> P3g{"Content shrank\n>70%?"}
+        P3g -->|Yes| P3h["Block — likely rendering failure\nPreserve old snapshot"]
+        P3g -->|No| P3i["Record changes"]
+        P3b --> P3j
+        P3i --> P3j
+        P3h --> P3j["Collect all changes"]
+    end
+
+    P3j --> P3k["Detect REMOVED pages\n(in snapshots but not in TOC)"]
+    P3k --> P4
+
+    subgraph Phase4["Phase 4 — Save & Upload Snapshots"]
+        P4["Save updated .txt snapshots locally"]
+        P4 --> P4a{"GCS Enabled?"}
+        P4a -->|Yes| P4b["Upload all snapshots to\nCloud Storage bucket"]
+        P4b --> P4c["Delete stale GCS files\n(full sync)"]
+        P4a -->|No| P4d["Keep local files only"]
+        P4c --> P4e["Snapshots persisted"]
+        P4d --> P4e
+    end
+
+    P4e --> P5
+
+    subgraph Phase5["Phase 5 — Send Email Notification"]
+        P5["Build notification report\n(plain text + HTML)"]
+        P5 --> P5a["Retrieve email password\n(Secret Manager or config)"]
+        P5a --> P5b["Send via SMTP\n(TLS encrypted)"]
+        P5b --> P5c["Return HTTP 200 / exit"]
+    end
+
+    P5c --> Done(["✅ Done"])
+```
+
+</details>
+
+---
+
+### 7.2 Module Architecture
+
+This diagram shows how the application's modules are organized, how entry points connect to the core orchestrator, and which external services each module interacts with.
+
+![Module Architecture Flowchart](docs/images/architecture.png)
+
+<details>
+<summary>View Mermaid source</summary>
+
+```mermaid
+flowchart LR
+    subgraph Entrypoints["Entry Points"]
+        direction TB
+        CRA["cloud_run_app.py\n(Flask — Cloud Run)"]
+        SCH["scheduler.py\n(APScheduler — Local)"]
+        DIR["Direct execution\n(python main.py)"]
+    end
+
+    subgraph Core["main.py — Orchestrator"]
+        direction TB
+        MAIN["main()"]
+        MAIN --> CFG["config/settings.py\nAll configuration"]
+        MAIN --> GCS["storage/gcs_storage.py\nGCS download/upload"]
+        MAIN --> DISC["fetcher/discover_urls.py\nAuto-discover page URLs"]
+        MAIN --> FETCH["fetcher/fetch_page.py\nFetch HTML via Chrome"]
+        MAIN --> PARSE["parser/parse_content.py\nExtract clean text"]
+        MAIN --> CMP["comparator/compare_content.py\nSmart diff + severity"]
+        MAIN --> EMAIL["notifier/send_email.py\nSMTP email sender"]
+    end
+
+    CRA --> MAIN
+    SCH --> MAIN
+    DIR --> MAIN
+
+    subgraph External["External Services"]
+        direction TB
+        SAP["SAP Help Portal"]
+        GCSBKT["GCS Bucket"]
+        SM["Secret Manager"]
+        SMTP["SMTP Server\n(Office 365)"]
+    end
+
+    DISC --> SAP
+    FETCH --> SAP
+    GCS --> GCSBKT
+    EMAIL --> SM
+    EMAIL --> SMTP
+```
+
+</details>
+
+---
+
+### 7.3 Snapshot Lifecycle
+
+This diagram illustrates how document snapshots flow between the first run (when no previous data exists) and subsequent runs (where previous snapshots are compared against current content).
+
+![Snapshot Lifecycle Flowchart](docs/images/snapshot_lifecycle.png)
+
+<details>
+<summary>View Mermaid source</summary>
+
+```mermaid
+flowchart TD
+    subgraph FirstRun["First Run (No Previous Snapshots)"]
+        direction LR
+        F1["SAP Help Portal"] --> F2["Fetch HTML"]
+        F2 --> F3["Extract Text"]
+        F3 --> F4["Save as .txt\nsnapshots/"]
+        F4 --> F5["Upload to\nCloud Storage"]
+    end
+
+    subgraph SubsequentRun["Subsequent Runs"]
+        direction TB
+        S1["Cloud Storage\n(previous snapshots)"] --> S2["Download .txt files\nto local snapshots/"]
+        S2 --> S3["Load into memory\n(previous state)"]
+
+        S4["SAP Help Portal"] --> S5["Fetch current\nHTML pages"]
+        S5 --> S6["Extract current\ntext content"]
+
+        S3 --> S7["Compare\nprevious vs. current"]
+        S6 --> S7
+
+        S7 --> S8{"Changes\ndetected?"}
+        S8 -->|Yes| S9["Build change report\n+ send email"]
+        S8 -->|No| S10["Send 'no changes' email"]
+
+        S9 --> S11["Save updated snapshots"]
+        S10 --> S11
+        S11 --> S12["Upload to Cloud Storage\n(ready for next run)"]
+    end
+
+    FirstRun -.->|"Next scheduled run"| SubsequentRun
+```
+
+</details>
+
+---
+
+### 7.4 Smart Comparison Engine
+
+This diagram breaks down the 4-step comparison pipeline — from text normalization through count-aware diffing, severity classification, and structural validation.
+
+![Smart Comparison Engine Flowchart](docs/images/comparison_engine.png)
+
+<details>
+<summary>View Mermaid source</summary>
+
+```mermaid
+flowchart TD
+    A["Raw text from old snapshot\n+ Raw text from current fetch"] --> B
+
+    subgraph Normalization["Step 1 — Normalization"]
+        B["Strip bullet characters\n(bullet, dash, star, etc.)"]
+        B --> C["Strip step numbers\n3. / 1) etc."]
+        C --> D["Normalize arrows\nAll arrow symbols become >"]
+        D --> E["Collapse whitespace\n+ lowercase"]
+        E --> F["Filter noise lines\n(separators, blanks)"]
+    end
+
+    F --> G
+
+    subgraph Diffing["Step 2 — Count-Aware Diff"]
+        G["Count occurrences of\neach normalised line"]
+        G --> H["Compare old counts\nvs. new counts"]
+        H --> I["Delta > 0 = Additions\nDelta < 0 = Removals"]
+    end
+
+    I --> J
+
+    subgraph Classification["Step 3 — Severity Classification"]
+        J["Classify each changed line"]
+        J --> K["instruction = HIGH\n(action verbs: choose, select, click)"]
+        J --> L["section_header = HIGH\n(Prerequisites, Procedure, Results)"]
+        J --> M["prerequisite = HIGH\n(you need, you must)"]
+        J --> N["note = MEDIUM\n(note: blocks)"]
+        J --> O["content = MEDIUM\n(general text)"]
+    end
+
+    K --> P
+    L --> P
+    M --> P
+    N --> P
+    O --> P
+
+    subgraph Validation["Step 4 — Structural Validation"]
+        P["Check for numbering gaps\n(step 11 then 13 = step 12 missing)"]
+        P --> Q["Check for missing sections\n(no Prerequisites in procedural doc)"]
+        Q --> R["Check for removed prerequisites"]
+        R --> S["Report only NEW issues"]
+    end
+
+    S --> T["Final Result:\nhas_changes, added, removed,\nstructural_warnings, max_severity"]
+```
+
+</details>
+
+---
+
+## 8. Execution Modes
 
 The application supports three ways to run:
 
@@ -677,7 +929,7 @@ on:
 
 ---
 
-## 8. Email Notification System
+## 9. Email Notification System
 
 ### Email Subject Lines
 
@@ -742,7 +994,7 @@ else:
 
 ---
 
-## 9. Safety & Validation Mechanisms
+## 10. Safety & Validation Mechanisms
 
 The application has multiple safety layers to prevent false alerts and data corruption:
 
@@ -785,7 +1037,7 @@ The comparator only reports structural warnings that are **new** — if a number
 
 ---
 
-## 10. Configuration Reference
+## 11. Configuration Reference
 
 ### `config/settings.py` (Local Development)
 

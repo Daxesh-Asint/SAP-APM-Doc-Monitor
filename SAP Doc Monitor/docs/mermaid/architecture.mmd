@@ -1,0 +1,49 @@
+flowchart LR
+    subgraph Entrypoints["Entry Points"]
+        direction TB
+        CRA["cloud_run_app.py\n(Flask — Cloud Run)"]
+        SCH["scheduler.py\n(APScheduler — Local)"]
+        DIR["Direct execution\n(python main.py)"]
+    end
+
+    subgraph Core["main.py — Orchestrator"]
+        direction TB
+        MAIN["main()"]
+        MAIN --> CFG["config/settings.py\nAll configuration"]
+        MAIN --> GCS["storage/gcs_storage.py\nGCS download/upload"]
+        MAIN --> DISC["fetcher/discover_urls.py\nAuto-discover page URLs"]
+        MAIN --> FETCH["fetcher/fetch_page.py\nFetch HTML via Chrome"]
+        MAIN --> PARSE["parser/parse_content.py\nExtract clean text"]
+        MAIN --> CMP["comparator/compare_content.py\nSmart diff + severity"]
+        MAIN --> EMAIL["notifier/send_email.py\nSMTP email sender"]
+    end
+
+    CRA --> MAIN
+    SCH --> MAIN
+    DIR --> MAIN
+
+    subgraph External["External Services"]
+        direction TB
+        SAP["SAP Help Portal"]
+        GCSBKT["GCS Bucket"]
+        SM["Secret Manager"]
+        SMTP["SMTP Server\n(Office 365)"]
+    end
+
+    DISC --> SAP
+    FETCH --> SAP
+    GCS --> GCSBKT
+    EMAIL --> SM
+    EMAIL --> SMTP
+
+    style Entrypoints fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
+    style Core fill:#FFF7ED,stroke:#F97316,color:#1E293B
+    style External fill:#F0FDF4,stroke:#22C55E,color:#1E293B
+    style CRA fill:#4285F4,color:#fff,stroke:none
+    style SCH fill:#4285F4,color:#fff,stroke:none
+    style DIR fill:#4285F4,color:#fff,stroke:none
+    style MAIN fill:#F97316,color:#fff,stroke:none
+    style SAP fill:#34A853,color:#fff,stroke:none
+    style GCSBKT fill:#F4B400,color:#1E293B,stroke:none
+    style SM fill:#34A853,color:#fff,stroke:none
+    style SMTP fill:#EA4335,color:#fff,stroke:none

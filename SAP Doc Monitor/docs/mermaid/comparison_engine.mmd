@@ -1,0 +1,50 @@
+flowchart TD
+    A["Raw text from old snapshot\n+ Raw text from current fetch"] --> B
+
+    subgraph Normalization["Step 1 — Normalization"]
+        B["Strip bullet characters\n(bullet, dash, star, etc.)"]
+        B --> C["Strip step numbers\n3. / 1) etc."]
+        C --> D["Normalize arrows\nAll arrow symbols become >"]
+        D --> E["Collapse whitespace\n+ lowercase"]
+        E --> F["Filter noise lines\n(separators, blanks)"]
+    end
+
+    F --> G
+
+    subgraph Diffing["Step 2 — Count-Aware Diff"]
+        G["Count occurrences of\neach normalised line"]
+        G --> H["Compare old counts\nvs. new counts"]
+        H --> I["Delta > 0 = Additions\nDelta < 0 = Removals"]
+    end
+
+    I --> J
+
+    subgraph Classification["Step 3 — Severity Classification"]
+        J["Classify each changed line"]
+        J --> K["instruction = HIGH\n(action verbs: choose, select, click)"]
+        J --> L["section_header = HIGH\n(Prerequisites, Procedure, Results)"]
+        J --> M["prerequisite = HIGH\n(you need, you must)"]
+        J --> N["note = MEDIUM\n(note: blocks)"]
+        J --> O["content = MEDIUM\n(general text)"]
+    end
+
+    K --> P
+    L --> P
+    M --> P
+    N --> P
+    O --> P
+
+    subgraph Validation["Step 4 — Structural Validation"]
+        P["Check for numbering gaps\n(step 11 then 13 = step 12 missing)"]
+        P --> Q["Check for missing sections\n(no Prerequisites in procedural doc)"]
+        Q --> R["Check for removed prerequisites"]
+        R --> S["Report only NEW issues"]
+    end
+
+    S --> T["Final Result:\nhas_changes, added, removed,\nstructural_warnings, max_severity"]
+
+    style Normalization fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
+    style Diffing fill:#FFF7ED,stroke:#F97316,color:#1E293B
+    style Classification fill:#FDF2F8,stroke:#EC4899,color:#1E293B
+    style Validation fill:#F0FDF4,stroke:#22C55E,color:#1E293B
+    style T fill:#059669,color:#fff,stroke:none

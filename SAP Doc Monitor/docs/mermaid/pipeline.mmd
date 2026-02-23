@@ -1,0 +1,78 @@
+flowchart TD
+    Trigger(["🔔 Trigger\nCloud Scheduler / Local Scheduler / Manual"])
+    Trigger --> Entry
+
+    Entry["cloud_run_app.py — Flask\nor main.py — Direct"]
+    Entry --> P1
+
+    subgraph Phase1["Phase 1 — Download Previous Snapshots"]
+        P1{"GCS Enabled?"}
+        P1 -->|Yes| P1a["Wipe stale local snapshots"]
+        P1a --> P1b["Download all .txt files\nfrom Cloud Storage bucket"]
+        P1 -->|No| P1c["Use local snapshots/ directory"]
+        P1b --> P1d["Load all snapshots into memory\n(normalised name → content)"]
+        P1c --> P1d
+    end
+
+    P1d --> P2
+
+    subgraph Phase2["Phase 2 — Discover & Fetch Pages"]
+        P2{"Auto-Discovery\nor Manual URLs?"}
+        P2 -->|Auto| P2a["Load SAP Help base URL\nin headless Chrome"]
+        P2a --> P2b["Wait for sidebar TOC to render\n(≥10 links, stability check)"]
+        P2b --> P2c["Extract all page URLs\nwith hierarchical numbering"]
+        P2 -->|Manual| P2d["Use configured URL list\nfrom settings"]
+        P2c --> P2e
+        P2d --> P2e
+        P2e["For each page:\nFetch HTML → Extract text → Validate"]
+    end
+
+    P2e --> P3
+
+    subgraph Phase3["Phase 3 — Compare Content"]
+        P3["For each fetched page"]
+        P3 --> P3a{"Previous\nsnapshot exists?"}
+        P3a -->|No| P3b["Mark as NEW PAGE\nCapture content preview"]
+        P3a -->|Yes| P3c["Normalize both texts\n(strip bullets, arrows, numbers)"]
+        P3c --> P3d["Count-aware diff\n(handles duplicate lines)"]
+        P3d --> P3e["Classify changes by severity\nHIGH / MEDIUM / LOW"]
+        P3e --> P3f["Structural validation\n(numbering gaps, missing sections)"]
+        P3f --> P3g{"Content shrank\n>70%?"}
+        P3g -->|Yes| P3h["Block — likely rendering failure\nPreserve old snapshot"]
+        P3g -->|No| P3i["Record changes"]
+        P3b --> P3j
+        P3i --> P3j
+        P3h --> P3j["Collect all changes"]
+    end
+
+    P3j --> P3k["Detect REMOVED pages\n(in snapshots but not in TOC)"]
+    P3k --> P4
+
+    subgraph Phase4["Phase 4 — Save & Upload Snapshots"]
+        P4["Save updated .txt snapshots locally"]
+        P4 --> P4a{"GCS Enabled?"}
+        P4a -->|Yes| P4b["Upload all snapshots to\nCloud Storage bucket"]
+        P4b --> P4c["Delete stale GCS files\n(full sync)"]
+        P4a -->|No| P4d["Keep local files only"]
+        P4c --> P4e["Snapshots persisted"]
+        P4d --> P4e
+    end
+
+    P4e --> P5
+
+    subgraph Phase5["Phase 5 — Send Email Notification"]
+        P5["Build notification report\n(plain text + HTML)"]
+        P5 --> P5a["Retrieve email password\n(Secret Manager or config)"]
+        P5a --> P5b["Send via SMTP\n(TLS encrypted)"]
+        P5b --> P5c["Return HTTP 200 / exit"]
+    end
+
+    P5c --> Done(["✅ Done"])
+
+    style Trigger fill:#4285F4,color:#fff,stroke:none
+    style Done fill:#059669,color:#fff,stroke:none
+    style Phase1 fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
+    style Phase2 fill:#FFF7ED,stroke:#F97316,color:#1E293B
+    style Phase3 fill:#FDF2F8,stroke:#EC4899,color:#1E293B
+    style Phase4 fill:#F0FDF4,stroke:#22C55E,color:#1E293B
+    style Phase5 fill:#EDE9FE,stroke:#7C3AED,color:#1E293B

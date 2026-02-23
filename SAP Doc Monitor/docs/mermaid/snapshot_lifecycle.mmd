@@ -1,0 +1,41 @@
+flowchart TD
+    subgraph FirstRun["First Run (No Previous Snapshots)"]
+        direction LR
+        F1["SAP Help Portal"] --> F2["Fetch HTML"]
+        F2 --> F3["Extract Text"]
+        F3 --> F4["Save as .txt\nsnapshots/"]
+        F4 --> F5["Upload to\nCloud Storage"]
+    end
+
+    subgraph SubsequentRun["Subsequent Runs"]
+        direction TB
+        S1["Cloud Storage\n(previous snapshots)"] --> S2["Download .txt files\nto local snapshots/"]
+        S2 --> S3["Load into memory\n(previous state)"]
+
+        S4["SAP Help Portal"] --> S5["Fetch current\nHTML pages"]
+        S5 --> S6["Extract current\ntext content"]
+
+        S3 --> S7["Compare\nprevious vs. current"]
+        S6 --> S7
+
+        S7 --> S8{"Changes\ndetected?"}
+        S8 -->|Yes| S9["Build change report\n+ send email"]
+        S8 -->|No| S10["Send 'no changes' email"]
+
+        S9 --> S11["Save updated snapshots"]
+        S10 --> S11
+        S11 --> S12["Upload to Cloud Storage\n(ready for next run)"]
+    end
+
+    FirstRun -.->|"Next scheduled run"| SubsequentRun
+
+    style FirstRun fill:#EFF6FF,stroke:#3B82F6,color:#1E293B
+    style SubsequentRun fill:#F0FDF4,stroke:#22C55E,color:#1E293B
+    style F1 fill:#4285F4,color:#fff,stroke:none
+    style F5 fill:#F4B400,color:#1E293B,stroke:none
+    style S1 fill:#F4B400,color:#1E293B,stroke:none
+    style S4 fill:#4285F4,color:#fff,stroke:none
+    style S8 fill:#FEF3C7,stroke:#F59E0B,color:#1E293B
+    style S9 fill:#EA4335,color:#fff,stroke:none
+    style S10 fill:#059669,color:#fff,stroke:none
+    style S12 fill:#F4B400,color:#1E293B,stroke:none
